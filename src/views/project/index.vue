@@ -2,7 +2,7 @@
   import { defineComponent } from 'vue';
   export default defineComponent({
     setup() {
-      return () => <div>22</div>;
+      return () => <div>11</div>;
     },
   });
 </script>

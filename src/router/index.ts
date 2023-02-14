@@ -2,6 +2,24 @@ import { App } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router';
 import { AppRouteRecordRaw } from '/#/router';
+
+const navRoutes: AppRouteRecordRaw[] = [
+  {
+    path: '/',
+    name: 'Home',
+    redirect: '/project',
+    component: () => import('/@/views/home/index.vue'),
+    children: [
+      {
+        path: 'project',
+        name: 'MyProject',
+        component: () => import('/@/views/project/index.vue'),
+        meta: { title: '我的可视化' },
+      },
+    ],
+  },
+];
+
 export const routes: AppRouteRecordRaw[] = [
   {
     path: '/login',
@@ -11,14 +29,7 @@ export const routes: AppRouteRecordRaw[] = [
       title: '登录',
     },
   },
-  {
-    path: '/project',
-    name: 'Project',
-    component: () => import('/@/views/project/index.vue'),
-    meta: {
-      title: '项目',
-    },
-  },
+  ...navRoutes,
 ];
 export const router = createRouter({
   history: createWebHistory(),
