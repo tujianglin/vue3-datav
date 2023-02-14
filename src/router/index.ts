@@ -4,24 +4,20 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { AppRouteRecordRaw } from '/#/router';
 export const routes: AppRouteRecordRaw[] = [
   {
-    path: '/',
+    path: '/login',
     name: 'Login',
-    redirect: '/login',
+    component: () => import('/@/views/login/index.vue'),
     meta: {
-      hideChildrenInMenu: true,
-      icon: 'ep:briefcase',
       title: '登录',
-      affix: true,
     },
-    children: [
-      {
-        path: '/login',
-        meta: {
-          title: '登录',
-        },
-        component: () => import('/@/views/login/index.vue'),
-      },
-    ],
+  },
+  {
+    path: '/project',
+    name: 'Project',
+    component: () => import('/@/views/project/index.vue'),
+    meta: {
+      title: '项目',
+    },
   },
 ];
 export const router = createRouter({
@@ -29,6 +25,10 @@ export const router = createRouter({
   routes: routes as unknown as RouteRecordRaw[],
   strict: true,
   scrollBehavior: () => ({ left: 0, top: 0 }),
+});
+
+router.beforeEach((to, form, next) => {
+  next();
 });
 
 export function setupRouter(app: App<Element>) {
