@@ -2,33 +2,11 @@ import { App } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router';
 import { AppRouteRecordRaw } from '/#/router';
-const Loyouts = () => import('/@/layouts/index.vue');
 export const routes: AppRouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Workbench',
-    redirect: '/workbench',
-    component: Loyouts,
-    meta: {
-      hideChildrenInMenu: true,
-      icon: 'ep:avatar',
-      title: '首页',
-      affix: true,
-    },
-    children: [
-      {
-        path: '/workbench',
-        meta: {
-          title: '首页',
-        },
-        component: () => import('/@/views/workbench/index.vue'),
-      },
-    ],
-  },
-  {
-    path: '/login',
     name: 'Login',
-    component: Loyouts,
+    redirect: '/login',
     meta: {
       hideChildrenInMenu: true,
       icon: 'ep:briefcase',
