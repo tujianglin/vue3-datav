@@ -8,7 +8,8 @@
     setup() {
       const projectStore = useProjectStore();
       const adding = ref(false);
-      const groups = computed(() => projectStore.groups);
+      const groups = computed(() => projectStore.allGroups);
+      const group = computed(() => projectStore.group);
 
       const selectedGroupId = ref(-1);
 
@@ -56,11 +57,19 @@
                   onClick={() => (adding.value = true)}
                 ></Icon>
               </div>
-              {adding.value ? (
+              <div class="all-group">
+                <div
+                  class={['groups', { check: selectedGroupId.value === group.value.id }]}
+                  onClick={() => toggleGroup(group.value.id)}
+                >
+                  <div>{group.value.name}</div>
+                  <div>{group.value.children.length}</div>
+                </div>
+              </div>
+              {(adding.value && (
                 <Input v-focus class="edit-input" onBlur={onInputBlur} onKeyup={onAddGroup}></Input>
-              ) : (
-                ''
-              )}
+              )) ||
+                ''}
               {groups.value.map((i) => (
                 <div
                   class={['groups', { check: selectedGroupId.value === i.id }]}

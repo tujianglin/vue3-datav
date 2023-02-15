@@ -1,4 +1,4 @@
-interface Project {
+export interface Project {
   id: number;
   name: string;
   share: string;
@@ -12,7 +12,6 @@ export class ProjectGroup {
   id: number;
   name: string;
   children: Project[];
-
   editing?: boolean;
 
   constructor(id = 0, name = '', children: Project[] = []) {

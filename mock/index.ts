@@ -35,7 +35,6 @@ export default [
                 updateAt: '@datetime',
               },
             ],
-            'type|0-1': 1,
           },
         ],
       });
