@@ -43,6 +43,7 @@
 </script>
 <style lang="less" scoped>
   .datav {
+    height: calc(100% - 150px);
     .nav-shadow {
       background: linear-gradient(180deg, transparent, @datavBg);
       height: 50px;
