@@ -41,4 +41,16 @@ export default [
       });
     },
   },
+  {
+    url: '/api/project/addGroup',
+    method: 'post',
+    response: ({ body }) => {
+      console.log(body);
+      return {
+        code: 200,
+        message: 'ok',
+        'data|1-10000': 1,
+      };
+    },
+  },
 ] as MockMethod[];

@@ -38,10 +38,6 @@ export const router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 
-router.beforeEach((to, form, next) => {
-  next();
-});
-
 export function setupRouter(app: App<Element>) {
   app.use(router);
 }

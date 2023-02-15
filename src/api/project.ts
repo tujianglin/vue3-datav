@@ -5,3 +5,10 @@ export const getProject = () => {
     url: '/project/group',
   });
 };
+
+export const postProject = (data) => {
+  return defHttp.post({
+    url: '/project/addGroup',
+    data,
+  });
+};

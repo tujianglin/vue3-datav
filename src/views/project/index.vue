@@ -1,5 +1,5 @@
 <script lang="tsx">
-  import { computed, defineComponent, onMounted, ref, withModifiers } from 'vue';
+  import { computed, defineComponent, onMounted, ref } from 'vue';
   import { Input, Layout } from 'ant-design-vue';
   import Icon from '/@/components/Icon';
   import { ScrollContainer } from '/@/components/Container';
@@ -12,34 +12,35 @@
 
       const selectedGroupId = ref(-1);
 
+      /* 切换分组 */
       const toggleGroup = (id) => {
         selectedGroupId.value = id;
       };
 
+      /* 输入框失焦 */
       const onInputBlur = (e: Event) => {
-        if (!adding.value) {
-          return;
-        }
+        if (!adding.value) return;
         const name = ((e.target as HTMLInputElement).value || '').trim();
         if (!name) {
           adding.value = false;
         }
       };
-      const onAddGroup = (e: Event) => {
-        if (!adding.value) {
-          return;
-        }
 
+      /* 输入框回车确认 */
+      const onAddGroup = (e: KeyboardEvent) => {
+        if (e.code !== 'Enter') return;
+        if (!adding.value) return;
         const name = ((e.target as HTMLInputElement).value || '').trim();
         if (name) {
-          // try {
-          //   adding.value = false;
-          // } catch (error) {
-          // }
+          try {
+            projectStore.addProjectGroup({ name });
+            adding.value = false;
+          } catch (error) {}
         } else {
           adding.value = false;
         }
       };
+
       onMounted(() => {
         projectStore.getProjectGroup();
       });
@@ -56,12 +57,7 @@
                 ></Icon>
               </div>
               {adding.value ? (
-                <Input
-                  v-focus
-                  class="edit-input"
-                  onBlur={onInputBlur}
-                  onKeyup={withModifiers((e) => onAddGroup(e), ['enter'])}
-                ></Input>
+                <Input v-focus class="edit-input" onBlur={onInputBlur} onKeyup={onAddGroup}></Input>
               ) : (
                 ''
               )}
@@ -120,7 +116,7 @@
       transition: color 0.2s;
 
       &.check {
-        background: url('/public/images/nav-menu-img.png') round;
+        background: url('/images/nav-menu-img.png') round;
       }
     }
   }

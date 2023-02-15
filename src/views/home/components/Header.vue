@@ -7,7 +7,7 @@
     setup() {
       return () => (
         <div class="nav-header">
-          <img class="nav-img-text" src="/public/images/nav-img-text.png" />
+          <img class="nav-img-text" src="/images/nav-img-text.png" />
           <div class="nav-img"></div>
         </div>
       );
@@ -37,7 +37,7 @@
       position: absolute;
       width: 100%;
       height: 290px;
-      background: url('/public/images/nav-img.png') center / cover;
+      background: url('/images/nav-img.png') center / cover;
     }
   }
 </style>
