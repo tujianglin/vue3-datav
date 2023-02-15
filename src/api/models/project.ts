@@ -12,7 +12,7 @@ export class ProjectGroup {
   id: number;
   name: string;
   children: Project[];
-  editing?: boolean;
+  edit?: boolean;
 
   constructor(id = 0, name = '', children: Project[] = []) {
     this.id = id;

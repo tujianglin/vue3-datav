@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getProject, postProject } from '/@/api/project';
+import { getProject, postProject, delProject } from '/@/api/project';
 import { ProjectGroup } from '/@/api/models/project';
 
 interface ProjectState {
@@ -27,6 +27,12 @@ export const useProjectStore = defineStore('project', {
       const res = await postProject(data);
       const newGroup = new ProjectGroup(res, data.name, []);
       this.allGroups.unshift(newGroup);
+    },
+    /* 删除分组 */
+    async delProjectGroup(data) {
+      await delProject(data);
+      const index = this.allGroups.findIndex((i) => i.id === data.id);
+      this.allGroups.splice(index, 1);
     },
   },
 });

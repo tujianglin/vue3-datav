@@ -1,9 +1,10 @@
 <script lang="tsx">
   import { computed, defineComponent, onMounted, ref } from 'vue';
-  import { Input, Layout } from 'ant-design-vue';
+  import { Input, Layout, Modal } from 'ant-design-vue';
   import Icon from '/@/components/Icon';
   import { ScrollContainer } from '/@/components/Container';
   import { useProjectStore } from '/@/store/modules/project';
+  import { ProjectGroup } from '/@/api/models/project';
   export default defineComponent({
     setup() {
       const projectStore = useProjectStore();
@@ -41,6 +42,41 @@
           adding.value = false;
         }
       };
+      /* 编辑 */
+      const onEditGroup = (e: KeyboardEvent, val: ProjectGroup) => {
+        if (e.code !== 'Enter') return;
+        if (!val.edit) return;
+        const nName = ((e.target as HTMLInputElement).value || '').trim();
+        val.name = nName;
+        val.edit = false;
+      };
+      /*  */
+      const onEditInputBlur = (e: Event, val: ProjectGroup) => {
+        if (!val.edit) return;
+        const nName = ((e.target as HTMLInputElement).value || '').trim();
+        if (!nName || val.name === nName) {
+          val.edit = false;
+        }
+      };
+      /* 删除 */
+      const onDelGroup = (val: ProjectGroup) => {
+        Modal.confirm({
+          centered: true,
+          closable: true,
+          maskClosable: true,
+          icon: () => (
+            <div class="flex justify-center">
+              <Icon icon="ant-design:warning-outlined" size={64} color="#ff4f43"></Icon>
+            </div>
+          ),
+          content: `${val.name} 删除后无法恢复，该分组中的可视化应用将全部移动到未分组，确认删除？`,
+          okText: '确认',
+          cancelText: '取消',
+          onOk: () => {
+            projectStore.delProjectGroup({ id: val.id });
+          },
+        });
+      };
 
       onMounted(() => {
         projectStore.getProjectGroup();
@@ -62,8 +98,8 @@
                   class={['groups', { check: selectedGroupId.value === group.value.id }]}
                   onClick={() => toggleGroup(group.value.id)}
                 >
-                  <div>{group.value.name}</div>
-                  <div>{group.value.children.length}</div>
+                  <span>{group.value.name}</span>
+                  <span>{group.value.children.length}</span>
                 </div>
               </div>
               {(adding.value && (
@@ -71,13 +107,36 @@
               )) ||
                 ''}
               {groups.value.map((i) => (
-                <div
-                  class={['groups', { check: selectedGroupId.value === i.id }]}
-                  onClick={() => toggleGroup(i.id)}
-                >
-                  <div>{i?.name}</div>
-                  <div>{i?.children.length}</div>
-                </div>
+                <>
+                  {i.edit ? (
+                    <Input
+                      v-focus
+                      defaultValue={i.name}
+                      class="edit-input"
+                      onBlur={(e) => onEditInputBlur(e, i)}
+                      onKeyup={(e) => onEditGroup(e, i)}
+                    ></Input>
+                  ) : (
+                    <div
+                      class={['groups', { check: selectedGroupId.value === i.id }]}
+                      onClick={() => toggleGroup(i.id)}
+                    >
+                      <span class="w-25 truncate">{i?.name}</span>
+                      <span class="num">{i?.children.length}</span>
+                      <span class="edit flex items-center">
+                        <Icon
+                          icon="ant-design:edit-outlined"
+                          onClick={() => (i.edit = true)}
+                        ></Icon>
+                        <Icon
+                          class="ml-1"
+                          icon="ant-design:delete-outlined"
+                          onClick={() => onDelGroup(i)}
+                        ></Icon>
+                      </span>
+                    </div>
+                  )}
+                </>
               ))}
             </ScrollContainer>
           </Layout.Sider>
@@ -94,6 +153,7 @@
 
     .edit-input {
       width: 160px;
+      height: 28px;
       margin: 4px 0 4px 50px;
       background: transparent;
       color: #fff;
@@ -124,8 +184,31 @@
       cursor: pointer;
       transition: color 0.2s;
 
+      .edit {
+        display: none;
+      }
+
+      &:hover {
+        color: var(--datav-main-color);
+        .num {
+          display: none;
+        }
+
+        .edit {
+          display: flex;
+        }
+      }
+
       &.check {
         background: url('/images/nav-menu-img.png') round;
+
+        &:hover {
+          color: #fff;
+
+          .edit {
+            color: var(--datav-main-color);
+          }
+        }
       }
     }
   }

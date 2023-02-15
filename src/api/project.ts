@@ -12,3 +12,10 @@ export const postProject = (data) => {
     data,
   });
 };
+
+export const delProject = (params) => {
+  return defHttp.delete({
+    url: '/project/delGroup',
+    params,
+  });
+};

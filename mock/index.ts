@@ -35,6 +35,7 @@ export default [
                 updateAt: '@datetime',
               },
             ],
+            edit: false,
           },
         ],
       });
@@ -43,12 +44,22 @@ export default [
   {
     url: '/api/project/addGroup',
     method: 'post',
-    response: ({ body }) => {
-      console.log(body);
+    response: () => {
       return {
         code: 200,
         message: 'ok',
         'data|1-10000': 1,
+      };
+    },
+  },
+  {
+    url: '/api/project/delGroup',
+    method: 'delete',
+    response: ({ query }) => {
+      return {
+        code: 200,
+        message: 'ok',
+        data: query.id,
       };
     },
   },

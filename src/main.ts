@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import 'ant-design-vue/dist/antd.variable.min.css';
+
 import 'virtual:windi.css';
 import { setupStore } from '/@/store';
 import { router, setupRouter } from '/@/router';
