@@ -5,6 +5,7 @@ import 'virtual:windi.css';
 import { setupStore } from '/@/store';
 import { router, setupRouter } from '/@/router';
 import { setupRouterGuard } from '/@/router/guard';
+import { setupGlobDirectives } from '/@/directives';
 
 async function bootstrap() {
   const app = createApp(App);
@@ -12,6 +13,7 @@ async function bootstrap() {
   // 配置 路由
   await setupRouter(app);
   setupRouterGuard(router);
+  setupGlobDirectives(app);
   app.mount('#app');
 }
 bootstrap();

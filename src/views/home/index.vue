@@ -34,9 +34,7 @@
           ></Main>
           <div class="nav-shadow"></div>
           <div class="datav-main">
-            <div class="datav-content">
-              <RouterView />
-            </div>
+            <RouterView />
           </div>
         </div>
       );
@@ -55,11 +53,7 @@
 
     .datav-main {
       user-select: none;
-
-      .datav-content {
-        position: relative;
-        color: @datavBg;
-      }
+      height: 100%;
     }
   }
 </style>
