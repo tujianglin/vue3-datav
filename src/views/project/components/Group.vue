@@ -12,11 +12,9 @@
       const groups = computed(() => projectStore.allGroups);
       const group = computed(() => projectStore.group);
 
-      const selectedGroupId = ref(-1);
-
       /* 切换分组 */
       const toggleGroup = (id) => {
-        selectedGroupId.value = id;
+        projectStore.selectedGroupId = id;
       };
 
       /* 输入框失焦 */
@@ -94,7 +92,7 @@
           <ScrollContainer class="!h-[calc(100%-56px)]">
             <div class="all-group">
               <div
-                class={['groups', { check: selectedGroupId.value === group.value.id }]}
+                class={['groups', { check: projectStore.selectedGroupId === group.value.id }]}
                 onClick={() => toggleGroup(group.value.id)}
               >
                 <span>{group.value.name}</span>
@@ -117,7 +115,7 @@
                   ></Input>
                 ) : (
                   <div
-                    class={['groups', { check: selectedGroupId.value === i.id }]}
+                    class={['groups', { check: projectStore.selectedGroupId === i.id }]}
                     onClick={() => toggleGroup(i.id)}
                   >
                     <span class="w-25 truncate">{i?.name}</span>
@@ -160,7 +158,7 @@
       cursor: pointer;
 
       &:hover {
-        color: var(--datav-main-color);
+        color: var(--ant-primary-color);
       }
     }
   }
@@ -179,7 +177,7 @@
     }
 
     &:hover {
-      color: var(--datav-main-color);
+      color: var(--ant-primary-color);
       .num {
         display: none;
       }
@@ -196,7 +194,7 @@
         color: #fff;
 
         .edit {
-          color: var(--datav-main-color);
+          color: var(--ant-primary-color);
         }
       }
     }

@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@ant-design/icons-vue': ^6.1.0
   '@commitlint/cli': ^17.4.2
   '@commitlint/config-conventional': ^17.4.2
   '@iconify/vue': ^4.1.0
@@ -53,6 +54,7 @@ specifiers:
   windicss: ^3.5.6
 
 dependencies:
+  '@ant-design/icons-vue': 6.1.0_vue@3.2.47
   '@iconify/vue': 4.1.0_vue@3.2.47
   '@vueuse/core': 9.12.0_vue@3.2.47
   ant-design-vue: 3.2.15_vue@3.2.47

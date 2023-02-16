@@ -2,6 +2,7 @@
   import { defineComponent } from 'vue';
   import { Layout } from 'ant-design-vue';
   import Group from './components/Group.vue';
+  import Main from './components/Main.vue';
   export default defineComponent({
     setup() {
       return () => (
@@ -9,7 +10,9 @@
           <Layout.Sider width={240} class="sider">
             <Group></Group>
           </Layout.Sider>
-          <Layout.Content>11</Layout.Content>
+          <Layout.Content>
+            <Main></Main>
+          </Layout.Content>
         </Layout>
       );
     },

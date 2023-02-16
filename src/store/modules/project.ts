@@ -4,16 +4,21 @@ import { ProjectGroup } from '/@/api/models/project';
 
 interface ProjectState {
   allGroups: ProjectGroup[];
+  selectedGroupId: string | number;
 }
 export const useProjectStore = defineStore('project', {
   state: (): ProjectState => ({
     /* 分组数据 */
     allGroups: [],
+    selectedGroupId: -1,
   }),
   getters: {
     group(state) {
       const list = state.allGroups.flatMap((i) => i.children);
       return new ProjectGroup(-1, '全部应用', list);
+    },
+    selectGroup(state) {
+      return state.allGroups.find((i) => i.id === +state.selectedGroupId);
     },
   },
   actions: {
