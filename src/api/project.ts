@@ -19,3 +19,9 @@ export const delProject = (params) => {
     params,
   });
 };
+
+export const getSysTemplates = () => {
+  return defHttp.get({
+    url: '/template/project',
+  });
+};

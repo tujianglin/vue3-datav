@@ -83,8 +83,8 @@
         <div class="screen-list">
           <div>选择下面的方式进行创建</div>
           <div class="new-projects">
-            <RouterLink to={''} target="_blank" class="new-project">
-              <img src="/public/images/new-project.png" />
+            <RouterLink to={{ path: '/create' }} class="new-project">
+              <img src="/images/new-project.png" />
               <span class="truncate">PC端创建</span>
             </RouterLink>
           </div>
@@ -117,6 +117,7 @@
               </Dropdown>
             </div>
           </div>
+
           <ScrollContainer class="!h-[calc(100%-190px)]">
             <div class="screen-main">
               {screens.value.map((i) => (
@@ -260,14 +261,14 @@
 
           .preview {
             position: absolute;
-            top: 10px;
-            right: 36px;
+            top: 12px;
+            right: 40px;
           }
 
           .share {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
           }
 
           .edit {

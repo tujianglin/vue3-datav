@@ -1,6 +1,6 @@
 import { App } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import { AppRouteRecordRaw } from '/#/router';
 
 const navRoutes: AppRouteRecordRaw[] = [
@@ -30,9 +30,17 @@ export const routes: AppRouteRecordRaw[] = [
     },
   },
   ...navRoutes,
+  {
+    path: '/create',
+    name: 'Create',
+    component: () => import('/@/views/project/create.vue'),
+    meta: {
+      title: '创建',
+    },
+  },
 ];
 export const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes: routes as unknown as RouteRecordRaw[],
   strict: true,
   scrollBehavior: () => ({ left: 0, top: 0 }),

@@ -20,3 +20,13 @@ export class ProjectGroup {
     this.children = children;
   }
 }
+
+export interface ProjectTemplate {
+  id: number;
+  name: string;
+  description: string;
+  size: String[];
+  snapshot: string;
+  thumbnail: string;
+  config: any;
+}
