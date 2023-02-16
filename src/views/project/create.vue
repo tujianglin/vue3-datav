@@ -6,6 +6,7 @@
   import Icon from '/@/components/Icon';
   import { getSysTemplates } from '/@/api/project';
   import { ProjectTemplate } from '/@/api/models/project';
+  import { ScrollContainer } from '/@/components/Container';
   export default defineComponent({
     setup() {
       const loading = ref(false);
@@ -28,46 +29,48 @@
               </RouterLink>
             </div>
             <div class="template-wp">
-              <div class="template-list">
-                <div class="template-item --bank">
-                  <div class="image">
-                    <Button
-                      type={'primary'}
-                      v-slots={{
-                        icon: () => <PlusOutlined></PlusOutlined>,
-                      }}
-                    >
-                      创建项目
-                    </Button>
-                  </div>
-                  <div class="info">空白画板</div>
-                </div>
-                {templates.value.map((i) => (
-                  <div class="template-item">
+              <ScrollContainer>
+                <div class="template-list">
+                  <div class="template-item --bank">
                     <div class="image">
-                      <img src={i.thumbnail} class="w-full h-full object-cover" />
-                      <div class="mask">
-                        <Button class="w-26" type={'primary'}>
-                          创建项目
-                        </Button>
-                        <Button class="w-26 mt-2">预览</Button>
-                      </div>
+                      <Button
+                        type={'primary'}
+                        v-slots={{
+                          icon: () => <PlusOutlined></PlusOutlined>,
+                        }}
+                      >
+                        创建项目
+                      </Button>
                     </div>
-                    <div class="info">
-                      <div>{i.name}</div>
-                      <div class="size">
-                        {i.size.map((j) => (
-                          <p>{j}</p>
-                        ))}
-                      </div>
-                    </div>
+                    <div class="info">空白画板</div>
                   </div>
-                ))}
-                <div class="template-item !h-0 !border-none"></div>
-                <div class="template-item !h-0 !border-none"></div>
-                <div class="template-item !h-0 !border-none"></div>
-                <div class="template-item !h-0 !border-none"></div>
-              </div>
+                  {templates.value.map((i) => (
+                    <div class="template-item">
+                      <div class="image">
+                        <img src={i.thumbnail} class="w-full h-full object-cover" />
+                        <div class="mask">
+                          <Button class="w-26" type={'primary'}>
+                            创建项目
+                          </Button>
+                          <Button class="w-26 mt-2">预览</Button>
+                        </div>
+                      </div>
+                      <div class="info">
+                        <div>{i.name}</div>
+                        <div class="size">
+                          {i.size.map((j) => (
+                            <p>{j}</p>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div class="template-item !h-0 !border-none"></div>
+                  <div class="template-item !h-0 !border-none"></div>
+                  <div class="template-item !h-0 !border-none"></div>
+                  <div class="template-item !h-0 !border-none"></div>
+                </div>
+              </ScrollContainer>
             </div>
           </div>
         </Spin>
@@ -82,23 +85,22 @@
     flex-direction: column;
     user-select: none;
     .template-wp {
-      flex: 1;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 0 30px;
+      height: calc(100vh - 100px);
+      margin-top: 12px;
+
       .template-list {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        overflow-x: hidden;
-        overflow-y: scroll;
         color: #fff;
         font-size: 12px;
         margin: 0 -16px;
-        padding-bottom: 100px;
-        padding-top: 60px;
+        padding: 30px 0;
 
         .template-item {
           width: 258px;
