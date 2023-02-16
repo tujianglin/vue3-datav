@@ -21,7 +21,7 @@
         <div class="editor-layout">
           <div class="editor-layout_header"></div>
           <div class="editor-layout_main">
-            <div>
+            <div class="h-full">
               <Spin spinning={loading.value}>
                 <CanvasMain></CanvasMain>
               </Spin>
