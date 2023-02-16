@@ -38,6 +38,13 @@ export const routes: AppRouteRecordRaw[] = [
       title: '创建',
     },
   },
+  {
+    path: '/screen/:projectId',
+    name: 'ScreenEditor',
+    props: true,
+    component: () => import('/@/views/screen-editor/index.vue'),
+    meta: { title: '编辑器' },
+  },
 ];
 export const router = createRouter({
   history: createWebHashHistory(),

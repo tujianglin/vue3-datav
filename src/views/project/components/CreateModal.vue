@@ -2,8 +2,10 @@
   import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
   import { Modal, Form, Input, Select } from 'ant-design-vue';
   import { useProjectStore } from '/@/store/modules/project';
+  import { useRouter } from 'vue-router';
   export default defineComponent({
     setup(_, { expose }) {
+      const router = useRouter();
       const projectStore = useProjectStore();
       const groupOpts = computed(() => {
         return projectStore.allGroups.map((i) => ({ value: i.id, label: i.name }));
@@ -23,8 +25,13 @@
 
       /* 创建保存 */
       const onOk = () => {
-        validate().then((res) => {
-          console.log(res);
+        validate().then(() => {
+          router.push({
+            name: 'ScreenEditor',
+            params: {
+              projectId: Math.ceil(Math.random() * 100),
+            },
+          });
         });
       };
       const show = () => {
