@@ -49,24 +49,31 @@ export const useProjectStore = defineStore('project', {
     },
     /* 移动 */
     move(pid, fromId, toId) {
-      const formG = this.allGroups.find((i) => i.id === fromId);
-      const toG = this.allGroups.find((i) => i.id === toId);
-      if (formG && toG) {
-        const idx = formG.children.findIndex((i) => i.id === pid);
-        const p = formG.children.splice(idx, 1)[0];
+      const form = this.allGroups.find((i) => i.id === fromId);
+      const to = this.allGroups.find((i) => i.id === toId);
+      if (form && to) {
+        const idx = form.children.findIndex((i) => i.id === pid);
+        const p = form.children.splice(idx, 1)[0];
         p.groupId = toId;
-        toG.children.push(p);
+        to.children.push(p);
       }
     },
     /* 复制 */
     copy(val: Project) {
-      const g = this.allGroups.find((i) => i.id === val.groupId);
-      if (g) {
-        const p = g.children.find((i) => i.id === val.id);
+      const data = this.allGroups.find((i) => i.id === val.groupId);
+      if (data) {
+        const p = data.children.find((i) => i.id === val.id);
         const copy_p: any = cloneDeep(p);
         copy_p.id = Math.round(Math.random() * 1000);
         copy_p.name += '_copy';
-        g.children.push(copy_p);
+        data.children.push(copy_p);
+      }
+    },
+    /* 删除 */
+    delete(val: Project) {
+      const data = this.allGroups.find((i) => i.id === val.groupId);
+      if (data) {
+        data.children = data.children.filter((i) => i.id !== val.id);
       }
     },
   },

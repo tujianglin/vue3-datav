@@ -1,7 +1,7 @@
 <script lang="tsx">
   import { computed, defineComponent, ref } from 'vue';
   import { RouterLink } from 'vue-router';
-  import { Input, Dropdown, Menu, MenuProps, Button, Tooltip } from 'ant-design-vue';
+  import { Input, Dropdown, Menu, MenuProps, Button, Tooltip, Modal } from 'ant-design-vue';
   import { sortBy } from 'lodash-es';
   import { DownOutlined } from '@ant-design/icons-vue';
   import { useProjectStore } from '/@/store/modules/project';
@@ -57,8 +57,27 @@
         projectStore.draging = false;
       };
       /* 复制 */
-      const onProjectCopy = (i) => {
-        projectStore.copy(i);
+      const onProjectCopy = (val) => {
+        projectStore.copy(val);
+      };
+      /* 删除 */
+      const onProjectDelete = (val) => {
+        Modal.confirm({
+          centered: true,
+          closable: true,
+          maskClosable: true,
+          icon: () => (
+            <div class="flex justify-center">
+              <Icon icon="ant-design:warning-outlined" size={64} color="#ff4f43"></Icon>
+            </div>
+          ),
+          content: `${val.name} 删除后无法恢复，确认删除？`,
+          okText: '确认',
+          cancelText: '取消',
+          onOk: () => {
+            projectStore.delete(val);
+          },
+        });
       };
       return () => (
         <div class="screen-list">
@@ -126,7 +145,7 @@
                             </Button>
                           </Tooltip>
                           <Tooltip placement={'bottom'} title="删除">
-                            <Button class="text-button">
+                            <Button class="text-button" onClick={() => onProjectDelete(i)}>
                               <Icon size={20} icon="ant-design:delete-outlined"></Icon>
                             </Button>
                           </Tooltip>
@@ -253,7 +272,7 @@
 
           .edit {
             position: absolute;
-            // opacity: 0;
+            opacity: 0;
             display: flex;
             width: 100%;
             height: 100%;
