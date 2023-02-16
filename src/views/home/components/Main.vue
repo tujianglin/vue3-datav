@@ -90,7 +90,7 @@
 
         &.nav-active,
         &:hover {
-          color: #fff !important;
+          color: var(--datav-font-color) !important;
         }
       }
 

@@ -5,10 +5,13 @@
   import { DownOutlined } from '@ant-design/icons-vue';
   import { useProjectStore } from '/@/store/modules/project';
   import Icon from '/@/components/Icon';
+  import { ScrollContainer } from '/@/components/Container';
+  import { sortBy } from 'lodash-es';
   export default defineComponent({
     setup() {
       const projectStore = useProjectStore();
       const sort = ref('name');
+      const searchValue = ref<string>();
       const sorts = {
         name: '按名称排序',
         createAt: '按创建时间排序',
@@ -21,9 +24,19 @@
           return projectStore.selectGroup;
         }
       });
+      /* 排序 */
       const onChangeSort: MenuProps['onClick'] = ({ key }) => {
         sort.value = key as string;
       };
+      /* 搜索 */
+      const screens = computed(() => {
+        let list = group.value?.children || [];
+        if (searchValue.value) {
+          const text = searchValue.value.toLowerCase();
+          list = list.filter((i) => i.name.toLowerCase().includes(text));
+        }
+        return sortBy(list, sort.value);
+      });
       return () => (
         <div class="screen-list">
           <div>选择下面的方式进行创建</div>
@@ -37,6 +50,7 @@
             <div class="title">{group.value?.name || ''}</div>
             <div class="inline-flex items-center">
               <Input
+                v-model:value={searchValue.value}
                 placeholder="搜索"
                 v-slots={{
                   suffix: () => <Icon icon="ant-design:search-outlined"></Icon>,
@@ -61,6 +75,20 @@
               </Dropdown>
             </div>
           </div>
+          <ScrollContainer class="!h-[calc(100%-190px)]">
+            <div class="screen-main">
+              {screens.value.map((i) => (
+                <div class="screen">
+                  <div class="info">
+                    <div class="img" style={[{ background: `url(${i.thumbnail})` }]}></div>
+                  </div>
+                  <div class="name">
+                    <div class="px-2">{i.name}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </ScrollContainer>
         </div>
       );
     },
@@ -70,6 +98,48 @@
   .screen-list {
     padding: 0 50px 0 20px;
     color: var(--ant-primary-color);
+    height: 100%;
+
+    .screen-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      padding-top: 8px;
+      user-select: none;
+      padding-bottom: 50px;
+      margin-right: -32px;
+      .screen {
+        display: flex;
+        flex-direction: column;
+        width: 258px;
+        height: 184px;
+        border: 1px solid var(--datav-border-color);
+        transition: 0.2s;
+        margin: 16px 32px 16px 0;
+
+        .name {
+          height: 36px;
+          background: #1d262e;
+          display: flex;
+          align-items: center;
+          color: var(--datav-font-color);
+        }
+
+        .info {
+          .img {
+            height: 146px;
+            width: inherit;
+            background-size: 100% 100%;
+            opacity: 0.6;
+          }
+        }
+
+        &:hover {
+          box-shadow: var(--datav-shadow);
+          border: 1px solid var(--ant-primary-color);
+        }
+      }
+    }
 
     .new-project {
       width: 258px;
@@ -83,7 +153,7 @@
       align-items: center;
       position: relative;
       cursor: pointer;
-      color: #fff;
+      color: var(--datav-font-color);
 
       img {
         width: 150px;

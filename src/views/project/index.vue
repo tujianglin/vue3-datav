@@ -10,7 +10,7 @@
           <Layout.Sider width={240} class="sider">
             <Group></Group>
           </Layout.Sider>
-          <Layout.Content>
+          <Layout.Content class="h-full">
             <Main></Main>
           </Layout.Content>
         </Layout>
@@ -25,7 +25,7 @@
     height: 100%;
 
     .sider {
-      height: calc(100% - 150px);
+      height: calc(100% - 56px);
     }
   }
 </style>

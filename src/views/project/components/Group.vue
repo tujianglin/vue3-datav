@@ -89,7 +89,7 @@
               onClick={() => (adding.value = true)}
             ></Icon>
           </div>
-          <ScrollContainer class="!h-[calc(100%-56px)]">
+          <ScrollContainer class="!h-full">
             <div class="all-group">
               <div
                 class={['groups', { check: projectStore.selectedGroupId === group.value.id }]}
@@ -154,6 +154,7 @@
     padding: 0 24px;
     height: 56px;
     border-bottom: 1px solid #27343e;
+    color: var(--datav-font-color);
     .add-icon {
       cursor: pointer;
 
@@ -171,6 +172,7 @@
     font-size: 12px;
     cursor: pointer;
     transition: color 0.2s;
+    color: var(--datav-font-color);
 
     .edit {
       display: none;
