@@ -7,10 +7,15 @@
   import { getSysTemplates } from '/@/api/project';
   import { ProjectTemplate } from '/@/api/models/project';
   import { ScrollContainer } from '/@/components/Container';
+  import CreateModal from './components/CreateModal.vue';
   export default defineComponent({
     setup() {
       const loading = ref(false);
       const templates = ref<ProjectTemplate[]>([]);
+      const createModal = ref();
+      const onCreateProject = () => {
+        createModal.value?.show();
+      };
       onMounted(async () => {
         const res = await getSysTemplates();
         templates.value = res;
@@ -35,6 +40,7 @@
                     <div class="image">
                       <Button
                         type={'primary'}
+                        onClick={onCreateProject}
                         v-slots={{
                           icon: () => <PlusOutlined></PlusOutlined>,
                         }}
@@ -49,7 +55,7 @@
                       <div class="image">
                         <img src={i.thumbnail} class="w-full h-full object-cover" />
                         <div class="mask">
-                          <Button class="w-26" type={'primary'}>
+                          <Button class="w-26" type={'primary'} onClick={onCreateProject}>
                             创建项目
                           </Button>
                           <Button class="w-26 mt-2">预览</Button>
@@ -73,6 +79,7 @@
               </ScrollContainer>
             </div>
           </div>
+          <CreateModal ref={createModal}></CreateModal>
         </Spin>
       );
     },
