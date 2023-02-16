@@ -1,7 +1,7 @@
 <script lang="tsx">
   import { computed, defineComponent, ref } from 'vue';
   import { RouterLink } from 'vue-router';
-  import { Input, Dropdown, Menu, MenuProps, Button } from 'ant-design-vue';
+  import { Input, Dropdown, Menu, MenuProps, Button, Tooltip } from 'ant-design-vue';
   import { DownOutlined } from '@ant-design/icons-vue';
   import { useProjectStore } from '/@/store/modules/project';
   import Icon from '/@/components/Icon';
@@ -68,7 +68,7 @@
                   ),
                 }}
               >
-                <Button type={'link'}>
+                <Button class="text-button ml-3">
                   {sorts[sort.value]}
                   <DownOutlined></DownOutlined>
                 </Button>
@@ -81,9 +81,60 @@
                 <div class="screen">
                   <div class="info">
                     <div class="img" style={[{ background: `url(${i.thumbnail})` }]}></div>
+                    <div class="edit">
+                      <div>
+                        <Button class="w-26" type={'primary'}>
+                          编辑
+                        </Button>
+                        <div class="flex justify-between px-2 mt-4">
+                          <Tooltip trigger={'click'} placement={'bottom'} title="移动">
+                            <Button class="text-button">
+                              <Icon size={20} icon="ant-design:drag-outlined"></Icon>
+                            </Button>
+                          </Tooltip>
+                          <Tooltip placement={'bottom'} title="复制">
+                            <Button class="text-button">
+                              <Icon size={20} icon="ant-design:copy-outlined"></Icon>
+                            </Button>
+                          </Tooltip>
+                          <Tooltip placement={'bottom'} title="删除">
+                            <Button class="text-button">
+                              <Icon size={20} icon="ant-design:delete-outlined"></Icon>
+                            </Button>
+                          </Tooltip>
+                        </div>
+                      </div>
+                      <div class="preview">
+                        <Tooltip placement={'bottom'} title="预览">
+                          <Button class="text-button">
+                            <Icon size={20} icon="heroicons:tv"></Icon>
+                          </Button>
+                        </Tooltip>
+                      </div>
+                      <div class="share">
+                        <Tooltip placement={'bottom'} title="分享">
+                          <Button class="text-button">
+                            <Icon size={20} icon="system-uicons:paper-plane"></Icon>
+                          </Button>
+                        </Tooltip>
+                      </div>
+                    </div>
                   </div>
-                  <div class="name">
-                    <div class="px-2">{i.name}</div>
+                  <div class="flex items-center justify-between name  px-2" title={i.name}>
+                    <div class="flex items-center ">
+                      <Icon icon="ant-design:edit-outlined"></Icon>
+                      <Input
+                        class="edit-input border-none w-30 truncate"
+                        v-model:value={i.name}
+                      ></Input>
+                    </div>
+                    <div class="flex items-center">
+                      <span
+                        class="dot"
+                        style={{ '--color': !!i.share ? 'var(--ant-primary-color)' : '#576369' }}
+                      ></span>
+                      <span>{!!i.share ? '已发布' : '未发布'}</span>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -117,15 +168,73 @@
         transition: 0.2s;
         margin: 16px 32px 16px 0;
 
+        &:hover {
+          .info .edit {
+            opacity: 1;
+            pointer-events: all;
+
+            .icon {
+              &:hover {
+                color: var(--ant-primary-color);
+              }
+            }
+          }
+        }
+
         .name {
           height: 36px;
           background: #1d262e;
           display: flex;
           align-items: center;
           color: var(--datav-font-color);
+
+          .dot {
+            content: '';
+            margin-right: 5px;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 5px;
+            background-color: var(--color);
+          }
+
+          .edit-input {
+            &:focus {
+              border-color: none;
+              box-shadow: none;
+            }
+          }
         }
 
         .info {
+          position: relative;
+          display: flex;
+          width: 100%;
+
+          .preview {
+            position: absolute;
+            top: 10px;
+            right: 36px;
+          }
+
+          .share {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+          }
+
+          .edit {
+            position: absolute;
+            // opacity: 0;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+            background: rgba(0, 0, 0, 0.8);
+          }
           .img {
             height: 146px;
             width: inherit;
