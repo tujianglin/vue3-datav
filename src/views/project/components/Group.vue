@@ -5,10 +5,12 @@
   import { ScrollContainer } from '/@/components/Container';
   import { useProjectStore } from '/@/store/modules/project';
   import { ProjectGroup } from '/@/api/models/project';
+  import { addClass, removeClass } from '/@/utils/dom';
   export default defineComponent({
     setup() {
       const projectStore = useProjectStore();
       const adding = ref(false);
+      const draging = computed(() => projectStore.draging);
       const groups = computed(() => projectStore.allGroups);
       const group = computed(() => projectStore.group);
 
@@ -75,7 +77,24 @@
           },
         });
       };
-
+      /* 拖拽移入 */
+      const onDragenter = (e: DragEvent) => {
+        addClass((e as any).target, 'drag-enter');
+      };
+      const onDragleave = (e: DragEvent) => {
+        removeClass((e as any).target, 'drag-enter');
+      };
+      const onDrop = (e: DragEvent, group: ProjectGroup) => {
+        e.preventDefault();
+        removeClass((e as any).target, 'drag-enter');
+        const str = e.dataTransfer?.getData('text');
+        if (str) {
+          const [pid, fromId] = str.split(',').map((i) => parseInt(i));
+          if (fromId !== group.id) {
+            projectStore.move(pid, fromId, group.id);
+          }
+        }
+      };
       onMounted(() => {
         projectStore.getProjectGroup();
       });
@@ -103,35 +122,44 @@
               <Input v-focus class="edit-input" onBlur={onInputBlur} onKeyup={onAddGroup}></Input>
             )) ||
               ''}
-            {groups.value.map((i) => (
-              <>
-                {i.edit ? (
-                  <Input
-                    v-focus
-                    defaultValue={i.name}
-                    class="edit-input"
-                    onBlur={(e) => onEditInputBlur(e, i)}
-                    onKeyup={(e) => onEditGroup(e, i)}
-                  ></Input>
-                ) : (
-                  <div
-                    class={['groups', { check: projectStore.selectedGroupId === i.id }]}
-                    onClick={() => toggleGroup(i.id)}
-                  >
-                    <span class="w-25 truncate">{i?.name}</span>
-                    <span class="num">{i?.children.length}</span>
-                    <span class="edit flex items-center">
-                      <Icon icon="ant-design:edit-outlined" onClick={() => (i.edit = true)}></Icon>
-                      <Icon
-                        class="ml-1"
-                        icon="ant-design:delete-outlined"
-                        onClick={() => onDelGroup(i)}
-                      ></Icon>
-                    </span>
-                  </div>
-                )}
-              </>
-            ))}
+            <div class={{ draging: draging.value }}>
+              {groups.value.map((i) => (
+                <>
+                  {i.edit ? (
+                    <Input
+                      v-focus
+                      defaultValue={i.name}
+                      class="edit-input"
+                      onBlur={(e) => onEditInputBlur(e, i)}
+                      onKeyup={(e) => onEditGroup(e, i)}
+                    ></Input>
+                  ) : (
+                    <div
+                      class={['groups', { check: projectStore.selectedGroupId === i.id }]}
+                      onClick={() => toggleGroup(i.id)}
+                      onDragover={(e) => e.preventDefault()}
+                      onDragenter={onDragenter}
+                      onDragleave={onDragleave}
+                      onDrop={(e) => onDrop(e, i)}
+                    >
+                      <span class="w-25 truncate pointer-events-none">{i?.name}</span>
+                      <span class="num">{i?.children.length}</span>
+                      <span class="edit flex items-center">
+                        <Icon
+                          icon="ant-design:edit-outlined"
+                          onClick={() => (i.edit = true)}
+                        ></Icon>
+                        <Icon
+                          class="ml-1"
+                          icon="ant-design:delete-outlined"
+                          onClick={() => onDelGroup(i)}
+                        ></Icon>
+                      </span>
+                    </div>
+                  )}
+                </>
+              ))}
+            </div>
           </ScrollContainer>
         </>
       );
@@ -139,6 +167,12 @@
   });
 </script>
 <style lang="less" scoped>
+  .drag-enter {
+    background: var(--datav-body-bg);
+  }
+  .draging {
+    background: rgb(36 127 255 / 30%);
+  }
   .edit-input {
     width: 160px;
     height: 28px;

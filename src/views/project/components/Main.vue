@@ -2,13 +2,18 @@
   import { computed, defineComponent, ref } from 'vue';
   import { RouterLink } from 'vue-router';
   import { Input, Dropdown, Menu, MenuProps, Button, Tooltip } from 'ant-design-vue';
+  import { sortBy } from 'lodash-es';
   import { DownOutlined } from '@ant-design/icons-vue';
   import { useProjectStore } from '/@/store/modules/project';
   import Icon from '/@/components/Icon';
   import { ScrollContainer } from '/@/components/Container';
-  import { sortBy } from 'lodash-es';
+  import { Project } from '/@/api/models/project';
+  import { getAssetsFile } from '/@/utils';
   export default defineComponent({
     setup() {
+      // 移动图片
+      const image = new Image();
+      image.src = getAssetsFile('drag-thumbnail.png');
       const projectStore = useProjectStore();
       const sort = ref('name');
       const searchValue = ref<string>();
@@ -37,6 +42,24 @@
         }
         return sortBy(list, sort.value);
       });
+
+      /* 移动 */
+      const onDragstart = (e: DragEvent, i: Project) => {
+        projectStore.draging = true;
+        const dt = e.dataTransfer;
+        if (dt) {
+          dt.effectAllowed = 'move';
+          dt.setDragImage(image, 30, 30);
+          dt.setData('text', `${i.id},${i.groupId}`);
+        }
+      };
+      const onDragend = () => {
+        projectStore.draging = false;
+      };
+      /* 复制 */
+      const onProjectCopy = (i) => {
+        projectStore.copy(i);
+      };
       return () => (
         <div class="screen-list">
           <div>选择下面的方式进行创建</div>
@@ -87,13 +110,18 @@
                           编辑
                         </Button>
                         <div class="flex justify-between px-2 mt-4">
-                          <Tooltip trigger={'click'} placement={'bottom'} title="移动">
-                            <Button class="text-button">
+                          <Tooltip placement={'bottom'} title="移动">
+                            <Button
+                              class="text-button"
+                              draggable
+                              onDragstart={(e) => onDragstart(e, i)}
+                              onDragend={onDragend}
+                            >
                               <Icon size={20} icon="ant-design:drag-outlined"></Icon>
                             </Button>
                           </Tooltip>
                           <Tooltip placement={'bottom'} title="复制">
-                            <Button class="text-button">
+                            <Button class="text-button" onClick={() => onProjectCopy(i)}>
                               <Icon size={20} icon="ant-design:copy-outlined"></Icon>
                             </Button>
                           </Tooltip>
