@@ -15,10 +15,10 @@
       const toolbarStore = useToolbarStore();
       const comStore = useComStore();
       const {
-        moveCom,
         isLocked,
         isHided,
         disableGroup,
+        moveCom,
         lockCom,
         hideCom,
         confirmDeleteCom,

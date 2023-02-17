@@ -152,6 +152,7 @@ export const useComStore = defineStore('com', {
     },
   },
   actions: {
+    /* 初始化组件数据 */
     load(data: DatavComponent[]) {
       const coms: DatavComponent[] = [];
       const subComs: DatavComponent[] = [];
@@ -185,6 +186,35 @@ export const useComStore = defineStore('com', {
         } else {
           this.coms.push(com);
         }
+      }
+    },
+    /* 删除组件 */
+    delete(com: DatavComponent) {
+      this.deletes([com]);
+    },
+    /* 删除分组 */
+    deletes(coms: DatavComponent[]) {
+      const ids = coms.map((i) => i.id);
+      const com = coms[0];
+      if (com.type === ComType.subCom) {
+        this.subComs = this.subComs.filter((i) => !ids.includes(i.id));
+      } else {
+        this.subComs = this.subComs.filter((i) => !ids.includes(i.parentId as string));
+        this.removes(ids, com.parentId as string);
+      }
+    },
+    /* 移出组件 */
+    removes(ids: string[], pid: string) {
+      if (pid) {
+        const com = findCom(this.coms, pid);
+        (com as DatavComponent).children = com?.children?.filter((i) => !ids.includes(i.id));
+        if (com?.children?.length === 0) {
+          this.removes([com.id], com.parentId as string);
+        } else {
+          sortGroupConfig(com as DatavGroup);
+        }
+      } else {
+        this.coms = this.coms.filter((i) => !ids.includes(i.id));
       }
     },
     /* 选中单个组件 */
