@@ -4,6 +4,7 @@
   import { useEditorStore } from '/@/store/modules/editor';
   const CanvasMain = defineAsyncComponent(() => import('./components/CanvasMain/index.vue'));
   const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
+  const LayerPanel = defineAsyncComponent(() => import('./components/LayerPanel/index.vue'));
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -24,6 +25,7 @@
             <Header></Header>
           </div>
           <div id="edit-main-wp" class="g-layout edit-main-wp">
+            <LayerPanel></LayerPanel>
             <div class="g-layout edit-main">
               <Spin spinning={loading.value}>
                 <CanvasMain></CanvasMain>

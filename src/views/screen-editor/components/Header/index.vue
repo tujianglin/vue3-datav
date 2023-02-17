@@ -2,30 +2,59 @@
   import { defineComponent } from 'vue';
   import { Tooltip, Button } from 'ant-design-vue';
   import Icon from '/@/components/Icon';
+  import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
   export default defineComponent({
     setup() {
+      const toolbarStore = useToolbarStore();
       return () => (
         <div class="datav-header">
           <div class="datav-edit-header">
             <div class="editor-header-wp">
               <div class="editor-config">
                 <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="图层">
-                  <Button class={['head-btn', 'mr-1', { '--selected': true }]} type={'primary'}>
+                  <Button
+                    class={['head-btn', 'mr-1', { '--selected': toolbarStore.layer.show }]}
+                    type={'primary'}
+                    onClick={() =>
+                      toolbarStore.setPanelState(PanelType.layer, !toolbarStore.layer.show)
+                    }
+                  >
                     <Icon icon="uil:layer-group"></Icon>
                   </Button>
                 </Tooltip>
                 <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="组件列表">
-                  <Button class={['head-btn', 'mr-1', { '--selected': true }]} type={'primary'}>
+                  <Button
+                    class={['head-btn', 'mr-1', { '--selected': toolbarStore.components.show }]}
+                    type={'primary'}
+                    onClick={() =>
+                      toolbarStore.setPanelState(
+                        PanelType.components,
+                        !toolbarStore.components.show,
+                      )
+                    }
+                  >
                     <Icon icon="tabler:box"></Icon>
                   </Button>
                 </Tooltip>
                 <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="右侧面板">
-                  <Button class={['head-btn', 'mr-1', { '--selected': true }]} type={'primary'}>
+                  <Button
+                    class={['head-btn', 'mr-1', { '--selected': toolbarStore.config.show }]}
+                    type={'primary'}
+                    onClick={() =>
+                      toolbarStore.setPanelState(PanelType.config, !toolbarStore.config.show)
+                    }
+                  >
                     <Icon icon="carbon:open-panel-filled-right"></Icon>
                   </Button>
                 </Tooltip>
                 <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="工具箱">
-                  <Button class={['head-btn', 'mr-1', { '--selected': true }]} type={'primary'}>
+                  <Button
+                    class={['head-btn', 'mr-1', { '--selected': toolbarStore.toolbox.show }]}
+                    type={'primary'}
+                    onClick={() =>
+                      toolbarStore.setPanelState(PanelType.toolbox, !toolbarStore.toolbox.show)
+                    }
+                  >
                     <Icon icon="memory:toolbox"></Icon>
                   </Button>
                 </Tooltip>
