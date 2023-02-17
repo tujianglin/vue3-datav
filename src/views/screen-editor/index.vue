@@ -2,22 +2,21 @@
   import { defineAsyncComponent, defineComponent, onMounted, ref } from 'vue';
   import { Spin } from 'ant-design-vue';
   import { useEditorStore } from '/@/store/modules/editor';
+  import { useToolbarStore } from '/@/store/modules/toolbar';
+  import { useComStore } from '/@/store/modules/com';
+
   const CanvasMain = defineAsyncComponent(() => import('./components/CanvasMain/index.vue'));
   const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
   const LayerPanel = defineAsyncComponent(() => import('./components/LayerPanel/index.vue'));
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
+      const toolbarStroe = useToolbarStore();
+      const comStore = useComStore();
       const loading = ref(false);
-      onMounted(() => {
-        editorStore.autoCanvasScale(() => {
-          return {
-            x: 0,
-            y: 41,
-            left: 60,
-            top: 100,
-          };
-        });
+      onMounted(async () => {
+        comStore.request(1);
+        editorStore.autoCanvasScale(() => toolbarStroe.getPanelOffset);
       });
       return () => (
         <div class="g-layout is-vertical edit-container">

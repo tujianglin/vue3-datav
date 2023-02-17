@@ -1,4 +1,4 @@
-import { defHttp } from '../utils/http';
+import { defHttp } from '/@/utils/http';
 
 export const getProject = () => {
   return defHttp.get({
@@ -17,11 +17,5 @@ export const delProject = (params) => {
   return defHttp.delete({
     url: '/project/delGroup',
     params,
-  });
-};
-
-export const getSysTemplates = () => {
-  return defHttp.get({
-    url: '/template/project',
   });
 };

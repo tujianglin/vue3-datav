@@ -4,7 +4,7 @@
   import { RouterLink } from 'vue-router';
   import { PlusOutlined } from '@ant-design/icons-vue';
   import Icon from '/@/components/Icon';
-  import { getSysTemplates } from '/@/api/project';
+  import { getSysTemplates } from '/@/api/templates';
   import { ProjectTemplate } from '/@/api/models/project';
   import { ScrollContainer } from '/@/components/Container';
   import CreateModal from './components/CreateModal.vue';
