@@ -1,4 +1,5 @@
 import { App } from 'vue';
+import shortid from 'shortid';
 export const isMac = () => /macintosh|mac os x/i.test(navigator.userAgent);
 
 /* 注册组件 */
@@ -9,7 +10,11 @@ export const withInstall = (comp) => {
   };
   return comp;
 };
-
+/* 生成id */
+export const generateId = (prefix?: string) => {
+  const id = shortid.generate();
+  return prefix ? `${prefix}_${id}` : id;
+};
 /* 获取静态资源 */
 export const getAssetsFile = (url: string) => {
   return new URL(`../assets/images/${url}`, import.meta.url).href;

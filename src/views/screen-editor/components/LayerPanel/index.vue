@@ -224,7 +224,7 @@
                 class={['toolbar-icon', 'standard', enableGroupBtnClass.value]}
                 onClick={composeComs}
               >
-                <Icon icon="ant-design:folder-filled"></Icon>
+                <Icon icon="mdi:folder"></Icon>
               </span>
               <span
                 title="删除"

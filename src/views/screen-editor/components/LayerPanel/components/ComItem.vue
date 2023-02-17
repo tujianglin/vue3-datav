@@ -4,6 +4,7 @@
   import { ComType, DatavComponent } from '/@/api/models/component';
   import { getChildState } from '/@/store/modules/com';
   import Icon from '/@/components/Icon';
+  import { useContextMenu } from '../../ContextMenu';
   export default defineComponent({
     props: {
       com: Object as PropType<DatavComponent>,
@@ -15,6 +16,7 @@
     },
     emits: ['dragGroup'],
     setup(props, { emit }) {
+      const { showMenu } = useContextMenu();
       const { com, showText, level } = toRefs(props);
       const dragGroupHover = ref(false);
       const childState = computed(() => getChildState(com.value as DatavComponent));
@@ -84,10 +86,11 @@
             { locked: com.value?.locked },
             { hovered: com.value?.hovered },
           ]}
+          style={{ 'padding-left': `${6 + level.value * 10}px` }}
           draggable
           onMouseenter={() => toggleHover(true)}
           onMouseleave={() => toggleHover(false)}
-          style={{ 'padding-left': `${6 + level.value * 10}px` }}
+          onContextmenu={(e) => showMenu(e, com.value as DatavComponent)}
         >
           {com.value?.type === ComType.layer && (
             <>

@@ -1,5 +1,5 @@
 import { reactive, computed } from 'vue';
-// import { useEditorStore } from '/@/store/modules/editor';
+import { useEditorStore } from '/@/store/modules/editor';
 import { Modal } from 'ant-design-vue';
 import { useComStore } from '/@/store/modules/com';
 import { on, off } from '/@/utils/dom';
@@ -11,8 +11,7 @@ const pos = reactive({ x: 0, y: 0 });
 
 export const useContextMenu = () => {
   const comStore = useComStore();
-  // const editorStore = useEditorStore();
-
+  const editorStore = useEditorStore();
   const isLocked = computed(() => comStore.selectedComs.every((i) => i.locked));
   const isHided = computed(() => comStore.selectedComs.every((i) => i.hided));
   const isGroup = computed(() => comStore.selectedComs.every((i) => i.type === ComType.layer));
@@ -59,6 +58,12 @@ export const useContextMenu = () => {
     if (coms.length === 0) return;
     comStore.createGroup();
   };
+  /* 取消成组 */
+  const decomposeComs = () => {
+    const coms = comStore.selectedComs;
+    if (coms.length === 0) return;
+    comStore.cancelGroup();
+  };
   /* 移动组件 */
   const moveCom = (moveType: MoveType) => {
     const coms = comStore.selectedComs;
@@ -90,46 +95,31 @@ export const useContextMenu = () => {
       com.hided = hided;
     });
   };
-
-  const renameCom = () => {
-    // comStore.selectedComs[0].renameing = true;
-  };
-
-  const copyCom = () => {
-    comStore.selectedComs.forEach(() => {
-      // comStore.copy(com.id);
-    });
-  };
-
-  const decomposeComs = () => {
-    const coms = comStore.selectedComs;
-    if (coms.length === 0) {
-      return;
-    }
-    // comStore.cancelGroup();
-  };
-
-  const showMenu = (ev: MouseEvent, com: DatavComponent) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-
-    if (!com.selected) {
-      return;
-    }
-
-    pos.x = ev.clientX;
-    pos.y = ev.clientY;
-    // editorStore.contextMenu.show = true;
-
+  /* 右击显示操作菜单 */
+  const showMenu = (e: MouseEvent, com: DatavComponent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!com.selected) return;
+    pos.x = e.clientX;
+    pos.y = e.clientY;
+    editorStore.contextMenu.show = true;
     on(document, 'click', hideMenu);
   };
-
+  /* 隐藏操作菜单 */
   const hideMenu = () => {
     off(document, 'click', hideMenu);
-
-    // editorStore.contextMenu.show = false;
+    editorStore.contextMenu.show = false;
   };
-
+  /* 重命名 */
+  const renameCom = () => {
+    comStore.selectedComs[0].renameing = true;
+  };
+  /* 复制组件 */
+  const copyCom = () => {
+    comStore.selectedComs.forEach((com: DatavComponent) => {
+      comStore.copy(com.id);
+    });
+  };
   return {
     pos,
     isLocked,

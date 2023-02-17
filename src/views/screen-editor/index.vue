@@ -4,10 +4,10 @@
   import { useEditorStore } from '/@/store/modules/editor';
   import { useToolbarStore } from '/@/store/modules/toolbar';
   import { useComStore } from '/@/store/modules/com';
-
   const CanvasMain = defineAsyncComponent(() => import('./components/CanvasMain/index.vue'));
   const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
   const LayerPanel = defineAsyncComponent(() => import('./components/LayerPanel/index.vue'));
+  const ContextMenu = defineAsyncComponent(() => import('./components/ContextMenu/index.vue'));
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -15,7 +15,7 @@
       const comStore = useComStore();
       const loading = ref(false);
       onMounted(async () => {
-        comStore.request(1);
+        comStore.request();
         editorStore.autoCanvasScale(() => toolbarStroe.getPanelOffset);
       });
       return () => (
@@ -31,6 +31,7 @@
               </Spin>
             </div>
           </div>
+          <ContextMenu></ContextMenu>
         </div>
       );
     },

@@ -8,6 +8,7 @@ import {
 } from '/@/api/models/component';
 import { coms } from '/@/api/models/coms';
 import { MoveType } from '/@/api/models/editor';
+import { getNewCom } from '/@/data/mock-copy';
 export interface IComState {
   coms: DatavComponent[];
   subComs: DatavComponent[];
@@ -196,6 +197,37 @@ export const useComStore = defineStore('com', {
           this.coms.push(com);
         }
       }
+    },
+    /* 复制组件 */
+    async copy(id: string, type = ComType.com) {
+      // 模拟后端复制
+      if (type === ComType.com) {
+        const ocom = findCom(this.coms, id);
+        if (ocom) {
+          ocom.hovered = false;
+          ocom.selected = false;
+          const ncom = getNewCom(ocom, ocom.parentId);
+          const nSubComs = this.getSubComs(ocom.id).map((m) => getNewCom(m, ncom.id));
+          if (ncom.parentId) {
+            const g = findCom(this.coms, ncom.parentId) as DatavGroup;
+            g?.children?.push(ncom);
+            g.config.push(createGroupConfig(ncom));
+          } else {
+            this.coms.push(ncom);
+          }
+          this.subComs.push(...nSubComs);
+        }
+      } else if (type === ComType.subCom) {
+        const ocom = findCom(this.subComs, id);
+        if (ocom) {
+          const ncom = getNewCom(ocom, ocom.parentId);
+          this.subComs.push(ncom);
+        }
+      }
+    },
+    /* 获取成组组件 */
+    getSubComs(parentId: string) {
+      return this.subComs.filter((c) => c.parentId === parentId);
     },
     /* 删除组件 */
     delete(com: DatavComponent) {
@@ -515,6 +547,32 @@ export const useComStore = defineStore('com', {
         this.add(gcom).then(() => {
           this.select(gcom.id);
         });
+      }
+    },
+    /* 取消成组 */
+    cancelGroup() {
+      const scoms = this.selectedComs;
+      const sids = scoms.map((i) => i.id);
+      const pid = scoms[0].parentId;
+      const coms = scoms.flatMap((i) => {
+        i?.children?.forEach((c) => {
+          c.parentId = pid;
+          c.attr.x += i.attr.x;
+          c.attr.y += i.attr.y;
+        });
+        return i.children;
+      });
+      if (pid) {
+        const oldGroup = findCom(this.coms, pid) as DatavGroup;
+        oldGroup.children = oldGroup?.children?.filter((m) => !sids.includes(m.id));
+        oldGroup.config = oldGroup.config.filter((m) => !sids.includes(m.transform3d.id));
+        oldGroup?.children?.push(...(coms as DatavComponent[]));
+        coms.forEach((com) => {
+          oldGroup.config.push(createGroupConfig(com as DatavComponent));
+        });
+      } else {
+        this.coms = this.coms.filter((com) => !sids.includes(com.id));
+        this.coms.push(...(coms as DatavComponent[]));
       }
     },
   },

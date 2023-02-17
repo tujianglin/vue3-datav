@@ -1,3 +1,5 @@
+import { generateId } from '/@/utils';
+
 /* 组件类型 */
 export enum ComType {
   com = 'com',
@@ -26,7 +28,7 @@ export interface ComponentGroupAttr extends ComponentAttr {
 export abstract class DatavComponent {
   id: string;
   name: string;
-  renameing: string;
+  renameing? = false;
   icon: string;
   attr: ComponentAttr = {
     x: 0,
@@ -66,8 +68,11 @@ export abstract class DatavComponent {
   };
   // 子组件
   children?: DatavComponent[];
+  // api 数据
+  abstract apiData: any;
+
   constructor(name: string, attr: Partial<ComponentAttr>, type = ComType.com) {
-    this.id = '111';
+    this.id = generateId(name);
     this.name = `V${name}`;
     this.type = type;
     this.attr = { ...this.attr, ...attr };
@@ -156,6 +161,7 @@ export class DatavGroup extends DatavComponent {
   scaling: {};
   config: GroupConfig[] = [];
   icon: string;
+  apiData: any;
 
   constructor(attr: Partial<ComponentGroupAttr>) {
     super('Group', attr, ComType.layer);
