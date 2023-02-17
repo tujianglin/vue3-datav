@@ -3,6 +3,7 @@
   import { Spin } from 'ant-design-vue';
   import { useEditorStore } from '/@/store/modules/editor';
   const CanvasMain = defineAsyncComponent(() => import('./components/CanvasMain/index.vue'));
+  const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -18,10 +19,12 @@
         });
       });
       return () => (
-        <div class="editor-layout">
-          <div class="editor-layout_header"></div>
-          <div class="editor-layout_main">
-            <div class="h-full">
+        <div class="g-layout is-vertical edit-container">
+          <div class="g-header">
+            <Header></Header>
+          </div>
+          <div id="edit-main-wp" class="g-layout edit-main-wp">
+            <div class="g-layout edit-main">
               <Spin spinning={loading.value}>
                 <CanvasMain></CanvasMain>
               </Spin>
@@ -33,17 +36,26 @@
   });
 </script>
 <style lang="less" scoped>
-  .editor-layout {
+  .edit-container {
     position: relative;
     width: 100%;
     height: 100%;
-    &_main {
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      overflow: hidden;
-      background: url('/images/bg-canvas.png');
-      flex-wrap: nowrap;
-    }
+  }
+
+  .edit-main-wp {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    overflow: hidden;
+    background: url('/images/bg-canvas.png');
+    flex-wrap: nowrap;
+  }
+
+  .edit-main {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    overflow: hidden;
+    flex-direction: column;
   }
 </style>

@@ -130,7 +130,11 @@
                           编辑
                         </Button>
                         <div class="flex justify-between px-2 mt-4">
-                          <Tooltip placement={'bottom'} title="移动">
+                          <Tooltip
+                            overlayClassName="tooltip-border"
+                            placement={'bottom'}
+                            title="移动"
+                          >
                             <Button
                               class="text-button"
                               draggable
@@ -140,12 +144,20 @@
                               <Icon size={20} icon="ant-design:drag-outlined"></Icon>
                             </Button>
                           </Tooltip>
-                          <Tooltip placement={'bottom'} title="复制">
+                          <Tooltip
+                            overlayClassName="tooltip-border"
+                            placement={'bottom'}
+                            title="复制"
+                          >
                             <Button class="text-button" onClick={() => onProjectCopy(i)}>
                               <Icon size={20} icon="ant-design:copy-outlined"></Icon>
                             </Button>
                           </Tooltip>
-                          <Tooltip placement={'bottom'} title="删除">
+                          <Tooltip
+                            overlayClassName="tooltip-border"
+                            placement={'bottom'}
+                            title="删除"
+                          >
                             <Button class="text-button" onClick={() => onProjectDelete(i)}>
                               <Icon size={20} icon="ant-design:delete-outlined"></Icon>
                             </Button>
@@ -153,14 +165,22 @@
                         </div>
                       </div>
                       <div class="preview">
-                        <Tooltip placement={'bottom'} title="预览">
+                        <Tooltip
+                          overlayClassName="tooltip-border"
+                          placement={'bottom'}
+                          title="预览"
+                        >
                           <Button class="text-button">
                             <Icon size={20} icon="heroicons:tv"></Icon>
                           </Button>
                         </Tooltip>
                       </div>
                       <div class="share">
-                        <Tooltip placement={'bottom'} title="分享">
+                        <Tooltip
+                          overlayClassName="tooltip-border"
+                          placement={'bottom'}
+                          title="分享"
+                        >
                           <Button class="text-button">
                             <Icon size={20} icon="system-uicons:paper-plane"></Icon>
                           </Button>

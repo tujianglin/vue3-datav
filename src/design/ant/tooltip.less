@@ -1,7 +1,23 @@
-.ant-tooltip {
+.tooltip-border {
   .ant-tooltip-inner {
     border: 1px solid var(--ant-primary-color);
     padding: 4px 6px;
     min-height: initial;
+  }
+}
+
+.tooltip-main {
+  .ant-tooltip-content {
+    .ant-tooltip-arrow {
+      .ant-tooltip-arrow-content {
+        background: var(--ant-primary-color);
+      }
+    }
+    .ant-tooltip-inner {
+      background: var(--ant-primary-color);
+      padding: 4px 6px;
+      min-height: initial;
+      border-radius: 0;
+    }
   }
 }
