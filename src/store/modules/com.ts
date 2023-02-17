@@ -74,7 +74,16 @@ const findComs = (coms: DatavComponent[], parentId?: string) => {
     }
   }
 };
-
+const sumPos = (coms: DatavComponent[]) => {
+  return coms.reduce(
+    (prev, { attr }) => {
+      prev.x += attr.x;
+      prev.y += attr.y;
+      return prev;
+    },
+    { x: 0, y: 0 },
+  );
+};
 /* 获取组件下标 */
 const getComIndex = (coms: DatavComponent[], data: string | DatavComponent) => {
   const id = typeof data === 'string' ? data : data.id;
@@ -314,6 +323,156 @@ export const useComStore = defineStore('com', {
       }
       if (com) {
         sortGroupConfig(com as DatavGroup);
+      }
+    },
+    /* 获取父级组件 */
+    getParents(pid: string) {
+      const parentComs: DatavComponent[] = [];
+      const getParent = (id: string) => {
+        const com = findCom(this.coms, id) as DatavComponent;
+        parentComs.push(com);
+        if (com.parentId) {
+          getParent(com.parentId);
+        }
+      };
+      if (pid) {
+        getParent(pid);
+      }
+      return parentComs;
+    },
+    /* 检验父组件 */
+    checkParent(sourceCom: DatavComponent, targetComs: DatavComponent[]) {
+      const pids = this.getParents(sourceCom.parentId as string).map((m) => m.id);
+      if (pids.length > 0) {
+        return targetComs.some((m) => pids.includes(m.id));
+      }
+      return false;
+    },
+    /* 调整父组件 */
+    resizeParents(parentComs: DatavComponent | DatavComponent[]) {
+      const resizeParent = (com: DatavComponent) => {
+        let top = Infinity,
+          left = Infinity;
+        let right = -Infinity,
+          bottom = -Infinity;
+        com?.children?.forEach(({ attr }) => {
+          // 先还原在父容器里的位置，然后计算边界
+          attr.x += com.attr.x;
+          attr.y += com.attr.y;
+          top = Math.min(attr.y, top);
+          left = Math.min(attr.x, left);
+          right = Math.max(attr.x + attr.w, right);
+          bottom = Math.max(attr.y + attr.h, bottom);
+        });
+        com.attr.x = left;
+        com.attr.y = top;
+        com.attr.w = right - left;
+        com.attr.h = bottom - top;
+
+        com?.children?.forEach(({ attr }) => {
+          attr.x -= left;
+          attr.y -= top;
+        });
+      };
+      if (Array.isArray(parentComs)) {
+        parentComs.forEach((com) => {
+          resizeParent(com);
+        });
+      } else {
+        resizeParent(parentComs);
+      }
+    },
+    /* 拖拽移动 */
+    moveTo(toLevel: number, toIndex: number, targetCom: DatavComponent) {
+      const scoms = this.selectedComs;
+      // 父级不能移动到自己里面
+      if (this.checkParent(targetCom, scoms)) {
+        return;
+      }
+      const fromParentId = scoms[0].parentId;
+      if (toLevel === 0) {
+        let toIdx = this.coms.length - toIndex;
+        if (fromParentId == targetCom.parentId) {
+          const coms = this.coms.filter((m) => !m.selected);
+          const toCom = this.coms[toIdx];
+          if (toCom) {
+            toIdx = getComIndex(coms, toCom);
+          }
+          coms.splice(toIdx, 0, ...scoms);
+          this.coms = coms;
+        } else {
+          const fromParents = this.getParents(fromParentId as string);
+          const fromParentCom = fromParents[0];
+          fromParentCom.children = fromParentCom?.children?.filter((m) => !m.selected);
+          const fromPos = sumPos(fromParents);
+          scoms.forEach((m) => {
+            m.parentId = targetCom.parentId;
+            m.attr.x += fromPos.x;
+            m.attr.y += fromPos.y;
+          });
+          this.coms.splice(toIdx, 0, ...scoms);
+
+          if (fromParentCom?.children?.length === 0) {
+            this.removes([fromParentCom.id], fromParentCom.parentId as string);
+          } else {
+            this.resizeParents(fromParents);
+            sortGroupConfig(fromParentCom as DatavGroup);
+          }
+        }
+        return;
+      }
+      const moveChild = (item: DatavComponent) => {
+        if (item.type !== ComType.layer || item.fold) return false;
+        for (let i = 0, len: any = item.children?.length; i < len; i++) {
+          const com = item?.children?.[i] as DatavComponent;
+          if (com.id === targetCom.id) {
+            let toIdx = len - toIndex;
+            if (fromParentId == targetCom.parentId) {
+              const coms = item?.children?.filter((j) => !j.selected);
+              const toCom = item?.children?.[toIdx];
+              if (toCom) {
+                toIdx = getComIndex(coms as DatavComponent[], toCom);
+              }
+              coms?.splice(toIdx, 0, ...scoms);
+              item.children = coms;
+              sortGroupConfig(item as DatavGroup);
+            } else {
+              const fromParents = this.getParents(fromParentId as string);
+              const toParents = this.getParents(targetCom.parentId as string);
+              const fromPos = sumPos(fromParents);
+              const toPos = sumPos(toParents);
+              if (fromParentId) {
+                const fromParentCom = fromParents[0];
+                fromParentCom.children = fromParentCom?.children?.filter((m) => !m.selected);
+                if (fromParentCom?.children?.length === 0) {
+                  this.removes([fromParentCom.id], fromParentCom.parentId as string);
+                } else {
+                  this.resizeParents(fromParents);
+                  sortGroupConfig(fromParentCom as DatavGroup);
+                }
+              } else {
+                this.coms = this.coms.filter((m) => !m.selected);
+              }
+              scoms.forEach((m) => {
+                m.parentId = targetCom.parentId;
+                m.attr.x += fromPos.x - toPos.x;
+                m.attr.y += fromPos.y - toPos.y;
+              });
+              item?.children?.splice(toIdx, 0, ...scoms);
+              this.resizeParents(toParents);
+              sortGroupConfig(item as DatavGroup);
+            }
+            return true;
+          } else if (com.id === targetCom.parentId && moveChild(com)) {
+            return true;
+          }
+        }
+        return false;
+      };
+      for (let i = 0, len = this.coms.length; i < len; i++) {
+        if (moveChild(this.coms[i])) {
+          break;
+        }
       }
     },
     /* 创建成组 */

@@ -13,6 +13,9 @@ export interface IEditorState {
     h: number[];
     v: number[];
   };
+  contextMenu: {
+    show: boolean;
+  };
 }
 export const useEditorStore = defineStore('editor', {
   state: (): IEditorState => ({
@@ -42,6 +45,9 @@ export const useEditorStore = defineStore('editor', {
     guideLine: {
       h: [],
       v: [],
+    },
+    contextMenu: {
+      show: false,
     },
   }),
   actions: {

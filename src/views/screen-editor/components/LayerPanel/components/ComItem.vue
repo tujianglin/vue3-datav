@@ -1,5 +1,5 @@
 <script lang="tsx">
-  import { computed, defineComponent, PropType, toRefs } from 'vue';
+  import { computed, defineComponent, PropType, ref, toRefs } from 'vue';
   import { Input } from 'ant-design-vue';
   import { ComType, DatavComponent } from '/@/api/models/component';
   import { getChildState } from '/@/store/modules/com';
@@ -13,13 +13,15 @@
       },
       showText: Boolean,
     },
-    setup(props) {
+    emits: ['dragGroup'],
+    setup(props, { emit }) {
       const { com, showText, level } = toRefs(props);
+      const dragGroupHover = ref(false);
       const childState = computed(() => getChildState(com.value as DatavComponent));
 
       /* 鼠标移入移出 */
       const toggleHover = (flag: boolean) => {
-        (com as any).hovered = com.value?.selected ? false : flag === true;
+        (com.value as any).hovered = com.value?.selected ? false : flag;
       };
 
       /* 打开成组组件 */
@@ -43,6 +45,31 @@
         (com.value as any).locked = flag;
       };
 
+      const dragEnterGroup = () => {
+        if (com.value?.type === ComType.layer) {
+          dragGroupHover.value = true;
+          emit('dragGroup', { key: 'enter' });
+        }
+      };
+
+      const dragLeaveGroup = () => {
+        if (com.value?.type === ComType.layer) {
+          dragGroupHover.value = false;
+          emit('dragGroup', { key: 'leave' });
+        }
+      };
+
+      const dropGroup = () => {
+        if (com.value?.type === ComType.layer) {
+          dragGroupHover.value = false;
+          emit('dragGroup', {
+            key: 'drop',
+            level: level.value + 1,
+            com: com.value?.children?.[0],
+          });
+        }
+      };
+
       return () => (
         <div
           title={com.value?.alias}
@@ -52,11 +79,12 @@
             { 'layer-manager-group': com.value?.type === ComType.layer },
             { 'layer-manager-thumbail-wrap': !showText.value },
             { '--child-selected': childState.value.selected },
-            { '--child-hovered': childState.value.hovered },
+            { '--child-hovered': childState.value.hovered || dragGroupHover.value },
             { hided: com.value?.hided },
             { locked: com.value?.locked },
             { hovered: com.value?.hovered },
           ]}
+          draggable
           onMouseenter={() => toggleHover(true)}
           onMouseleave={() => toggleHover(false)}
           style={{ 'padding-left': `${6 + level.value * 10}px` }}
@@ -125,7 +153,12 @@
                     onKeydown={(e: KeyboardEvent) => e.code === 'Enter' && toggleRename(false)}
                   ></Input>
                 ) : (
-                  <span class="layer-item-span">
+                  <span
+                    class="layer-item-span"
+                    onDragenter={dragEnterGroup}
+                    onDragleave={dragLeaveGroup}
+                    onDrop={dropGroup}
+                  >
                     <span class="layer-item-text" onDblclick={() => toggleRename(true)}>
                       {com.value?.alias}
                     </span>
