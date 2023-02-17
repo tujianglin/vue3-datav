@@ -1,14 +1,31 @@
 <script lang="tsx">
   import { defineComponent, ref } from 'vue';
   import { storeToRefs } from 'pinia';
-  import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
   import Icon from '/@/components/Icon';
+  import ComList from './components/ComList.vue';
+  import ComItem from './components/ComItem.vue';
+  import { DatavComponent } from '/@/api/models/component';
+  import { macMetaOrCtrl } from '/@/utils';
+  import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
+  import { useComStore } from '/@/store/modules/com';
   export default defineComponent({
     setup() {
       const toolbarStore = useToolbarStore();
+      const comStore = useComStore();
       const { layer } = storeToRefs(toolbarStore);
       const showText = ref(false);
-
+      /* 选中组件 */
+      const selectCom = (e: MouseEvent, com: DatavComponent) => {
+        const isMult = macMetaOrCtrl(e);
+        if (e.shiftKey && !isMult) {
+          comStore.selects(com);
+        } else if (
+          !com.selected ||
+          (e.button === 0 && (isMult || comStore.selectedComs.length > 1))
+        ) {
+          comStore.select(com.id, com.parentId, isMult);
+        }
+      };
       return () => (
         <div class={['g-aside', 'layer-panel-wp', { '--hide': !layer.value.show }]}>
           <div class="layer-manager">
@@ -52,7 +69,21 @@
                 <Icon icon="mdi:arrow-collapse-down"></Icon>
               </span>
             </div>
-            <div class="layer-manager-wrap">111</div>
+            <div class="layer-manager-wrap">
+              <ComList
+                v-slots={{
+                  default: ({ com, level }) => (
+                    <ComItem
+                      com={com}
+                      level={level}
+                      showText={showText.value}
+                      class={{ selected: com.selected }}
+                      onMouseup={(e) => selectCom(e, com)}
+                    ></ComItem>
+                  ),
+                }}
+              ></ComList>
+            </div>
             <div class="layer-toolbar layer-toolbar-bottom">
               <span title="成组" class="toolbar-icon standard">
                 <Icon icon="ant-design:folder-filled"></Icon>
