@@ -1,5 +1,5 @@
 <script lang="tsx">
-  import { defineComponent, ref } from 'vue';
+  import { computed, defineComponent, ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import Icon from '/@/components/Icon';
   import ComList from './components/ComList.vue';
@@ -8,12 +8,42 @@
   import { macMetaOrCtrl } from '/@/utils';
   import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
   import { useComStore } from '/@/store/modules/com';
+  import { MoveType } from '/@/api/models/editor';
+  import { useContextMenu } from '../ContextMenu/index';
   export default defineComponent({
     setup() {
       const toolbarStore = useToolbarStore();
       const comStore = useComStore();
+      const {
+        moveCom,
+        isLocked,
+        isHided,
+        disableGroup,
+        lockCom,
+        hideCom,
+        confirmDeleteCom,
+        composeComs,
+      } = useContextMenu();
       const { layer } = storeToRefs(toolbarStore);
       const showText = ref(false);
+
+      /* 选中组件之后操作按钮交互 */
+      const enableBtn = computed(() => comStore.selectedComs.length > 0);
+      const enableBtnClass = computed(() => ({
+        enable: enableBtn.value,
+      }));
+      const enableLockBtnClass = computed(() => ({
+        enable: enableBtn.value,
+        checked: isLocked.value,
+      }));
+      const enableHideBtnClass = computed(() => ({
+        enable: enableBtn.value,
+        checked: isHided.value,
+      }));
+      const enableGroupBtnClass = computed(() => ({
+        enable: enableBtn.value && !disableGroup.value,
+      }));
+
       /* 选中组件 */
       const selectCom = (e: MouseEvent, com: DatavComponent) => {
         const isMult = macMetaOrCtrl(e);
@@ -56,16 +86,32 @@
               </div>
             </div>
             <div class="layer-toolbar layer-toolbar-top">
-              <span title="上移一层" class="toolbar-icon standard">
+              <span
+                title="上移一层"
+                class={['toolbar-icon', 'standard', enableBtnClass.value]}
+                onClick={() => moveCom(MoveType.down)}
+              >
                 <Icon icon="material-symbols:text-select-move-up"></Icon>
               </span>
-              <span title="下移一层" class="toolbar-icon standard">
+              <span
+                title="下移一层"
+                class={['toolbar-icon', 'standard', enableBtnClass.value]}
+                onClick={() => moveCom(MoveType.up)}
+              >
                 <Icon icon="material-symbols:text-select-move-down"></Icon>
               </span>
-              <span title="置顶" class="toolbar-icon standard">
+              <span
+                title="置顶"
+                class={['toolbar-icon', 'standard', enableBtnClass.value]}
+                onClick={() => moveCom(MoveType.bottom)}
+              >
                 <Icon icon="mdi:arrow-collapse-up"></Icon>
               </span>
-              <span title="置底" class="toolbar-icon standard">
+              <span
+                title="置底"
+                class={['toolbar-icon', 'standard', enableBtnClass.value]}
+                onClick={() => moveCom(MoveType.top)}
+              >
                 <Icon icon="mdi:arrow-collapse-down"></Icon>
               </span>
             </div>
@@ -85,16 +131,32 @@
               ></ComList>
             </div>
             <div class="layer-toolbar layer-toolbar-bottom">
-              <span title="成组" class="toolbar-icon standard">
+              <span
+                title="成组"
+                class={['toolbar-icon', 'standard', enableGroupBtnClass.value]}
+                onClick={composeComs}
+              >
                 <Icon icon="ant-design:folder-filled"></Icon>
               </span>
-              <span title="删除" class="toolbar-icon standard">
+              <span
+                title="删除"
+                class={['toolbar-icon', 'standard', enableBtnClass.value]}
+                onClick={confirmDeleteCom}
+              >
                 <Icon icon="ant-design:delete-outlined"></Icon>
               </span>
-              <span title="锁定" class="toolbar-icon standard">
+              <span
+                title="锁定"
+                class={['toolbar-icon', 'standard', enableLockBtnClass.value]}
+                onClick={lockCom}
+              >
                 <Icon icon="ant-design:lock-outlined"></Icon>
               </span>
-              <span title="隐藏" class="toolbar-icon standard">
+              <span
+                title="隐藏"
+                class={['toolbar-icon', 'standard', enableHideBtnClass.value]}
+                onClick={hideCom}
+              >
                 <Icon icon="ant-design:eye-invisible-outlined"></Icon>
               </span>
             </div>

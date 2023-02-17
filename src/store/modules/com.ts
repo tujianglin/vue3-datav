@@ -1,6 +1,13 @@
 import { defineStore } from 'pinia';
-import { ComType, DatavComponent } from '/@/api/models/component';
+import {
+  ComType,
+  createGroupConfig,
+  DatavComponent,
+  DatavGroup,
+  sortGroupConfig,
+} from '/@/api/models/component';
 import { coms } from '/@/api/models/coms';
+import { MoveType } from '/@/api/models/editor';
 export interface IComState {
   coms: DatavComponent[];
   subComs: DatavComponent[];
@@ -31,6 +38,22 @@ export const getChildState = (com: DatavComponent): { hovered: boolean; selected
     hovered,
     selected,
   };
+};
+
+const findCom = (coms: DatavComponent[], id: string): DatavComponent | null => {
+  for (let i = 0, len = coms.length; i < len; i++) {
+    const com = coms[i];
+    if (com.id === id) {
+      return com;
+    }
+    if (com.type === ComType.layer) {
+      const subCom = findCom(com.children as DatavComponent[], id);
+      if (subCom) {
+        return subCom;
+      }
+    }
+  }
+  return null;
 };
 
 /* 寻找组件 */
@@ -147,7 +170,7 @@ export const useComStore = defineStore('com', {
       this.coms = coms as any;
     },
     /* 添加单个组件 */
-    add(com: DatavComponent) {
+    async add(com: DatavComponent) {
       if (com.type === ComType.subCom) {
         this.subComs.push(com);
       } else {
@@ -164,6 +187,7 @@ export const useComStore = defineStore('com', {
         }
       }
     },
+    /* 选中单个组件 */
     select(id: string, parentId?: string, multiple = false) {
       if (id) {
         let pid: any = parentId;
@@ -180,6 +204,7 @@ export const useComStore = defineStore('com', {
         cancelSelect(this.coms);
       }
     },
+    /* 选中多个组件 */
     selects(toCom: DatavComponent) {
       const scoms = this.selectedComs;
       if (toCom.selected || scoms.length > 0) {
@@ -187,7 +212,6 @@ export const useComStore = defineStore('com', {
           this.select(toCom.id, toCom.parentId);
           return;
         }
-
         // 虽有小bug，但是够用。O(∩_∩)O哈哈~
         const list = findComs(this.coms, toCom.parentId) as DatavComponent[];
         let fromIdx = getComIndex(list, scoms[0]);
@@ -210,6 +234,98 @@ export const useComStore = defineStore('com', {
         });
       } else {
         toCom.selected = true;
+      }
+    },
+    /* 移动组件 */
+    move(moveType: MoveType, id: string, pid: string) {
+      let com: DatavComponent | any;
+      let i = -1,
+        len = 0;
+      if (pid) {
+        com = findCom(this.coms, pid) as DatavComponent;
+        i = getComIndex(com.children as DatavComponent[], id);
+        len = (com.children as DatavComponent[]).length;
+      } else {
+        i = getComIndex(this.coms, id);
+        len = this.coms.length;
+      }
+      if (moveType === MoveType.up) {
+        if (i > 0) {
+          if (com) {
+            com.children?.splice(i - 1, 0, ...com.children.splice(i, 1));
+          } else {
+            this.coms.splice(i - 1, 0, ...this.coms.splice(i, 1));
+          }
+        }
+      } else if (moveType === MoveType.down) {
+        if (i + 1 < len) {
+          if (com) {
+            com.children?.splice(i + 1, 0, ...com.children.splice(i, 1));
+          } else {
+            this.coms.splice(i + 1, 0, ...this.coms.splice(i, 1));
+          }
+        }
+      } else if (moveType === MoveType.top) {
+        if (i > 0) {
+          if (com) {
+            com.children?.unshift(...com.children.splice(i, 1));
+          } else {
+            this.coms.unshift(...this.coms.splice(i, 1));
+          }
+        }
+      } else if (moveType === MoveType.bottom) {
+        if (i + 1 < len) {
+          if (com) {
+            com.children?.push(...com.children.splice(i, 1));
+          } else {
+            this.coms.push(...this.coms.splice(i, 1));
+          }
+        }
+      }
+      if (com) {
+        sortGroupConfig(com as DatavGroup);
+      }
+    },
+    /* 创建成组 */
+    createGroup() {
+      const scoms = this.selectedComs;
+      const sids = scoms.map((i) => i.id);
+      let top = Infinity,
+        left = Infinity;
+      let right = -Infinity,
+        bottom = -Infinity;
+      scoms.forEach(({ attr }) => {
+        top = Math.min(attr.y, top);
+        left = Math.min(attr.x, left);
+        right = Math.max(attr.x + attr.w, right);
+        bottom = Math.max(attr.y + attr.h, bottom);
+      });
+      const gcom = new DatavGroup({
+        x: left,
+        y: top,
+        w: right - left,
+        h: bottom - top,
+      });
+      gcom.parentId = scoms[0].parentId;
+      gcom.children?.push(...scoms);
+      gcom.children?.forEach((com) => {
+        com.parentId = gcom.id;
+        com.attr.x -= gcom.attr.x;
+        com.attr.y -= gcom.attr.y;
+        gcom.config.push(createGroupConfig(com));
+      });
+
+      if (gcom.parentId) {
+        const oldGroup = findCom(this.coms, gcom.parentId) as DatavGroup;
+        oldGroup.children = oldGroup.children?.filter((i) => !sids.includes(i.id));
+        oldGroup.config = oldGroup.config.filter((i) => !sids.includes(i.transform3d.id));
+        oldGroup.children?.push(gcom);
+        oldGroup.config.push(createGroupConfig(gcom));
+      } else {
+        this.coms = this.coms.filter((i) => !i.selected);
+        this.add(gcom).then(() => {
+          this.select(gcom.id);
+        });
       }
     },
   },

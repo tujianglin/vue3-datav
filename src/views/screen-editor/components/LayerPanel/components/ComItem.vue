@@ -1,7 +1,9 @@
 <script lang="tsx">
-  import { computed, defineComponent, PropType, toRaw } from 'vue';
+  import { computed, defineComponent, PropType, toRefs } from 'vue';
+  import { Input } from 'ant-design-vue';
   import { ComType, DatavComponent } from '/@/api/models/component';
   import { getChildState } from '/@/store/modules/com';
+  import Icon from '/@/components/Icon';
   export default defineComponent({
     props: {
       com: Object as PropType<DatavComponent>,
@@ -12,46 +14,154 @@
       showText: Boolean,
     },
     setup(props) {
-      const { com, showText, level } = toRaw(props);
-      const childState = computed(() => getChildState(com as DatavComponent));
+      const { com, showText, level } = toRefs(props);
+      const childState = computed(() => getChildState(com.value as DatavComponent));
 
       /* 鼠标移入移出 */
       const toggleHover = (flag: boolean) => {
-        (com as any).hovered = com?.selected ? false : flag === true;
+        (com as any).hovered = com.value?.selected ? false : flag === true;
+      };
+
+      /* 打开成组组件 */
+      const toggleFold = (e: MouseEvent) => {
+        e.stopPropagation();
+        (com.value as any).fold = !(com.value as any).fold;
+      };
+
+      /* 重命名 */
+      const toggleRename = (flag: boolean) => {
+        (com.value as any).renameing = flag;
+      };
+
+      /* 隐藏 */
+      const toggleHide = (flag: boolean) => {
+        (com.value as any).hided = flag;
+      };
+
+      /* 锁定 */
+      const toggleLock = (flag: boolean) => {
+        (com.value as any).locked = flag;
       };
 
       return () => (
         <div
+          title={com.value?.alias}
           class={[
             'layer-manager-item',
-            { 'layer-manager-com': com?.type === ComType.com },
-            { 'layer-manager-group': com?.type === ComType.layer },
-            { 'layer-manager-thumbail-wrap': !showText },
+            { 'layer-manager-com': com.value?.type === ComType.com },
+            { 'layer-manager-group': com.value?.type === ComType.layer },
+            { 'layer-manager-thumbail-wrap': !showText.value },
             { '--child-selected': childState.value.selected },
             { '--child-hovered': childState.value.hovered },
-            { hided: com?.hided },
-            { locked: com?.locked },
-            { hovered: com?.hovered },
+            { hided: com.value?.hided },
+            { locked: com.value?.locked },
+            { hovered: com.value?.hovered },
           ]}
           onMouseenter={() => toggleHover(true)}
           onMouseleave={() => toggleHover(false)}
-          style={{ 'padding-left': `${6 + level * 10}px` }}
+          style={{ 'padding-left': `${6 + level.value * 10}px` }}
         >
-          <div>
-            {com?.type === ComType.com ? (
-              <div
-                class="layer-item-thumbail"
-                style={{ 'background-image': `url(${com.img})` }}
-              ></div>
-            ) : (
-              ''
-            )}
-          </div>
-          <div class="layer-manager-thumbail">
-            <span class="layer-item-span">
-              <span class="layer-item-text">{com?.alias}</span>
-            </span>
-          </div>
+          {com.value?.type === ComType.layer && (
+            <>
+              <span class={['fold-toggle-btn', { 'icon-fold': com.value.fold }]}>
+                <Icon icon="ant-design:right-outlined"></Icon>
+              </span>
+              <span class={['layer-item-icon']}>
+                <Icon icon="ant-design:folder-filled"></Icon>
+              </span>
+            </>
+          )}
+          {showText.value ? (
+            <>
+              <span class="layer-item-span truncate">
+                {com.value?.renameing ? (
+                  <Input
+                    v-focus
+                    v-model:value={com.value.alias}
+                    class="layer-item-input"
+                    onBlur={() => toggleRename(false)}
+                    onKeydown={(e: KeyboardEvent) => e.code === 'Enter' && toggleRename(false)}
+                  ></Input>
+                ) : (
+                  <span class="layer-item-text" onDblclick={() => toggleRename(true)}>
+                    {com.value?.alias}
+                  </span>
+                )}
+              </span>
+              {com.value?.hided && (
+                <span
+                  class="show-toggle-btn inline-flex items-center"
+                  onClick={() => toggleHide(false)}
+                >
+                  <Icon icon="ant-design:eye-invisible-outlined"></Icon>
+                </span>
+              )}
+              {com.value?.locked && (
+                <span
+                  class="show-toggle-btn inline-flex items-center"
+                  onClick={() => toggleLock(false)}
+                >
+                  <Icon icon="ant-design:lock-outlined"></Icon>
+                </span>
+              )}
+            </>
+          ) : (
+            <>
+              <div>
+                {com.value?.type === ComType.com && (
+                  <div
+                    class="layer-item-thumbail"
+                    style={{ 'background-image': `url(${com.value.img})` }}
+                  ></div>
+                )}
+              </div>
+              <div class="layer-manager-thumbail">
+                {com.value?.renameing ? (
+                  <Input
+                    v-focus
+                    v-model:value={com.value.alias}
+                    class="layer-item-input"
+                    onBlur={() => toggleRename(false)}
+                    onKeydown={(e: KeyboardEvent) => e.code === 'Enter' && toggleRename(false)}
+                  ></Input>
+                ) : (
+                  <span class="layer-item-span">
+                    <span class="layer-item-text" onDblclick={() => toggleRename(true)}>
+                      {com.value?.alias}
+                    </span>
+                  </span>
+                )}
+                <div class="layer-thumbail-item">
+                  {com.value?.hided && (
+                    <span
+                      class="show-toggle-btn inline-flex items-center"
+                      onClick={() => toggleHide(false)}
+                    >
+                      <Icon icon="ant-design:eye-invisible-outlined"></Icon>
+                    </span>
+                  )}
+                  {com.value?.locked && (
+                    <span
+                      class="show-toggle-btn inline-flex items-center"
+                      onClick={() => toggleLock(false)}
+                    >
+                      <Icon icon="ant-design:lock-outlined"></Icon>
+                    </span>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+          {com.value?.type === ComType.layer && (
+            <div
+              class="group-fold-controller"
+              style={{
+                width: `${level.value > 0 ? 50 : 40}px`,
+                transform: `translateX(-${6 + level.value * 10}px)`,
+              }}
+              onMouseup={(e) => toggleFold(e)}
+            ></div>
+          )}
         </div>
       );
     },
