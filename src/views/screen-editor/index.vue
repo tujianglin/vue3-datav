@@ -8,14 +8,16 @@
   const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
   const LayerPanel = defineAsyncComponent(() => import('./components/LayerPanel/index.vue'));
   const ContextMenu = defineAsyncComponent(() => import('./components/ContextMenu/index.vue'));
+  const Footer = defineAsyncComponent(() => import('./components/Footer/index.vue'));
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
       const toolbarStroe = useToolbarStore();
       const comStore = useComStore();
-      const loading = ref(false);
+      const loading = ref(true);
       onMounted(async () => {
-        comStore.request();
+        await comStore.request();
+        loading.value = false;
         editorStore.autoCanvasScale(() => toolbarStroe.getPanelOffset);
       });
       return () => (
@@ -29,6 +31,7 @@
               <Spin spinning={loading.value}>
                 <CanvasMain></CanvasMain>
               </Spin>
+              <Footer></Footer>
             </div>
           </div>
           <ContextMenu></ContextMenu>
