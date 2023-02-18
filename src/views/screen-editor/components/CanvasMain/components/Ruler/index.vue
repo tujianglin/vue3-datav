@@ -2,7 +2,7 @@
   import { defineComponent, onMounted, onUnmounted, ref, watchEffect } from 'vue';
   import { useEditorStore } from '/@/store/modules/editor';
   import { RulerBuilder } from './index';
-  import Icon from '/@/components/Icon';
+  import Icon from '/@/components/global/Icon';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();

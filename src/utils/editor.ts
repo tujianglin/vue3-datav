@@ -1,4 +1,4 @@
-import { ComponentAttr, DatavComponent } from '/@/api/models/component';
+import { ComponentAttr, DatavComponent } from '../components/_models/datav-component';
 
 const diff = 5;
 const offsetX = 60;

@@ -83,9 +83,7 @@
         const sh = areaHeight.value / scale; // height
         // 计算所有的组件数据，判断是否和选中区域相交
         coms.value.forEach((com) => {
-          if (com.locked || com.hided) {
-            return;
-          }
+          if (com.locked || com.hided) return;
           const { x, y, w, h } = com.attr;
           const rect1 = { x: sx, y: sy, w: sw, h: sh };
           const rect2 = { x, y, w, h };

@@ -5,8 +5,8 @@
   import { sortBy } from 'lodash-es';
   import { DownOutlined } from '@ant-design/icons-vue';
   import { useProjectStore } from '/@/store/modules/project';
-  import Icon from '/@/components/Icon';
-  import { ScrollContainer } from '/@/components/Container';
+  import Icon from '/@/components/global/Icon';
+  import { ScrollContainer } from '/@/components/global/Container';
   import { Project } from '/@/api/models/project';
   import { getAssetsFile } from '/@/utils';
   export default defineComponent({

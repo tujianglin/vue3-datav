@@ -25,3 +25,11 @@ export const macMetaOrCtrl = (ev: MouseEvent | KeyboardEvent) => {
   const ismac = isMac();
   return (!ismac && ev.ctrlKey) || (ismac && ev.metaKey);
 };
+
+export function warn(location: string, message: string): void {
+  console.error(`[datav/${location}]: ${message}`);
+}
+
+export function throwError(location: string, message: string): never {
+  throw new Error(`[datav/${location}]: ${message}`);
+}

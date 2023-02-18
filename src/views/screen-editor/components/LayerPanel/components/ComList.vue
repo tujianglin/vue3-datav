@@ -1,6 +1,6 @@
 <script lang="tsx">
   import { defineComponent } from 'vue';
-  import { DatavComponent } from '/@/api/models/component';
+  import { DatavComponent } from '/@/components/_models/datav-component';
   import { useComStore } from '/@/store/modules/com';
   export default defineComponent({
     props: {

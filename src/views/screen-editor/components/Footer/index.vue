@@ -1,7 +1,7 @@
 <script lang="tsx">
   import { defineComponent, ref, watch } from 'vue';
   import { Popover, Slider } from 'ant-design-vue';
-  import Icon from '/@/components/Icon';
+  import Icon from '/@/components/global/Icon';
   import { useEditorStore } from '/@/store/modules/editor';
   import { useToolbarStore } from '/@/store/modules/toolbar';
   export default defineComponent({

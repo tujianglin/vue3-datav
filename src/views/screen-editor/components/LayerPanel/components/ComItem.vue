@@ -1,9 +1,9 @@
 <script lang="tsx">
   import { computed, defineComponent, PropType, ref, toRefs } from 'vue';
   import { Input } from 'ant-design-vue';
-  import { ComType, DatavComponent } from '/@/api/models/component';
+  import { ComType, DatavComponent } from '/@/components/_models/datav-component';
   import { getChildState } from '/@/store/modules/com';
-  import Icon from '/@/components/Icon';
+  import Icon from '/@/components/global/Icon';
   import { useContextMenu } from '../../ContextMenu';
   export default defineComponent({
     props: {

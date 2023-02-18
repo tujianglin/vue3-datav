@@ -3,9 +3,9 @@ import { useEditorStore } from '/@/store/modules/editor';
 import { Modal } from 'ant-design-vue';
 import { useComStore } from '/@/store/modules/com';
 import { on, off } from '/@/utils/dom';
-import { MoveType } from '/@/api/models/editor';
-import { DatavComponent, ComType } from '/@/api/models/component';
-import Icon from '/@/components/Icon';
+import { DatavComponent, ComType } from '/@/components/_models/datav-component';
+import Icon from '/@/components/global/Icon';
+import { MoveType } from '/@/components/_editor';
 
 const pos = reactive({ x: 0, y: 0 });
 

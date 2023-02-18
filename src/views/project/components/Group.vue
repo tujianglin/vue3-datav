@@ -1,8 +1,8 @@
 <script lang="tsx">
   import { computed, defineComponent, onMounted, ref } from 'vue';
   import { Input, Modal } from 'ant-design-vue';
-  import Icon from '/@/components/Icon';
-  import { ScrollContainer } from '/@/components/Container';
+  import Icon from '/@/components/global/Icon';
+  import { ScrollContainer } from '/@/components/global/Container';
   import { useProjectStore } from '/@/store/modules/project';
   import { ProjectGroup } from '/@/api/models/project';
   import { addClass, removeClass } from '/@/utils/dom';

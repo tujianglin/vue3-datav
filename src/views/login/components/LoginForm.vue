@@ -2,7 +2,7 @@
   import { defineComponent, reactive, ref } from 'vue';
   import { Form, Input, Button } from 'ant-design-vue';
   import type { Rule } from 'ant-design-vue/es/form';
-  import Icon from '/@/components/Icon';
+  import Icon from '/@/components/global/Icon';
   import { useUserStore } from '/@/store/modules/user';
   import { useRouter } from 'vue-router';
 

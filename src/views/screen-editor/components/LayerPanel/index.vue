@@ -1,15 +1,15 @@
 <script lang="tsx">
   import { computed, defineComponent, ref, withModifiers } from 'vue';
   import { storeToRefs } from 'pinia';
-  import Icon from '/@/components/Icon';
+  import Icon from '/@/components/global/Icon';
   import ComList from './components/ComList.vue';
   import ComItem from './components/ComItem.vue';
-  import { DatavComponent } from '/@/api/models/component';
+  import { DatavComponent } from '/@/components/_models/datav-component';
   import { macMetaOrCtrl } from '/@/utils';
   import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
   import { useComStore } from '/@/store/modules/com';
   import { useEditorStore } from '/@/store/modules/editor';
-  import { MoveType } from '/@/api/models/editor';
+  import { MoveType } from '/@/components/_editor';
   import { useContextMenu } from '../ContextMenu/index';
   export default defineComponent({
     setup() {

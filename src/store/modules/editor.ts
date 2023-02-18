@@ -1,6 +1,6 @@
 import { debounce } from 'lodash-es';
 import { defineStore } from 'pinia';
-import { PageConfig } from '/@/api/models/editor';
+import { PageConfig } from '/@/components/_editor';
 
 export interface IEditorState {
   pageConfig: PageConfig;

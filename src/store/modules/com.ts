@@ -1,14 +1,9 @@
 import { defineStore } from 'pinia';
-import {
-  ComType,
-  createGroupConfig,
-  DatavComponent,
-  DatavGroup,
-  sortGroupConfig,
-} from '/@/api/models/component';
+import { ComType, DatavComponent } from '/@/components/_models/datav-component';
+import { createGroupConfig, DatavGroup, sortGroupConfig } from '/@/components/_group';
 import { coms } from '/@/api/models/coms';
-import { MoveType } from '/@/api/models/editor';
-import { getNewCom } from '/@/data/mock-copy';
+import { MoveType } from '/@/components/_editor';
+import { getNewCom } from '/@/utils/mock/copy';
 export interface IComState {
   coms: DatavComponent[];
   subComs: DatavComponent[];

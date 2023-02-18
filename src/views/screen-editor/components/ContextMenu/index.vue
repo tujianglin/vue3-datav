@@ -2,8 +2,8 @@
   import { computed, defineComponent } from 'vue';
   import { useContextMenu } from './index';
   import { useEditorStore } from '/@/store/modules/editor';
-  import Icon from '/@/components/Icon';
-  import { MoveType } from '/@/api/models/editor';
+  import Icon from '/@/components/global/Icon';
+  import { MoveType } from '/@/components/_editor';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();

@@ -1,7 +1,7 @@
 <script lang="tsx">
   import { defineComponent } from 'vue';
   import { Tooltip, Button } from 'ant-design-vue';
-  import Icon from '/@/components/Icon';
+  import Icon from '/@/components/global/Icon';
   import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
   export default defineComponent({
     setup() {

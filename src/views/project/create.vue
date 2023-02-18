@@ -3,10 +3,10 @@
   import { Button, Spin } from 'ant-design-vue';
   import { RouterLink } from 'vue-router';
   import { PlusOutlined } from '@ant-design/icons-vue';
-  import Icon from '/@/components/Icon';
+  import Icon from '/@/components/global/Icon';
   import { getSysTemplates } from '/@/api/templates';
   import { ProjectTemplate } from '/@/api/models/project';
-  import { ScrollContainer } from '/@/components/Container';
+  import { ScrollContainer } from '/@/components/global/Container';
   import CreateModal from './components/CreateModal.vue';
   export default defineComponent({
     setup() {
