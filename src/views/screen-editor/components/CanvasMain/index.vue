@@ -8,6 +8,9 @@
   import { on, off } from '/@/utils/dom';
   const Ruler = defineAsyncComponent(() => import('./components/Ruler/index.vue'));
   const Area = defineAsyncComponent(() => import('./components/Area/index.vue'));
+  const DatavTransform = defineAsyncComponent(
+    () => import('./components/DatavTransform/index.vue'),
+  );
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -152,7 +155,9 @@
               onMousedown={handleMouseDown}
             >
               <div id="canvas-coms" class="canvas-panel" style={canvasPanelStyle.value}>
-                组件视图区域
+                {coms.value.map((i) => (
+                  <DatavTransform com={i}></DatavTransform>
+                ))}
               </div>
               {/* 刻度尺 */}
               <Ruler></Ruler>

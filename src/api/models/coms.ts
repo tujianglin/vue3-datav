@@ -1,7 +1,7 @@
 export const coms = [
   {
-    id: 'MainTitle_Wrw7xct_pA',
-    name: 'VMainTitle',
+    id: 'Title_Wrw7xct_pA',
+    name: 'Title',
     type: 'com',
     alias: '通用标题',
     icon: 'v-icon-title',

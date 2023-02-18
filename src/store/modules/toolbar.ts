@@ -1,30 +1,36 @@
-import { assign } from 'lodash-es';
 import { defineStore } from 'pinia';
-import { StorageEnum } from '/@/enums/storageEnum';
-import { Storage } from '/@/utils/storage';
 
 export enum PanelType {
   layer = 'layer',
   components = 'components',
   config = 'config',
   toolbox = 'toolbox',
+  filter = 'filter',
 }
 
-/* 获取面板数据 */
+const panelStateKey = 'panel-state';
+
 function getPanelState(key: PanelType) {
-  const val = Storage.getLocal(StorageEnum.PANEL_STATE);
-  return val?.[key] || false;
+  try {
+    const val = localStorage.getItem(panelStateKey) || '';
+    return JSON.parse(val)[key] === '1';
+  } catch (error) {
+    return key !== PanelType.components;
+  }
 }
 
-/* 设置面板数据 */
-function setPanelState(key: PanelType, value: boolean) {
-  const val = Storage.getLocal(StorageEnum.PANEL_STATE);
-  Storage.setLocal(
-    StorageEnum.PANEL_STATE,
-    assign(val, {
-      [key]: value,
-    }),
-  );
+function setPanelState(key: PanelType, value: '0' | '1') {
+  let map = {};
+
+  try {
+    const val = localStorage.getItem(panelStateKey) || '{}';
+    map = JSON.parse(val);
+    map[key] = value;
+  } catch (error) {
+    map[key] = value;
+  }
+
+  localStorage.setItem(panelStateKey, JSON.stringify(map));
 }
 
 export const useToolbarStore = defineStore('toolbar', {
@@ -41,9 +47,12 @@ export const useToolbarStore = defineStore('toolbar', {
     toolbox: {
       show: getPanelState(PanelType.toolbox),
     },
+    filter: {
+      show: false,
+    },
+    loading: 0,
   }),
   getters: {
-    /* 刻度尺偏移 */
     getPanelOffset(state) {
       let x = 0;
       let y = 41;
@@ -53,6 +62,7 @@ export const useToolbarStore = defineStore('toolbar', {
         x += 200;
         left += 200;
       }
+
       if (state.components.show) {
         x += 324;
         left += 324;
@@ -60,13 +70,16 @@ export const useToolbarStore = defineStore('toolbar', {
         x += 45;
         left += 45;
       }
-      if (state.config.show) {
-        x += 332;
-      }
+
       if (state.toolbox.show) {
         y += 40;
         top += 40;
       }
+
+      if (state.config.show) {
+        x += 332;
+      }
+
       return {
         x,
         y,
@@ -78,22 +91,33 @@ export const useToolbarStore = defineStore('toolbar', {
   actions: {
     setPanelState(type: PanelType, value: boolean) {
       switch (type) {
-        case PanelType.layer:
-          this.layer.show = value;
-          break;
         case PanelType.components:
           this.components.show = value;
           break;
         case PanelType.config:
           this.config.show = value;
           break;
+        case PanelType.layer:
+          this.layer.show = value;
+          break;
         case PanelType.toolbox:
           this.toolbox.show = value;
           break;
-        default:
-          break;
       }
-      setPanelState(type, value);
+
+      setPanelState(type, value ? '1' : '0');
+    },
+    setFilterState(value: boolean) {
+      this.filter.show = value;
+    },
+    addLoading() {
+      this.loading = this.loading + 1;
+    },
+    removeLoading() {
+      this.loading = Math.max(this.loading - 1, 0);
+    },
+    removeAllLoading() {
+      this.loading = 0;
     },
   },
 });

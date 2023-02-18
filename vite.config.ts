@@ -41,6 +41,7 @@ export default defineConfig(({ command, mode }) => {
             @import '/@/design/config.less';
           `,
         },
+        sass: {},
       },
     },
     plugins: createVitePlugins(viteEnv, isBuild),

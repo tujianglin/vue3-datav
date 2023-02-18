@@ -352,6 +352,22 @@ export const useComStore = defineStore('com', {
         sortGroupConfig(com as DatavGroup);
       }
     },
+    resizeChildren(parentCom: DatavComponent) {
+      const { sx, sy }: any = parentCom.scaling;
+      const resize = (coms: DatavComponent[]) => {
+        coms.forEach((com) => {
+          const { attr } = com;
+          attr.x = Math.round(attr.x * sx);
+          attr.y = Math.round(attr.y * sy);
+          attr.w = Math.round(attr.w * sx);
+          attr.h = Math.round(attr.h * sy);
+          if (com.type === ComType.layer) {
+            resize(com.children as DatavComponent[]);
+          }
+        });
+      };
+      resize(parentCom.children as DatavComponent[]);
+    },
     /* 获取父级组件 */
     getParents(pid: string) {
       const parentComs: DatavComponent[] = [];
