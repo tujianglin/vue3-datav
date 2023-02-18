@@ -8,6 +8,7 @@
   import { on, off } from '/@/utils/dom';
   const Ruler = defineAsyncComponent(() => import('./components/Ruler/index.vue'));
   const Area = defineAsyncComponent(() => import('./components/Area/index.vue'));
+  const AlignLine = defineAsyncComponent(() => import('./components/AlignLine/index.vue'));
   const DatavTransform = defineAsyncComponent(
     () => import('./components/DatavTransform/index.vue'),
   );
@@ -155,10 +156,13 @@
               onMousedown={handleMouseDown}
             >
               <div id="canvas-coms" class="canvas-panel" style={canvasPanelStyle.value}>
+                {/* 组件回显 */}
                 {coms.value.map((i) => (
                   <DatavTransform com={i}></DatavTransform>
                 ))}
               </div>
+              {/* 对齐线 */}
+              <AlignLine></AlignLine>
               {/* 刻度尺 */}
               <Ruler></Ruler>
             </div>

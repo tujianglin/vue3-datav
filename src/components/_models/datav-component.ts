@@ -30,31 +30,41 @@ export interface ComponentGroupAttr extends ComponentAttr {
 }
 
 export abstract class DatavComponent {
+  /* 组件id */
   id: string;
+  /* 组件名称 */
   readonly name: string;
+  /* 组件类型 */
   readonly type: ComType;
-
+  /* 别名 */
   alias: string;
+  /* 组件icon */
   icon: string;
+  /* 组件图片 */
   img: string;
-
+  /* 是否锁定 */
   locked = false;
+  /* 是否隐藏 */
   hided = false;
-
   // 以下几个状态可以不进行持久化，为了操作方便在此声明
+  /* 是否选中 */
   selected? = false;
+  /* 是否移入 */
   hovered? = false;
+  /* 是否重命名 */
   renameing? = false;
   tag? = 0;
+  /* 是否为组文件夹 */
   fold?: boolean;
-  scaling? = {
+  /* 组件比例 */
+  scaling?: any = {
     zoom: false,
     w: 0,
     h: 0,
     sx: 1,
     sy: 1,
   };
-
+  /* 组件位置 */
   attr: ComponentAttr = {
     x: 0,
     y: 0,
@@ -65,26 +75,25 @@ export abstract class DatavComponent {
     filpV: false,
     filpH: false,
   };
-
+  /* 对应的项目id */
   projectId = 0;
   // 用于组合组件，如：底图和图层关系
+  /* 父级id */
   parentId?: string;
   // group 的子组件
   children?: DatavComponent[];
 
+  /* 组件的配置 */
   abstract config: Record<string, any>;
 
+  /* 组件配置的api */
   abstract apis: Partial<ApiConfigMap>;
+  /* api数据 */
   abstract apiData: Partial<ApiDataConfigMap>;
-
-  /**
-   * 事件
-   */
+  /* 绑定的事件 */
   abstract events: Record<string, DataEventConfig>;
 
-  /**
-   * 动作
-   */
+  /* 绑定的动作 */
   abstract actions: Record<string, DataEventConfig>;
 
   constructor(name: string, attr: Partial<ComponentAttr>, type = ComType.com) {
@@ -98,10 +107,9 @@ export abstract class DatavComponent {
       // this.icon = obj.category.icon;
       // this.img = obj.com.thum;
     }
-
     this.attr = { ...this.attr, ...attr };
-    // this.scaling.w = attr.w;
-    // this.scaling.h = attr.h;
+    this.scaling.w = attr.w;
+    this.scaling.h = attr.h;
   }
 
   /**

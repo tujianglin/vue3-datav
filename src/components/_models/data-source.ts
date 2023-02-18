@@ -4,13 +4,9 @@ import { DatavComponent } from './datav-component';
 import { FilterConfig } from './data-filter';
 import { FieldConfig } from './data-field';
 export enum ApiType {
-  /**
-   * 静态数据
-   */
+  /* 静态数据 */
   static = 'static',
-  /**
-   * api
-   */
+  /* api */
   api = 'api',
 }
 

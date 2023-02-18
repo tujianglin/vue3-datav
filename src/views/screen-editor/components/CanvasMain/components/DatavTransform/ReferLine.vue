@@ -1,15 +1,6 @@
-<template>
-  <div class="nav-line">
-    <div class="nav-line-top" :style="topLineStyle"></div>
-    <div class="nav-line-left" :style="leftLineStyle"></div>
-    <div class="nav-line-account" :style="accountStyle"> {{ pos.x }}, {{ pos.y }} </div>
-  </div>
-</template>
-
-<script lang="ts">
+<script lang="tsx">
   import { defineComponent, PropType, computed } from 'vue';
   import { ComponentAttr } from '/@/components/_models/datav-component';
-
   export default defineComponent({
     name: 'ReferLine',
     props: {
@@ -25,11 +16,12 @@
     setup(props) {
       const offsetX = 60;
       const offsetY = 60;
+      /* 顶部对齐线 */
       const topLineStyle = computed(() => ({
         height: `${props.pos.y + offsetX / props.scale}px`,
         borderLeftWidth: `${0.9 / props.scale}px`,
       }));
-
+      /* 左侧对齐线 */
       const leftLineStyle = computed(() => ({
         width: `${props.pos.x + offsetY / props.scale}px`,
         borderTopWidth: `${0.9 / props.scale}px`,
@@ -41,11 +33,15 @@
         left: `-${6 / props.scale}px`,
       }));
 
-      return {
-        topLineStyle,
-        leftLineStyle,
-        accountStyle,
-      };
+      return () => (
+        <div class="nav-line">
+          <div class="nav-line-top" style={topLineStyle.value}></div>
+          <div class="nav-line-left" style={leftLineStyle.value}></div>
+          <div class="nav-line-account" style={accountStyle.value}>
+            {props.pos.x}, {props.pos.y}
+          </div>
+        </div>
+      );
     },
   });
 </script>
