@@ -1,14 +1,15 @@
 <script lang="tsx">
-  import { defineAsyncComponent, defineComponent, onMounted, ref } from 'vue';
+  import { defineComponent, onMounted, ref } from 'vue';
   import { Spin } from 'ant-design-vue';
   import { useEditorStore } from '/@/store/modules/editor';
   import { useToolbarStore } from '/@/store/modules/toolbar';
   import { useComStore } from '/@/store/modules/com';
-  const CanvasMain = defineAsyncComponent(() => import('./components/CanvasMain/index.vue'));
-  const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
-  const LayerPanel = defineAsyncComponent(() => import('./components/LayerPanel/index.vue'));
-  const ContextMenu = defineAsyncComponent(() => import('./components/ContextMenu/index.vue'));
-  const Footer = defineAsyncComponent(() => import('./components/Footer/index.vue'));
+  import CanvasMain from './components/CanvasMain/index.vue';
+  import Header from './components/Header/index.vue';
+  import LayerPanel from './components/LayerPanel/index.vue';
+  import ContextMenu from './components/ContextMenu/index.vue';
+  import Footer from './components/Footer/index.vue';
+  import ToolboxPanel from './components/ToolboxPanel/index.vue';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -28,6 +29,7 @@
           <div id="edit-main-wp" class="g-layout edit-main-wp">
             <LayerPanel></LayerPanel>
             <div class="g-layout edit-main">
+              <ToolboxPanel></ToolboxPanel>
               <Spin spinning={loading.value}>
                 <CanvasMain></CanvasMain>
               </Spin>
@@ -45,6 +47,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    font-size: 12px;
   }
 
   .edit-main-wp {

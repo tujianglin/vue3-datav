@@ -1,0 +1,49 @@
+.toolbox-panel-wp {
+  height: 40px;
+  z-index: 10;
+  transition: height 0.3s ease;
+  border-bottom: var(--datav-border-dark);
+  flex-shrink: 0;
+
+  &.--hide {
+    height: 0;
+    overflow: hidden;
+    border-bottom: none;
+  }
+}
+
+.toolbox-panel {
+  transition: 0.3s ease;
+  width: 100%;
+  background: var(--datav-left-nav-bg);
+  padding: 8px 30px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.btn-box {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  color: var(--datav-font-color);
+
+  .btn-text {
+    margin-right: 4px;
+
+    &.--help {
+      cursor: help;
+      text-decoration: underline dotted;
+    }
+
+    &.--label {
+      cursor: pointer;
+      border-bottom: 1px solid #0000;
+
+      &:hover {
+        color: var(--datav-main-hover-color);
+        border-bottom-color: var(--datav-main-hover-color);
+      }
+    }
+  }
+}
