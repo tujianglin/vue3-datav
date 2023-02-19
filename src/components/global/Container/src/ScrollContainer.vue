@@ -1,6 +1,6 @@
 <script lang="tsx">
   import { defineComponent } from 'vue';
-  import { Scrollbar } from '/@/components/Scrollbar';
+  import { Scrollbar } from '/@/components/global/Scrollbar';
   export default defineComponent({
     setup(_, { slots, attrs }) {
       return () => (

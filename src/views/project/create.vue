@@ -5,7 +5,7 @@
   import { PlusOutlined } from '@ant-design/icons-vue';
   import Icon from '/@/components/global/Icon';
   import { getSysTemplates } from '/@/api/templates';
-  import { ProjectTemplate } from '/@/api/models/project';
+  import { ProjectTemplate } from '/@/components/_editor/project';
   import { ScrollContainer } from '/@/components/global/Container';
   import CreateModal from './components/CreateModal.vue';
   export default defineComponent({
@@ -87,38 +87,39 @@
 </script>
 <style lang="less" scoped>
   .create-screen {
-    height: 100%;
     display: flex;
-    flex-direction: column;
+    height: 100%;
     user-select: none;
+    flex-direction: column;
+
     .template-wp {
-      overflow: hidden;
       display: flex;
+      height: calc(100vh - 100px);
+      padding: 0 30px;
+      margin-top: 12px;
+      overflow: hidden;
       flex-direction: column;
       align-items: center;
-      padding: 0 30px;
-      height: calc(100vh - 100px);
-      margin-top: 12px;
 
       .template-list {
         display: flex;
+        padding: 30px 0;
+        margin: 0 -16px;
+        font-size: 12px;
+        color: #fff;
         flex-wrap: wrap;
         justify-content: center;
-        color: #fff;
-        font-size: 12px;
-        margin: 0 -16px;
-        padding: 30px 0;
 
         .template-item {
+          position: relative;
           width: 258px;
           height: 184px;
-          box-shadow: var(--datav-shadow);
-          border: 1px solid var(--datav-border-color);
           margin: 16px;
-          transition: 0.2s;
-          outline: 1px solid transparent;
           cursor: default;
-          position: relative;
+          border: 1px solid var(--datav-border-color);
+          outline: 1px solid transparent;
+          box-shadow: var(--datav-shadow);
+          transition: 0.2s;
 
           &:hover {
             .image {
@@ -137,50 +138,51 @@
             }
 
             .info {
+              font-size: 14px;
               border-top: 1px solid var(--ant-primary-color);
               justify-content: center;
-              font-size: 14px;
             }
           }
+
           .image {
+            position: relative;
+            display: flex;
             width: 100%;
             height: 146px;
-            display: flex;
+            transition: 0.2s;
             align-items: center;
             justify-content: center;
-            transition: 0.2s;
-            position: relative;
 
             .mask {
               position: absolute;
-              left: 0;
               top: 0;
               right: 0;
               bottom: 0;
-              background: rgba(0, 0, 0, 0.5);
-              transition: 0.2s;
+              left: 0;
               display: flex;
+              background: rgb(0 0 0 / 50%);
+              opacity: 0;
+              transition: 0.2s;
               justify-content: center;
               align-items: center;
               flex-direction: column;
-              opacity: 0;
             }
           }
 
           .info {
-            color: var(--datav-font-color);
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
             height: 36px;
+            padding: 10px;
+            color: var(--datav-font-color);
             background: #1d262e;
             transition: 0.2s;
+            align-items: center;
+            justify-content: space-between;
 
             .size {
+              font-size: 12px;
               color: #999;
               text-align: right;
-              font-size: 12px;
             }
           }
 
@@ -192,19 +194,19 @@
     }
 
     .top-bar {
-      height: 50px;
-      width: 100%;
       position: relative;
+      width: 100%;
+      height: 50px;
 
       .right {
         position: absolute;
-        left: 150px;
         top: 20px;
-        height: 5px;
+        left: 150px;
         width: calc(100% - 154px);
+        height: 5px;
+        background: rgb(55 126 255 / 4%);
         border-top: 1px solid var(--ant-primary-color);
         border-left: 2px solid var(--ant-primary-color);
-        background: rgba(55, 126, 255, 0.04);
         border-top-left-radius: 5px;
         transform: skewX(-45deg);
         box-shadow: 0 5px 28px 0 rgb(55 126 255 / 28%);
@@ -212,47 +214,48 @@
 
       .left {
         position: absolute;
-        left: 0;
         top: 24px;
-        height: 25px;
+        left: 0;
         width: 138px;
+        height: 25px;
         border-right: 2px solid var(--ant-primary-color);
         border-bottom: 1px solid var(--ant-primary-color);
-        transform: skewX(-45deg);
         border-bottom-right-radius: 5px;
+        transform: skewX(-45deg);
         box-shadow: 0 5px 28px 0 rgb(55 126 255 / 28%);
       }
+
       .return-btn {
         position: absolute;
-        left: -31px;
         top: 0;
+        left: -31px;
         width: 180px;
         height: 48px;
         line-height: 48px;
         text-align: center;
-        background: #151b22;
         cursor: pointer;
-        transform: skewX(-45deg);
+        background: #151b22;
         border-bottom-right-radius: 5px;
+        transform: skewX(-45deg);
 
         .text-button {
           display: inline-flex;
-          font-size: 14px;
           margin-left: 10px;
+          font-size: 14px;
           transform: skewX(45deg);
           transition: 0.2s;
         }
       }
 
       &::before {
-        content: ' ';
         position: absolute;
         top: 0;
-        left: 0;
         right: 0;
-        height: 20px;
+        left: 0;
         width: 100%;
+        height: 20px;
         background: #151b22;
+        content: ' ';
       }
     }
   }

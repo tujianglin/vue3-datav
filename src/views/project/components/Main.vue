@@ -7,7 +7,7 @@
   import { useProjectStore } from '/@/store/modules/project';
   import Icon from '/@/components/global/Icon';
   import { ScrollContainer } from '/@/components/global/Container';
-  import { Project } from '/@/api/models/project';
+  import { Project } from '/@/components/_editor/project';
   import { getAssetsFile } from '/@/utils';
   export default defineComponent({
     setup() {
@@ -215,31 +215,32 @@
 </script>
 <style lang="less" scoped>
   .screen-list {
+    height: 100%;
     padding: 0 50px 0 20px;
     color: var(--ant-primary-color);
-    height: 100%;
 
     .screen-main {
       display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
       padding-top: 8px;
-      user-select: none;
       padding-bottom: 50px;
       margin-right: -32px;
+      user-select: none;
+      flex-wrap: wrap;
+      align-content: flex-start;
+
       .screen {
         display: flex;
-        flex-direction: column;
         width: 258px;
         height: 184px;
+        margin: 16px 32px 16px 0;
         border: 1px solid var(--datav-border-color);
         transition: 0.2s;
-        margin: 16px 32px 16px 0;
+        flex-direction: column;
 
         &:hover {
           .info .edit {
-            opacity: 1;
             pointer-events: all;
+            opacity: 1;
 
             .icon {
               &:hover {
@@ -250,20 +251,20 @@
         }
 
         .name {
-          height: 36px;
-          background: #1d262e;
           display: flex;
-          align-items: center;
+          height: 36px;
           color: var(--datav-font-color);
+          background: #1d262e;
+          align-items: center;
 
           .dot {
-            content: '';
-            margin-right: 5px;
             display: inline-block;
             width: 8px;
             height: 8px;
-            border-radius: 5px;
+            margin-right: 5px;
             background-color: var(--color);
+            border-radius: 5px;
+            content: '';
           }
 
           .edit-input {
@@ -293,44 +294,45 @@
 
           .edit {
             position: absolute;
-            opacity: 0;
             display: flex;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            background: rgb(0 0 0 / 80%);
+            opacity: 0;
+            transition: opacity 0.2s;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.2s;
-            background: rgba(0, 0, 0, 0.8);
           }
+
           .img {
-            height: 146px;
             width: inherit;
+            height: 146px;
             background-size: 100% 100%;
             opacity: 0.6;
           }
         }
 
         &:hover {
-          box-shadow: var(--datav-shadow);
           border: 1px solid var(--ant-primary-color);
+          box-shadow: var(--datav-shadow);
         }
       }
     }
 
     .new-project {
+      position: relative;
+      display: flex;
       width: 258px;
       height: 78px;
       margin: 16px 32px 16px 0;
+      color: var(--datav-font-color);
       vertical-align: middle;
-      border: 1px solid #39414d;
+      cursor: pointer;
       background: #22272e;
-      display: flex;
+      border: 1px solid #39414d;
       flex-direction: row;
       align-items: center;
-      position: relative;
-      cursor: pointer;
-      color: var(--datav-font-color);
 
       img {
         width: 150px;
@@ -341,13 +343,13 @@
         border-color: var(--ant-primary-color);
 
         &::after {
-          content: '';
           position: absolute;
-          width: 100%;
-          height: 100%;
           top: 0;
           left: 0;
+          width: 100%;
+          height: 100%;
           background: rgb(36 131 255 / 8%);
+          content: '';
         }
       }
     }
@@ -355,18 +357,18 @@
     .project-header {
       position: sticky;
       top: 70px;
-      height: 56px;
-      padding: 10px 0 5px 0;
       display: flex;
-      align-items: center;
+      height: 56px;
+      padding: 10px 0 5px;
       border-bottom: 1px solid var(--datav-border-color);
+      align-items: center;
       justify-content: space-between;
 
       .title {
         max-width: 200px;
+        padding: 0 10px;
         font-size: 14px;
         color: var(--ant-primary-color);
-        padding: 0 10px;
         border-left: 2px solid var(--ant-primary-color);
       }
     }

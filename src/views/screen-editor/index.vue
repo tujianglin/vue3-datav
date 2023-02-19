@@ -10,6 +10,7 @@
   import ContextMenu from './components/ContextMenu/index.vue';
   import Footer from './components/Footer/index.vue';
   import ToolboxPanel from './components/ToolboxPanel/index.vue';
+  import ConfigPanel from './components/ConfigPanel/index.vue';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -35,6 +36,7 @@
               </Spin>
               <Footer></Footer>
             </div>
+            <ConfigPanel></ConfigPanel>
           </div>
           <ContextMenu></ContextMenu>
         </div>

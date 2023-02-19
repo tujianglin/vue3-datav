@@ -155,6 +155,18 @@ export const useComStore = defineStore('com', {
     selectedComs(state) {
       return getSelected(state.coms);
     },
+    selectedCom(): DatavComponent | null {
+      const coms = this.selectedComs;
+      return coms.length === 1 ? coms[0] : null;
+    },
+    selectedSubCom(state): DatavComponent | null {
+      const com = this.selectedCom;
+      if (com) {
+        const subCom = state.subComs.find((i) => i.selected && i.parentId === com.id);
+        return subCom as DatavComponent;
+      }
+      return null;
+    },
   },
   actions: {
     /* 初始化组件数据 */

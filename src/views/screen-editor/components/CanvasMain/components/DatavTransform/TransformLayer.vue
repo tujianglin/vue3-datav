@@ -43,7 +43,7 @@
       },
       editable: Boolean,
     },
-    setup(props, { slots }) {
+    setup(props, { slots, expose }) {
       checkComponentAttr(props.com);
 
       const instance = getCurrentInstance();
@@ -298,7 +298,7 @@
           const idx = ps.editables.lastIndexOf(false);
           const pins = ps.instances[idx];
           // @ts-ignore
-          pins.proxy.onMove(ev);
+          pins.exposed.onMove(ev);
         } else {
           onMove(ev);
         }
@@ -435,7 +435,7 @@
           } else {
             const ps = getParentProps();
             // @ts-ignore
-            ps.instances?.[0].proxy.selectCom(ev);
+            ps.instances?.[0].exposed.selectCom(ev);
           }
         }
       };
@@ -505,6 +505,15 @@
           {createTransform()}
         </div>
       );
+
+      expose({
+        onMove,
+        onDown,
+        onEnter,
+        onLeave,
+        selectCom,
+      });
+
       return () => (
         <div class={transformClass.value} style={transformStyle.value}>
           {referLine.value.enable && props.com.selected && (

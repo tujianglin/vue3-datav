@@ -1,0 +1,28 @@
+.ant-slider {
+  .ant-slider-rail {
+    height: 2px;
+    border-radius: 0px;
+    background: #bcc9d4;
+  }
+  .ant-slider-track {
+    height: 2px;
+    border-radius: 0px;
+    background: linear-gradient(to right, #74f0ff, #2681ff);
+  }
+
+  .ant-slider-handle {
+    width: 9px;
+    height: 9px;
+    border: 2px solid var(--datav-gui-primary-color);
+    margin-top: -4px;
+    background: #bcc9d4;
+  }
+}
+
+.ant-slider:hover .ant-slider-rail {
+  background: #bcc9d4;
+}
+
+.ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+  border-color: var(--datav-gui-primary-color);
+}

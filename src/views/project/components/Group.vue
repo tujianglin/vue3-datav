@@ -4,7 +4,7 @@
   import Icon from '/@/components/global/Icon';
   import { ScrollContainer } from '/@/components/global/Container';
   import { useProjectStore } from '/@/store/modules/project';
-  import { ProjectGroup } from '/@/api/models/project';
+  import { ProjectGroup } from '/@/components/_editor/project';
   import { addClass, removeClass } from '/@/utils/dom';
   export default defineComponent({
     setup() {
@@ -170,25 +170,28 @@
   .drag-enter {
     background: var(--datav-body-bg);
   }
+
   .draging {
     background: rgb(36 127 255 / 30%);
   }
+
   .edit-input {
     width: 160px;
     height: 28px;
     margin: 4px 0 4px 50px;
-    background: transparent;
     color: #fff;
+    background: transparent;
   }
 
   .group {
     display: flex;
+    height: 56px;
+    padding: 0 24px;
+    color: var(--datav-font-color);
+    border-bottom: 1px solid #27343e;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
-    height: 56px;
-    border-bottom: 1px solid #27343e;
-    color: var(--datav-font-color);
+
     .add-icon {
       cursor: pointer;
 
@@ -197,16 +200,17 @@
       }
     }
   }
+
   .groups {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     height: 36px;
     padding: 0 30px 0 50px;
     font-size: 12px;
+    color: var(--datav-font-color);
     cursor: pointer;
     transition: color 0.2s;
-    color: var(--datav-font-color);
+    align-items: center;
+    justify-content: space-between;
 
     .edit {
       display: none;
@@ -214,6 +218,7 @@
 
     &:hover {
       color: var(--ant-primary-color);
+
       .num {
         display: none;
       }

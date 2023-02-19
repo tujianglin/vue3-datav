@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { getProject, postProject, delProject } from '/@/api/project';
-import { Project, ProjectGroup } from '/@/api/models/project';
+import { Project, ProjectGroup } from '/@/components/_editor/project';
 import { cloneDeep } from 'lodash-es';
 
 interface ProjectState {

@@ -11,6 +11,28 @@ import { DataEventConfig } from '../../_models/data-event';
 export class Title extends DatavComponent {
   config = {
     title: '我是标题',
+    textStyle: {
+      fontFamily: 'Microsoft Yahei',
+      fontSize: 24,
+      color: '#fff',
+      fontWeight: 'normal',
+    },
+    textAlign: 'center',
+    writingMode: 'horizontal-tb',
+    letterSpacing: 0,
+    backgroundStyle: {
+      show: false,
+      bgColor: '#008bff',
+      borderRadius: 15,
+      borderColor: '#fff',
+      borderStyle: 'solid',
+      borderWidth: 1,
+    },
+    ellipsis: false,
+    urlConfig: {
+      url: '',
+      isBlank: false,
+    },
   };
   apis: Partial<ApiConfigMap>;
   apiData: Partial<ApiDataConfigMap>;

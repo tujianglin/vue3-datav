@@ -24,6 +24,8 @@ module.exports = {
     'declaration-colon-space-after': 'always-single-line',
     'declaration-colon-space-before': 'never',
     'declaration-block-trailing-semicolon': null,
+    "no-duplicate-selectors": null,
+    "selector-class-pattern": null,
     'rule-empty-line-before': [
       'always',
       {
