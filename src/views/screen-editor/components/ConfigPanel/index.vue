@@ -2,10 +2,11 @@
   import { storeToRefs } from 'pinia';
   import { computed, defineComponent, provide } from 'vue';
   import { useToolbarStore } from '/@/store/modules/toolbar';
-  import LayerSetting from './components/LayerSetting.vue';
   import { useComStore } from '/@/store/modules/com';
   import { comInjectionKey } from './config';
   import { ComType } from '/@/components/_models/datav-component';
+  import LayerSetting from './components/LayerSetting.vue';
+  import PageSetting from './components/PageSetting.vue';
   export default defineComponent({
     setup() {
       const toolbarStore = useToolbarStore();
@@ -16,7 +17,11 @@
       return () => (
         <div class={['g-aside', 'config-panel-wp', { '--hide': !config.value.show }]}>
           <div class="config-manager">
-            {currCom.value && currCom.value.type === ComType.layer && <LayerSetting></LayerSetting>}
+            {currCom.value && currCom.value.type === ComType.layer ? (
+              <LayerSetting></LayerSetting>
+            ) : (
+              <PageSetting></PageSetting>
+            )}
           </div>
         </div>
       );

@@ -57,5 +57,5 @@
   });
 </script>
 <style lang="less" scoped>
-  @import url('../index.less');
+  @import './index.less';
 </style>
