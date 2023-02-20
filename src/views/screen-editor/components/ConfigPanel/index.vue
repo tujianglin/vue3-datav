@@ -7,18 +7,24 @@
   import { ComType } from '/@/components/_models/datav-component';
   import LayerSetting from './components/LayerSetting.vue';
   import PageSetting from './components/PageSetting.vue';
+  import MultipleSetting from './components/MultipleSetting.vue';
   export default defineComponent({
     setup() {
       const toolbarStore = useToolbarStore();
       const comStore = useComStore();
       const { config } = storeToRefs(toolbarStore);
       const currCom = computed(() => comStore.selectedSubCom || comStore.selectedCom);
+      const selectedCount = computed(() => comStore.selectedComs.length);
       provide(comInjectionKey, currCom);
       return () => (
         <div class={['g-aside', 'config-panel-wp', { '--hide': !config.value.show }]}>
           <div class="config-manager">
             {currCom.value && currCom.value.type === ComType.layer ? (
               <LayerSetting></LayerSetting>
+            ) : currCom.value ? (
+              <div>11</div>
+            ) : selectedCount.value > 1 ? (
+              <MultipleSetting></MultipleSetting>
             ) : (
               <PageSetting></PageSetting>
             )}
