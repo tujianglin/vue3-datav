@@ -8,6 +8,7 @@
   import LayerSetting from './components/LayerSetting.vue';
   import PageSetting from './components/PageSetting.vue';
   import MultipleSetting from './components/MultipleSetting.vue';
+  import ComSetting from './components/ComSetting/index.vue';
   export default defineComponent({
     setup() {
       const toolbarStore = useToolbarStore();
@@ -22,7 +23,7 @@
             {currCom.value && currCom.value.type === ComType.layer ? (
               <LayerSetting></LayerSetting>
             ) : currCom.value ? (
-              <div>11</div>
+              <ComSetting></ComSetting>
             ) : selectedCount.value > 1 ? (
               <MultipleSetting></MultipleSetting>
             ) : (
