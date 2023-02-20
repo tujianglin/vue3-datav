@@ -4,6 +4,7 @@
   import { useEditorStore } from '/@/store/modules/editor';
   import { storeToRefs } from 'pinia';
   import { ColorPicker } from '/@/components/global/ColorPicker';
+  import { UploadImage } from '/@/components/global/UploadImage';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -28,6 +29,9 @@
                   </Form.Item>
                   <Form.Item label="背景颜色">
                     <ColorPicker v-model:value={pageConfig.value.bgcolor}></ColorPicker>
+                  </Form.Item>
+                  <Form.Item label="背景图">
+                    <UploadImage v-model={pageConfig.value.bgimage}></UploadImage>
                   </Form.Item>
                 </Form>
               </div>

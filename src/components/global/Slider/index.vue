@@ -14,7 +14,7 @@
         <div class="flex items-center w-47">
           <Slider
             {...props}
-            class="flex-1 m-0 mx-1"
+            class="w-22.5 my-0 ml-0 mr-2"
             tooltipVisible={false}
             onUpdate:value={(val) => emit('update:value', val)}
           ></Slider>
