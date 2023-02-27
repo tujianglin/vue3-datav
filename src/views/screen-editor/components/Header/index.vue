@@ -3,9 +3,22 @@
   import { Tooltip, Button } from 'ant-design-vue';
   import Icon from '/@/components/global/Icon';
   import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
+  import { useRouter } from 'vue-router';
   export default defineComponent({
     setup() {
+      const router = useRouter();
       const toolbarStore = useToolbarStore();
+      /* 保存快照 */
+      const onSaveScreen = () => {};
+      /* 预览 */
+      const onPreview = () => {
+        router.push({
+          name: 'Preview',
+          params: {
+            screenId: 1,
+          },
+        });
+      };
       return () => (
         <div class="datav-header">
           <div class="datav-edit-header">
@@ -62,7 +75,7 @@
               <div>工作空间</div>
               <div class="global-actions">
                 <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="生成快照">
-                  <Button class={['head-btn', 'mr-1']} type={'primary'}>
+                  <Button class={['head-btn', 'mr-1']} type={'primary'} onClick={onSaveScreen}>
                     <Icon icon="ic:outline-photo-camera"></Icon>
                   </Button>
                 </Tooltip>
@@ -72,7 +85,7 @@
                   </Button>
                 </Tooltip>
                 <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="预览">
-                  <Button class={['head-btn', 'mr-1']} type={'primary'}>
+                  <Button class={['head-btn', 'mr-1']} type={'primary'} onClick={onPreview}>
                     <Icon icon="heroicons:tv"></Icon>
                   </Button>
                 </Tooltip>

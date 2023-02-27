@@ -1,5 +1,5 @@
 import type { FunctionArgs } from '@vueuse/core';
-import { upperFirst } from 'lodash-es';
+import { camelCase, isObject, upperFirst } from 'lodash-es';
 
 export interface ViewportOffsetResult {
   left: number;
@@ -177,4 +177,21 @@ export function useRafThrottle<T extends FunctionArgs>(fn: T): T {
       locked = false;
     });
   };
+}
+
+export function setStyle(
+  element: HTMLElement,
+  styleName: CSSStyleDeclaration | string,
+  value?: string,
+): void {
+  if (!element || !styleName) return;
+
+  if (isObject(styleName)) {
+    Object.keys(styleName).forEach((prop) => {
+      setStyle(element, prop, styleName[prop]);
+    });
+  } else {
+    styleName = camelCase(styleName);
+    element.style[styleName] = value;
+  }
 }

@@ -18,7 +18,6 @@ export const coms = [
     config: {
       title: '我是标题数据',
       textStyle: {
-        fontFamily: 'Microsoft Yahei',
         fontSize: 24,
         color: '#fff',
         fontWeight: 'normal',
@@ -80,7 +79,6 @@ export const coms = [
     config: {
       title: '我是标题数据',
       textStyle: {
-        fontFamily: 'Microsoft Yahei',
         fontSize: 24,
         color: '#fff',
         fontWeight: 'normal',

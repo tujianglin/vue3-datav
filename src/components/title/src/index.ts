@@ -12,7 +12,6 @@ export class Title extends DatavComponent {
   config = {
     title: '我是标题',
     textStyle: {
-      fontFamily: 'Microsoft Yahei',
       fontSize: 24,
       color: '#fff',
       fontWeight: 'normal',
