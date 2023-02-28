@@ -38,7 +38,7 @@ export class VTitle extends DatavComponent {
   events: Record<string, DataEventConfig>;
   actions: Record<string, DataEventConfig>;
   constructor() {
-    super('VTitle', { w: 300, h: 500 });
+    super('Title', { w: 300, h: 56 });
   }
   initData() {
     const fields = [];
@@ -59,3 +59,4 @@ export class VTitle extends DatavComponent {
     }
   }
 }
+export default VTitle;

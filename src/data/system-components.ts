@@ -22,7 +22,7 @@ export const bar: ComDataType = {
     {
       name: 'VBisicBar',
       alias: '柱状图',
-      used: true,
+      used: false,
     },
   ],
 };
@@ -35,7 +35,7 @@ export const line: ComDataType = {
     {
       name: 'VBisicLine',
       alias: '折线图',
-      used: true,
+      used: false,
     },
   ],
 };
@@ -66,3 +66,38 @@ export const classifications: ComDataType[] = [
     data: [title],
   },
 ];
+
+const getCom = (coms: ComDataDto[], name: string) => {
+  for (let i = 0, len = coms.length; i < len; i++) {
+    const com = coms[i];
+    if (com.name === name) {
+      return com;
+    }
+
+    if (com.children) {
+      const subCom = getCom(com.children, name);
+      if (subCom) {
+        return subCom;
+      }
+    }
+  }
+
+  return null;
+};
+
+export function findComByName(name: string) {
+  for (const classification of classifications) {
+    for (const category of classification.data as ComDataType[]) {
+      const com = getCom(category.data as ComDataDto[], name);
+      if (com) {
+        return {
+          classification,
+          category,
+          com,
+        };
+      }
+    }
+  }
+
+  return null;
+}

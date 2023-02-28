@@ -2,6 +2,7 @@ import { generateId } from '/@/utils';
 import { AnimationEasing } from '/@/utils/types';
 import { ApiConfigMap, ApiDataConfigMap } from './data-source';
 import { DataEventConfig } from './data-event';
+import { findComByName } from '/@/data/system-components';
 
 export enum ComType {
   com = 'com',
@@ -102,10 +103,10 @@ export abstract class DatavComponent {
     this.type = type;
 
     if (type !== ComType.layer) {
-      // const obj = findComByName(this.name);
-      // this.alias = obj.com.alias;
-      // this.icon = obj.category.icon;
-      // this.img = obj.com.thum;
+      const obj = findComByName(this.name);
+      this.alias = obj.com.alias;
+      this.icon = obj.category.icon;
+      this.img = obj.com.thum;
     }
     this.attr = { ...this.attr, ...attr };
     this.scaling.w = attr.w;

@@ -5,11 +5,13 @@
   import Icon from '/@/components/global/Icon';
   import { classifications, ComDataType, ComDataDto } from '/@/data/system-components';
   import { cloneDeep } from 'lodash-es';
-  // import { useEditorStore } from '/@/store/modules/editor';
+  import { createComponent } from '/@/datavComponents/datav';
+  import { loadCom } from '/@/components/_utils/component-util';
+  import { useEditorStore } from '/@/store/modules/editor';
   export default defineComponent({
     setup() {
       const toolbarStore = useToolbarStore();
-      // const editorStore = useEditorStore();
+      const editorStore = useEditorStore();
       const favoriteComs = ref([]);
       const visiblePanel = computed(() => toolbarStore.components.show);
       const first: ComDataType = {
@@ -40,16 +42,16 @@
       const changeVisible = () => {
         toolbarStore.setPanelState(PanelType.components, !visiblePanel.value);
       };
-      const toAddCom = async (_: string, used: boolean) => {
+      const toAddCom = async (comName: string, used: boolean) => {
         if (used) {
           toolbarStore.addLoading();
-          // com.attr.x = Math.floor((editorStore.pageConfig.width - com.attr.w) / 2);
-          // com.attr.y = Math.floor((editorStore.pageConfig.height - com.attr.h) / 2);
-          // await loadCom(com);
+          const com = await createComponent(comName);
+          com.attr.x = Math.floor((editorStore.pageConfig.width - com.attr.w) / 2);
+          com.attr.y = Math.floor((editorStore.pageConfig.height - com.attr.h) / 2);
+          await loadCom(com);
           toolbarStore.removeLoading();
         }
       };
-
       const dragStart = (ev: any, comName: string) => {
         ev.dataTransfer.setData('text', comName);
       };
@@ -113,7 +115,32 @@
                         ))}
                       </Tabs>
                     ) : (
-                      ''
+                      <div class="components-multi-menu">
+                        <div class="components-single-menu --wider">
+                          <ul class="components-single-menu-list">
+                            {((i.data[0] as ComDataType).data as ComDataDto[]).map((j) => (
+                              <li
+                                title={j.alias}
+                                draggable={j.used}
+                                class="components-item double"
+                                onDragstart={(e) => dragStart(e, j.name)}
+                                onClick={() => toAddCom(j.name, j.used)}
+                              >
+                                <div class="components-item-text">{j.alias}</div>
+                                <div class="components-item-img">
+                                  {!j.used && (
+                                    <span class="mask" onClick={withModifiers(() => {}, ['stop'])}>
+                                      <Tooltip title="正在开发中。。。🚀">
+                                        <Icon icon="ant-design:lock-outlined"></Icon>
+                                      </Tooltip>
+                                    </span>
+                                  )}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
                     )}
                   </Tabs.TabPane>
                 ))}

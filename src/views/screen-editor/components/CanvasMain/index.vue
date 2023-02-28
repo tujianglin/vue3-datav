@@ -6,6 +6,9 @@
   import { useEditorStore } from '/@/store/modules/editor';
   import { checkRectIntersect } from '/@/utils/editor';
   import { on, off } from '/@/utils/dom';
+  import { useToolbarStore } from '/@/store/modules/toolbar';
+  import { createComponent } from '/@/datavComponents/datav';
+  import { loadCom } from '/@/components/_utils/component-util';
   const Ruler = defineAsyncComponent(() => import('./components/Ruler/index.vue'));
   const Area = defineAsyncComponent(() => import('./components/Area/index.vue'));
   const AlignLine = defineAsyncComponent(() => import('./components/AlignLine/index.vue'));
@@ -16,6 +19,7 @@
     setup() {
       const editorStore = useEditorStore();
       const comStore = useComStore();
+      const toolbarStore = useToolbarStore();
       const { coms } = storeToRefs(comStore);
       const { hideMenu } = useContextMenu();
       const { pageConfig, canvas } = storeToRefs(editorStore);
@@ -145,7 +149,33 @@
         on(document, 'mousemove', move);
         on(document, 'mouseup', up);
       };
+      const dropToAddCom = async (ev: DragEvent) => {
+        ev.preventDefault();
+        try {
+          const name = ev.dataTransfer.getData('text');
+          if (name) {
+            toolbarStore.addLoading();
+            let com = await createComponent(name);
+            const { scale } = canvas.value;
+            const { left, top } = toolbarStore.getPanelOffset;
+            const canvasWp = document.getElementById('canvas-wp');
+            const scrollLeft = canvasWp?.scrollLeft || 0;
+            const scrollTop = canvasWp?.scrollTop || 0;
+            const offsetLeft = (scrollLeft + ev.clientX - left) / scale;
+            const offsetTop = (scrollTop + ev.clientY - top) / scale;
+            com.attr.x = Math.round(offsetLeft - com.attr.w / 2);
+            com.attr.y = Math.round(offsetTop - com.attr.h / 2);
+            await loadCom(com);
+            toolbarStore.removeLoading();
+          }
+        } catch (error) {}
+      };
 
+      const dragOver = (ev: DragEvent) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.dataTransfer.dropEffect = 'copy';
+      };
       return () => (
         <div class="canvas-main">
           <div id="canvas-wp" class="canvas-panel-wrap" onClick={cancelSelected}>
@@ -155,7 +185,13 @@
               style={screenShotStyle.value}
               onMousedown={handleMouseDown}
             >
-              <div id="canvas-coms" class="canvas-panel" style={canvasPanelStyle.value}>
+              <div
+                id="canvas-coms"
+                class="canvas-panel"
+                style={canvasPanelStyle.value}
+                onDragover={dragOver}
+                onDrop={dropToAddCom}
+              >
                 {/* 组件回显 */}
                 {coms.value.map((i) => (
                   <DatavTransform com={i}></DatavTransform>
