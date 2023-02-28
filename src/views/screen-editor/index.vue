@@ -11,6 +11,7 @@
   import Footer from './components/Footer/index.vue';
   import ToolboxPanel from './components/ToolboxPanel/index.vue';
   import ConfigPanel from './components/ConfigPanel/index.vue';
+  import ComponentPanel from './components/ComponentPanel/index.vue';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -29,6 +30,7 @@
           </div>
           <div id="edit-main-wp" class="g-layout edit-main-wp">
             <LayerPanel></LayerPanel>
+            <ComponentPanel></ComponentPanel>
             <div class="g-layout edit-main">
               <ToolboxPanel></ToolboxPanel>
               <Spin spinning={loading.value}>
