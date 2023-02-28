@@ -37,9 +37,6 @@ export default defineConfig(({ command, mode }) => {
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
-          additionalData: `
-            @import '/@/design/config.less';
-          `,
         },
         sass: {},
       },

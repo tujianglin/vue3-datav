@@ -30,7 +30,7 @@
           <Main
             ref={mainRef}
             navs={navs.value}
-            style={{ background: isFixed.value ? '@datavBg' : '' }}
+            style={{ background: isFixed.value ? '#171b22' : '' }}
           ></Main>
           <div class="nav-shadow"></div>
           <div class="datav-main">
@@ -45,7 +45,7 @@
   .datav {
     height: calc(100% - 150px);
     .nav-shadow {
-      background: linear-gradient(180deg, transparent, @datavBg);
+      background: linear-gradient(180deg, transparent, #171b22);
       height: 50px;
       position: relative;
       width: 100%;
