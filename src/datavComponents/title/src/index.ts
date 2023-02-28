@@ -1,12 +1,12 @@
 import { assign } from 'lodash-es';
-import { DatavComponent } from '../../_models/datav-component';
+import { DatavComponent } from '../../../components/_models/datav-component';
 import {
   ApiConfigMap,
   ApiDataConfigMap,
   setApiConfig,
   setApiData,
-} from '../../_models/data-source';
-import { DataEventConfig } from '../../_models/data-event';
+} from '../../../components/_models/data-source';
+import { DataEventConfig } from '../../../components/_models/data-event';
 /* Title 配置 */
 export class VTitle extends DatavComponent {
   config = {

@@ -1,5 +1,5 @@
 <script lang="tsx">
-  import { defineComponent, inject } from 'vue';
+  import { defineComponent, h, inject, resolveComponent } from 'vue';
   import { comInjectionKey } from '../../../config';
   import BasicSetting from './BasicSetting.vue';
   import { ComType } from '/@/components/_models/datav-component';
@@ -12,7 +12,11 @@
             <div class="max-w-40 truncate">{com?.value.alias}</div>
             <div class="text-[#647279] text-xs">{com?.value.name}</div>
           </div>
-          <div>{com?.value.type === ComType.com && <BasicSetting></BasicSetting>}</div>
+          <div>
+            {com?.value.type === ComType.com && <BasicSetting></BasicSetting>}
+            {/* 组件配置 */}
+            {h(resolveComponent(`${com.value.name}Prop`), { com: com.value })}
+          </div>
         </>
       );
     },

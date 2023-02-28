@@ -15,7 +15,13 @@
           <div class="config-manager-body">
             <div class="page-config">
               <div class="page-config-wp">
-                <Form colon={false} labelCol={{ span: 8 }} size={'small'} labelAlign={'left'}>
+                <Form
+                  class="config-form"
+                  colon={false}
+                  labelCol={{ span: 8 }}
+                  size={'small'}
+                  labelAlign={'left'}
+                >
                   <Form.Item label="屏幕大小">
                     <InputNumber
                       v-model:value={pageConfig.value.width}

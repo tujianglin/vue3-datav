@@ -8,7 +8,8 @@ import { setupStore } from '/@/store';
 import { router, setupRouter } from '/@/router';
 import { setupRouterGuard } from '/@/router/guard';
 import { setupGlobDirectives } from '/@/directives';
-import DatavCharts from '/@/components';
+import Components from '/@/components';
+import DatavComponents from '/@/datavComponents';
 
 async function bootstrap() {
   const app = createApp(App);
@@ -17,7 +18,8 @@ async function bootstrap() {
   await setupRouter(app);
   setupRouterGuard(router);
   setupGlobDirectives(app);
-  app.use(DatavCharts);
+  app.use(Components);
+  app.use(DatavComponents);
   app.mount('#app');
 }
 bootstrap();

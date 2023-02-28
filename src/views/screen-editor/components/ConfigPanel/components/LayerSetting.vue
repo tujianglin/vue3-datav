@@ -16,7 +16,13 @@
           <div class="config-manager-head">组内配置</div>
           <div class="config-manager-body">
             <div class="layer-setting-panel">
-              <Form colon={false} labelCol={{ span: 8 }} size={'small'} labelAlign={'left'}>
+              <Form
+                class="config-form"
+                colon={false}
+                labelCol={{ span: 8 }}
+                size={'small'}
+                labelAlign={'left'}
+              >
                 <Form.Item label="图表尺寸">
                   <InputNumber
                     class="mr-2"

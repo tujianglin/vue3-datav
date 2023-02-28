@@ -34,7 +34,13 @@
       };
       return () => (
         <div class="basic-setting">
-          <Form colon={false} labelCol={{ span: 8 }} size={'small'} labelAlign={'left'}>
+          <Form
+            class="config-form"
+            colon={false}
+            labelCol={{ span: 8 }}
+            size={'small'}
+            labelAlign={'left'}
+          >
             <Form.Item label="图表尺寸">
               <InputNumber
                 v-model:value={com.value.scaling.w}
@@ -98,6 +104,10 @@
 </script>
 <style lang="less" scoped>
   @import '../../index.less';
+
+  .ant-form :deep(.ant-form-item:first-child) {
+    padding-top: 8px;
+  }
 
   .rotate-wp {
     display: flex;

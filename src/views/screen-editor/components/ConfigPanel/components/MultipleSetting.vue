@@ -71,7 +71,13 @@
           <div class="config-manager-head">排列布局</div>
           <div class="config-manager-body">
             <div class="multi-layout-config">
-              <Form colon={false} labelCol={{ span: 8 }} size={'small'} labelAlign={'left'}>
+              <Form
+                class="config-form"
+                colon={false}
+                labelCol={{ span: 8 }}
+                size={'small'}
+                labelAlign={'left'}
+              >
                 <Form.Item label="对齐">
                   <Icon
                     class="datav-icon"

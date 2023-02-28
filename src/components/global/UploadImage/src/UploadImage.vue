@@ -47,7 +47,7 @@
               prefix: () => <LinkOutlined></LinkOutlined>,
             }}
           ></Input>
-          <UploadDragger showUploadList={false} class="upload mt-2">
+          <UploadDragger showUploadList={false} class="!h-30 upload mt-2">
             <div class="upload-content">
               {image.value && (
                 <div class="image-hover" onClick={withModifiers(() => removeImage(), ['stop'])}>
@@ -83,7 +83,7 @@
     position: relative;
     color: var(--datav-gui-font-color-base);
     padding: 10px;
-    height: 120px;
+    height: 118px;
     width: 100%;
     background: rgb(0 0 0 / 75%);
     font-size: 12px;

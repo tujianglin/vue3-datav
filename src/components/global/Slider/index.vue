@@ -11,7 +11,7 @@
     emits: ['update:value'],
     setup(props, { emit }) {
       return () => (
-        <div class="flex items-center w-47">
+        <div class="flex items-center">
           <Slider
             {...props}
             class="w-22.5 my-0 ml-0 mr-2"
