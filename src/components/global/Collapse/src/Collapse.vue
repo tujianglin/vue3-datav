@@ -17,8 +17,6 @@
       watch(modelValue, (val) => {
         if (!val) {
           activeKey.value = '';
-        } else {
-          activeKey.value = '1';
         }
       });
       return () => (

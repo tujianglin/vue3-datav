@@ -15,7 +15,7 @@
           <div>
             {com?.value.type === ComType.com && <BasicSetting></BasicSetting>}
             {/* 组件配置 */}
-            {h(resolveComponent(`${com.value.name}Prop`), { com: com.value })}
+            {h(resolveComponent(`${com.value.name}Prop`), { com: com.value, key: com.value.id })}
           </div>
         </>
       );
