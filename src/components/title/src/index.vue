@@ -1,11 +1,11 @@
 <script lang="tsx">
   import { computed, CSSProperties, defineComponent, PropType, toRefs } from 'vue';
-  import { Title } from './index';
+  import { VTitle } from './index';
   export default defineComponent({
-    name: 'Title',
+    name: 'VTitle',
     props: {
       com: {
-        type: Object as PropType<Title>,
+        type: Object as PropType<VTitle>,
         required: true,
       },
     },
@@ -16,7 +16,6 @@
         const style = {
           width: `${com.value.attr.w}px`,
           height: `${com.value.attr.h}px`,
-          'font-family': `${com.value.config.textStyle.fontFamily}, Arial, sans-serif`,
           'font-size': `${com.value.config.textStyle.fontSize}px`,
           'font-weight': com.value.config.textStyle.fontWeight,
           'justify-content': com.value.config.textAlign,

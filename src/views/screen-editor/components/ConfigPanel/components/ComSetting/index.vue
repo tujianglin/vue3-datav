@@ -2,6 +2,7 @@
   import { defineComponent, ref } from 'vue';
   import { Tabs } from 'ant-design-vue';
   import Icon from '/@/components/global/Icon';
+  import ComConfig from './components/ComConfig.vue';
   export default defineComponent({
     setup() {
       const activeKey = ref('1');
@@ -17,7 +18,9 @@
             v-slots={{
               tab: () => <Icon icon="icon-park-outline:setting-config"></Icon>,
             }}
-          ></Tabs.TabPane>
+          >
+            <ComConfig></ComConfig>
+          </Tabs.TabPane>
           <Tabs.TabPane
             key="2"
             v-slots={{

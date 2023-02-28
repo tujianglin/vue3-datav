@@ -8,7 +8,7 @@ import {
 } from '../../_models/data-source';
 import { DataEventConfig } from '../../_models/data-event';
 /* Title 配置 */
-export class Title extends DatavComponent {
+export class VTitle extends DatavComponent {
   config = {
     title: '我是标题',
     textStyle: {
@@ -38,7 +38,7 @@ export class Title extends DatavComponent {
   events: Record<string, DataEventConfig>;
   actions: Record<string, DataEventConfig>;
   constructor() {
-    super('Title', { w: 300, h: 500 });
+    super('VTitle', { w: 300, h: 500 });
   }
   initData() {
     const fields = [];

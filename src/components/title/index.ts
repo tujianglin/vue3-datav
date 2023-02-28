@@ -1,9 +1,9 @@
 import type { App } from 'vue';
 import type { SFCWithInstall } from '/@/utils/types';
-import Title from './src/index.vue';
+import VTitle from './src/index.vue';
 
-Title.install = (app: App) => {
-  app.component('Title', Title);
+VTitle.install = (app: App) => {
+  app.component('VTitle', VTitle);
 };
 
-export default Title as SFCWithInstall<typeof Title>;
+export default VTitle as SFCWithInstall<typeof VTitle>;

@@ -1,9 +1,26 @@
 <script lang="tsx">
-  import { defineComponent } from 'vue';
+  import { defineComponent, inject } from 'vue';
+  import { comInjectionKey } from '../../../config';
+  import BasicSetting from './BasicSetting.vue';
+  import { ComType } from '/@/components/_models/datav-component';
   export default defineComponent({
     setup() {
-      return () => <div>111</div>;
+      const com = inject(comInjectionKey);
+      return () => (
+        <>
+          <div class="com-config">
+            <div class="max-w-40 truncate">{com?.value.alias}</div>
+            <div class="text-[#647279] text-xs">{com?.value.name}</div>
+          </div>
+          <div>{com?.value.type === ComType.com && <BasicSetting></BasicSetting>}</div>
+        </>
+      );
     },
   });
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+  .com-config {
+    padding: 8px;
+    padding-bottom: 0px;
+  }
+</style>

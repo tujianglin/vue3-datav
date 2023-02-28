@@ -47,7 +47,7 @@
               prefix: () => <LinkOutlined></LinkOutlined>,
             }}
           ></Input>
-          <UploadDragger class="upload mt-2">
+          <UploadDragger showUploadList={false} class="upload mt-2">
             <div class="upload-content">
               {image.value && (
                 <div class="image-hover" onClick={withModifiers(() => removeImage(), ['stop'])}>
