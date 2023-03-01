@@ -1,6 +1,6 @@
 <script lang="tsx">
   import { defineComponent, inject, ref, watch } from 'vue';
-  import { comInjectionKey } from '../../../config';
+  import { comInjectionKey } from '../../../../../config';
   import { Form, Tooltip, Button } from 'ant-design-vue';
   import { Slider, InputNumber } from '/@/components/global';
   import Icon from '/@/components/global/Icon';
@@ -90,7 +90,7 @@
   });
 </script>
 <style lang="less" scoped>
-  @import '../../index.less';
+  @import '../../../../index.less';
 
   .ant-form :deep(.ant-form-item:first-child) {
     padding-top: 8px;

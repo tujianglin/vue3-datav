@@ -2,10 +2,11 @@
   import { defineComponent, ref } from 'vue';
   import { Tabs } from 'ant-design-vue';
   import Icon from '/@/components/global/Icon';
-  import ComConfig from './components/ComConfig.vue';
+  import ComConfig from './components/ComConfig/index.vue';
+  import DataConfig from './components/DataConfig/index.vue';
   export default defineComponent({
     setup() {
-      const activeKey = ref('1');
+      const activeKey = ref('2');
       return () => (
         <Tabs
           class="h-full"
@@ -14,6 +15,7 @@
           type={'card'}
         >
           <Tabs.TabPane
+            class="h-full relative"
             key="1"
             v-slots={{
               tab: () => <Icon icon="icon-park-outline:setting-config"></Icon>,
@@ -22,11 +24,14 @@
             <ComConfig></ComConfig>
           </Tabs.TabPane>
           <Tabs.TabPane
+            class="h-full relative"
             key="2"
             v-slots={{
               tab: () => <Icon icon="material-symbols:cloud-outline"></Icon>,
             }}
-          ></Tabs.TabPane>
+          >
+            <DataConfig></DataConfig>
+          </Tabs.TabPane>
           <Tabs.TabPane
             key="3"
             v-slots={{
@@ -39,8 +44,12 @@
   });
 </script>
 <style lang="less" scoped>
+  :deep(.ant-tabs-content) {
+    height: 100%;
+  }
   :deep(.ant-tabs-nav) {
     margin: 0;
+
     .ant-tabs-nav-wrap {
       width: 100%;
       .ant-tabs-nav-list {

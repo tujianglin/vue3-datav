@@ -23,6 +23,7 @@
     "echarts": "^5.4.1",
     "html2canvas": "^1.4.1",
     "lodash-es": "^4.17.21",
+    "monaco-editor": "^0.36.1",
     "pinia": "^2.0.30",
     "shortid": "^2.2.16",
     "vue": "^3.2.45",
