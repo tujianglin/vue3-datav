@@ -60,9 +60,9 @@
 
         return props.status;
       });
-      const render = () => {
+      const render = (status, optional) => {
         let el;
-        if (props.status === ApiStatus.loading) {
+        if (status === ApiStatus.loading) {
           el = (
             <>
               <i class="status-icon validating"></i>
@@ -70,18 +70,18 @@
               <i class="status-icon validating"></i>
             </>
           );
-        } else if (props.status === ApiStatus.success || props.status === ApiStatus.completed) {
-          el = <i class={['status-icon', `--${props.status}`]}></i>;
-        } else if (props.optional) {
+        } else if (status === ApiStatus.success || status === ApiStatus.completed) {
+          el = <i class={['status-icon', `--${status}`]}></i>;
+        } else if (optional) {
           el = <i class={['status-icon', '--success']}></i>;
         } else {
-          el = <i class={['status-icon', `--${props.status}`]}></i>;
+          el = <i class={['status-icon', `--${status}`]}></i>;
         }
         return el;
       };
       return () => (
         <>
-          {render()} <span class="status-text">{statusText.value}</span>{' '}
+          {render(props.status, props.optional)} <span class="status-text">{statusText.value}</span>
         </>
       );
     },

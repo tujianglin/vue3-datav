@@ -32,6 +32,24 @@ export const generateId = (prefix?: string) => {
   const id = shortid.generate();
   return prefix ? `${prefix}_${id}` : id;
 };
+/* 复制 */
+export const copyText = async (text: string) => {
+  try {
+    if (navigator && 'clipboard' in navigator) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const input = document.createElement('textarea');
+      input.value = text;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
 /* 获取静态资源 */
 export const getAssetsFile = (url: string) => {
   return new URL(`../assets/${url}`, import.meta.url).href;

@@ -56,9 +56,16 @@ export class VBar extends DatavEChartsComponent {
     ];
     setApiConfig(this, {
       fields: assign({}, ...fields),
+      description: '基本柱状图接口',
     });
+
     setApiData(this);
-    this.events = {};
+    this.events = {
+      click: {
+        description: '当点击数据项时',
+        fields: assign({}, ...fields),
+      },
+    };
     this.actions = {};
     return this;
   }

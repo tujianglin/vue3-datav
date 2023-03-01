@@ -5,6 +5,8 @@
   import { useToolbarStore } from '/@/store/modules/toolbar';
   import { useComStore } from '/@/store/modules/com';
   import { loadAsyncComponent } from '/@/utils';
+  import { useDebugStore } from '/@/store/modules/debug';
+  // import { useFilterStore } from '/@/store/modules/filter';
   const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
   const ContextMenu = defineAsyncComponent(() => import('./components/ContextMenu/index.vue'));
   const Footer = defineAsyncComponent(() => import('./components/Footer/index.vue'));
@@ -17,8 +19,14 @@
     setup() {
       const editorStore = useEditorStore();
       const toolbarStroe = useToolbarStore();
+      // const filterStore = useFilterStore();
+      const debugStore = useDebugStore();
       const comStore = useComStore();
       const loading = ref(true);
+
+      debugStore.enable();
+      editorStore.setEditMode();
+
       onMounted(async () => {
         await comStore.request();
         loading.value = false;

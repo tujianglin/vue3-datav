@@ -1,18 +1,26 @@
 <script lang="tsx">
   import { computed, defineComponent, inject, PropType, provide } from 'vue';
-  import { comInjectionKey, sourcePanelInjectionKey } from '../../../../../config';
+  import {
+    changePanelInjectionKey,
+    comInjectionKey,
+    sourcePanelInjectionKey,
+  } from '../../../../../config';
   import {
     ApiConfig,
     ApiDataConfig,
     ApiKeyName,
     createDataSources,
     FieldStatus,
+    ApiStatus,
   } from '/@/components/_models/data-source';
-  import ApiStatus from './ApiStatus.vue';
+  import ComApiStatus from './ApiStatus.vue';
   import { useDebugStore } from '/@/store/modules/debug';
   import { Input, Checkbox, InputNumber, Button, Tooltip } from 'ant-design-vue';
   import Icon from '/@/components/global/Icon';
   import { forIn } from 'lodash-es';
+  import { MonacoEditor } from '/@/components/global';
+  import { useApiStore } from '/@/store/modules/api';
+  import { setComponentData } from '/@/components/_mixins/use-data-center';
   export default defineComponent({
     props: {
       apiName: {
@@ -23,44 +31,75 @@
       collapse: Boolean,
     },
     setup(props) {
-      const com = inject(comInjectionKey);
-
       const debugStore = useDebugStore();
+      const apiStore = useApiStore();
+      const visible = computed(() => props.apiName === props.activeName);
+      // const sourceDrawerRef = ref(null);
       const datasources = createDataSources();
 
-      const visible = computed(() => props.apiName === props.activeName);
-      const apiConfig = computed<ApiConfig>(() => com.value.apis[props.apiName]);
-      const apiDataConfig = computed<ApiDataConfig>(() => com.value.apiData[props.apiName]);
-      const fieldsStatus = computed(() => {
-        const comFields = debugStore.fieldStatusMap[com.value.id];
-        return comFields?.[props.apiName] ?? {};
-      });
-      const totalStatus = computed(() => {
-        const list = Object.values(fieldsStatus.value);
-        if (list.includes(FieldStatus.loading)) {
-          return ApiStatus.loading;
-        }
-        if (list.includes(FieldStatus.failed)) {
-          return ApiStatus.incomplete;
-        }
-        return ApiStatus.completed;
-      });
+      const com = inject(comInjectionKey);
+      const apiConfig = computed((): ApiConfig => com.value.apis[props.apiName]);
+      const apiDataConfig = computed((): ApiDataConfig => com.value.apiData[props.apiName]);
+
       provide(sourcePanelInjectionKey, {
         apiName: props.apiName,
         apiConfig,
         apiDataConfig,
       });
-      const tbodyRender = () => {
+
+      const datav_data = computed(() => {
+        const comData = apiStore.dataMap[com.value.id];
+        return comData ? comData[props.apiName] : '';
+      });
+
+      const fieldsStatus = computed(() => {
+        const comFields = debugStore.fieldStatusMap[com.value.id];
+        return comFields?.[props.apiName] ?? {};
+      });
+
+      const totalStatus = computed(() => {
+        const list = Object.values(fieldsStatus.value);
+        if (list.includes(FieldStatus.loading)) {
+          return ApiStatus.loading;
+        }
+
+        if (list.includes(FieldStatus.failed)) {
+          return ApiStatus.incomplete;
+        }
+        return ApiStatus.completed;
+      });
+
+      const changePanel = inject(changePanelInjectionKey);
+
+      const toggle = () => {
+        if (props.collapse) {
+          changePanel(props.apiName as string);
+        }
+      };
+
+      // const openSourceDrawer = () => {
+      //   sourceDrawerRef.value?.open();
+      // };
+
+      const refreshData = () => {
+        setComponentData(com.value.id, props.apiName, apiConfig.value, apiDataConfig.value);
+      };
+      const tbodyRender = (obj) => {
         const list: any[] = [];
-        forIn(apiConfig.value.fields, (fc, fn) => {
+        forIn(obj, (fc, fn) => {
           list.push(
             <tr key={fn} class="table-body-row">
               <td class="column-item attr-name">{fc.description}</td>
               <td class="column-item attr-value">
-                <Input v-model:value={fc.map} size={'small'} placeholder="可自定义"></Input>
+                <Input
+                  v-model:value={fc.map}
+                  value={fn}
+                  size={'small'}
+                  placeholder="可自定义"
+                ></Input>
               </td>
               <td class="column-item attr-status">
-                <ApiStatus status={fieldsStatus[fn]} optional={fc.optional} />
+                <ComApiStatus status={fieldsStatus.value[fn]} optional={fc.optional} />
               </td>
             </tr>,
           );
@@ -75,9 +114,11 @@
           ]}
         >
           <div class="api-editor-title">
-            <div class="api-desc ellipsis2">{apiConfig.value.description || '数据接口'}</div>
+            <div class="api-desc ellipsis2" onClick={toggle}>
+              {apiConfig.value.description || '数据接口'}
+            </div>
             <div class="api-status success">
-              <ApiStatus status={totalStatus.value} successText="配置完成"></ApiStatus>
+              <ComApiStatus status={totalStatus.value} successText="配置完成"></ComApiStatus>
             </div>
           </div>
           <div class="attr-source-wp">
@@ -92,7 +133,7 @@
                 </thead>
                 <tbody class="table-body">
                   {Object.keys(apiConfig.value.fields).length > 0 ? (
-                    <>{tbodyRender()}</>
+                    <>{tbodyRender(apiConfig.value.fields)}</>
                   ) : (
                     <tr class="table-body-row">
                       <td class="column-item attr-name">
@@ -100,7 +141,7 @@
                       </td>
                       <td class="column-item attr-value"></td>
                       <td class="column-item attr-status">
-                        <ApiStatus status="completed" />
+                        <ComApiStatus status="completed" />
                       </td>
                     </tr>
                   )}
@@ -135,7 +176,7 @@
                 <div class="ds-line mt5">
                   <span>数据响应结果 ( 只读 ) </span>
                   <Tooltip title="刷新数据" placement={'left'}>
-                    <Icon class="refresh-btn" icon="tabler:refresh"></Icon>
+                    <Icon class="refresh-btn" icon="tabler:refresh" onClick={refreshData}></Icon>
                   </Tooltip>
                 </div>
                 <div class="ds-dots">
@@ -146,7 +187,16 @@
                   <span class="ds-dot"></span>
                 </div>
               </div>
-              <div class="data-response">111</div>
+              <div class="data-response">
+                <MonacoEditor
+                  language="json"
+                  readOnly
+                  autoFormat
+                  code={datav_data.value}
+                  height={250}
+                  fullScreenTitle="数据响应结果"
+                ></MonacoEditor>
+              </div>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { ref, toRefs, watch, onUnmounted } from 'vue';
 import { debounce, isPlainObject, isArray } from 'lodash-es';
 import { hasOwn } from '/@/utils';
 import { useEditorStore } from '/@/store/modules/editor';
-// import { useFilterStore } from '/@/store/modules/filter';
+import { useFilterStore } from '/@/store/modules/filter';
 import { useToolbarStore } from '/@/store/modules/toolbar';
 import { useApiStore } from '/@/store/modules/api';
 import { useDebugStore } from '/@/store/modules/debug';
@@ -15,7 +15,7 @@ import {
   ApiDataConfig,
   FieldStatus,
 } from '/@/components/_models/data-source';
-// import { execFilter } from '/@/components/_models/data-filter';
+import { execFilter } from '/@/components/_models/data-filter';
 
 export const getFieldMap = (fields: Record<string, FieldConfig>) => {
   const fieldMap: Record<string, string> = Object.create(null);
@@ -60,7 +60,7 @@ export const setComponentData = async (
 ) => {
   const apiStore = useApiStore();
   const toolbarStore = useToolbarStore();
-  // const filterStore = useFilterStore();
+  const filterStore = useFilterStore();
   const debugStore = useDebugStore();
   toolbarStore.addLoading();
 
@@ -84,7 +84,7 @@ export const setComponentData = async (
     try {
       // 使用过滤器筛选数据
       if (adConfig.config.useFilter) {
-        // res = execFilter(filterStore.dataFilters, adConfig.pageFilters, res);
+        res = execFilter(filterStore.dataFilters, adConfig.pageFilters, res);
       } else {
         debugStore.setDataStatus(comId, apiKey, 'filter', '');
       }
@@ -129,7 +129,7 @@ export const useDataCenter = (com: DatavComponent) => {
   const autoRefreshData = (apiKey: ApiKeyName, ac: ApiConfig) => {
     if (ac.useAutoUpdate && ac.autoUpdate > 0) {
       const timer = window.setInterval(() => {
-        setComponentData(com.id, apiKey, ac, (apiData.value as any)[apiKey]);
+        setComponentData(com.id, apiKey, ac, apiData.value[apiKey]);
       }, ac.autoUpdate * 1000);
       timers.value.push(timer);
     }
@@ -137,12 +137,12 @@ export const useDataCenter = (com: DatavComponent) => {
 
   const autoRefreshAllData = () => {
     apiKeys.forEach((apiKey) => {
-      autoRefreshData(apiKey, (apis.value as any)[apiKey]);
+      autoRefreshData(apiKey, apis.value[apiKey]);
     });
   };
 
   const initData = (apiKey: ApiKeyName, ac: ApiConfig) => {
-    const adc: any = apiData.value[apiKey];
+    const adc = apiData.value[apiKey];
     watch(
       [ac, () => adc.type, adc.config],
       () => {
@@ -165,7 +165,7 @@ export const useDataCenter = (com: DatavComponent) => {
 
   const initAllData = () => {
     apiKeys.forEach((apiKey) => {
-      initData(apiKey, (apis.value as any)[apiKey]);
+      initData(apiKey, apis.value[apiKey]);
     });
   };
 
@@ -185,7 +185,7 @@ export const useDataCenter = (com: DatavComponent) => {
     stopAutoRefreshAllData();
 
     const arr = apiKeys.map((apiKey) =>
-      setComponentData(com.id, apiKey, (apis.value as any)[apiKey], (apiData.value as any)[apiKey]),
+      setComponentData(com.id, apiKey, apis.value[apiKey], apiData.value[apiKey]),
     );
     Promise.all(arr).then(() => {
       autoRefreshAllData();
