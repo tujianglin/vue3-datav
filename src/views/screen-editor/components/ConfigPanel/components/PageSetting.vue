@@ -11,7 +11,7 @@
       const { pageConfig } = storeToRefs(editorStore);
       return () => (
         <div class="config-manager-page">
-          <div class="config-manager-head">页面设置</div>
+          <div class="config-manager-head">页面配置</div>
           <div class="config-manager-body">
             <div class="page-config">
               <div class="page-config-wp">

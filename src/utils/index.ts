@@ -1,6 +1,7 @@
-import { App } from 'vue';
+import { App, defineAsyncComponent, AsyncComponentLoader } from 'vue';
 import shortid from 'shortid';
 import { isString } from 'lodash-es';
+import AsyncLoading from '/@/components/global/loading';
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 export const hasOwn = (val: object, key: string | symbol) => hasOwnProperty.call(val, key);
@@ -15,6 +16,17 @@ export const withInstall = (comp) => {
   };
   return comp;
 };
+/**
+ * * 异步加载组件
+ * @param loader
+ * @returns
+ */
+export const loadAsyncComponent = (loader: AsyncComponentLoader<any>) =>
+  defineAsyncComponent({
+    loader,
+    loadingComponent: AsyncLoading,
+    delay: 20,
+  });
 /* 生成id */
 export const generateId = (prefix?: string) => {
   const id = shortid.generate();

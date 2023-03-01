@@ -1,8 +1,9 @@
 import { generateId } from '/@/utils';
-import { AnimationEasing } from '/@/utils/types';
 import { ApiConfigMap, ApiDataConfigMap } from './data-source';
 import { DataEventConfig } from './data-event';
 import { findComByName } from '/@/data/system-components';
+import { AnimationEasing } from '/@/utils/types';
+import type { EChartsOption } from 'echarts';
 
 export enum ComType {
   com = 'com',
@@ -136,24 +137,6 @@ export abstract class DatavChartSeries {
   }
 }
 
-export abstract class DatavEChartsComponent extends DatavComponent {
-  abstract config: Record<string, any> & {
-    legend?: Record<string, any>;
-    tooltip?: Record<string, any>;
-    series?: DatavChartSeries | DatavChartSeries[];
-    animation?: {
-      enabled: boolean;
-      duration?: number;
-      easing?: AnimationEasing;
-      delay?: number;
-      threshold?: number;
-      durationUpdate?: number;
-      easingUpdate?: string;
-      delayUpdate?: number;
-    };
-  };
-}
-
 export const checkComponentAttr = (com: DatavComponent) => {
   if (!com.scaling) {
     com.scaling = {
@@ -164,4 +147,18 @@ export const checkComponentAttr = (com: DatavComponent) => {
       sy: 1,
     };
   }
+};
+
+export type EchartConfig = EChartsOption & {
+  global?: Record<string, any>;
+  animation?: {
+    enabled: boolean;
+    duration?: number;
+    easing?: AnimationEasing;
+    delay?: number;
+    threshold?: number;
+    durationUpdate?: number;
+    easingUpdate?: string;
+    delayUpdate?: number;
+  };
 };

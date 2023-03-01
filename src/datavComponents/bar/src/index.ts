@@ -1,5 +1,5 @@
 import { assign } from 'lodash-es';
-import { DatavEChartsComponent } from '../../../components/_models/datav-component';
+import { DatavComponent, EchartConfig } from '../../../components/_models/datav-component';
 import {
   ApiConfigMap,
   ApiDataConfigMap,
@@ -7,17 +7,9 @@ import {
   setApiData,
 } from '../../../components/_models/data-source';
 import { DataEventConfig } from '../../../components/_models/data-event';
-export class VBar extends DatavEChartsComponent {
-  config = {
+export class VBar extends DatavComponent {
+  config: EchartConfig = {
     global: {},
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [],
   };
   apis: Partial<ApiConfigMap>;
   apiData: Partial<ApiDataConfigMap>;

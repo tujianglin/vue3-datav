@@ -1,17 +1,18 @@
 <script lang="tsx">
-  import { defineComponent, onMounted, ref } from 'vue';
+  import { defineAsyncComponent, defineComponent, onMounted, ref } from 'vue';
   import { Spin } from 'ant-design-vue';
   import { useEditorStore } from '/@/store/modules/editor';
   import { useToolbarStore } from '/@/store/modules/toolbar';
   import { useComStore } from '/@/store/modules/com';
-  import CanvasMain from './components/CanvasMain/index.vue';
-  import Header from './components/Header/index.vue';
-  import LayerPanel from './components/LayerPanel/index.vue';
-  import ContextMenu from './components/ContextMenu/index.vue';
-  import Footer from './components/Footer/index.vue';
-  import ToolboxPanel from './components/ToolboxPanel/index.vue';
-  import ConfigPanel from './components/ConfigPanel/index.vue';
-  import ComponentPanel from './components/ComponentPanel/index.vue';
+  import { loadAsyncComponent } from '/@/utils';
+  const Header = defineAsyncComponent(() => import('./components/Header/index.vue'));
+  const ContextMenu = defineAsyncComponent(() => import('./components/ContextMenu/index.vue'));
+  const Footer = defineAsyncComponent(() => import('./components/Footer/index.vue'));
+  const ToolboxPanel = defineAsyncComponent(() => import('./components/ToolboxPanel/index.vue'));
+  const CanvasMain = loadAsyncComponent(() => import('./components/CanvasMain/index.vue'));
+  const LayerPanel = loadAsyncComponent(() => import('./components/LayerPanel/index.vue'));
+  const ConfigPanel = loadAsyncComponent(() => import('./components/ConfigPanel/index.vue'));
+  const ComponentPanel = loadAsyncComponent(() => import('./components/ComponentPanel/index.vue'));
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();

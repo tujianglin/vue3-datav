@@ -1,11 +1,14 @@
 import type { App } from 'vue';
 import type { SFCWithInstall } from '/@/utils/types';
 import V{{name}} from './src/index.vue';
-import V{{name}}Prop from './src/config.vue';
+import { loadAsyncComponent } from '/@/utils';
 
 V{{name}}.install = (app: App) => {
   app.component('V{{name}}', V{{name}});
-  app.component('V{{name}}Prop', V{{name}}Prop);
+  app.component(
+    'V{{name}}Prop',
+    loadAsyncComponent(() => import('./src/config.vue')),
+  );
 };
 
 export default V{{name}} as SFCWithInstall<typeof V{{name}}>;
