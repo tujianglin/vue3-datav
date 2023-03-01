@@ -1,0 +1,11 @@
+import type { App } from 'vue';
+import type { SFCWithInstall } from '/@/utils/types';
+import V{{name}} from './src/index.vue';
+import V{{name}}Prop from './src/config.vue';
+
+V{{name}}.install = (app: App) => {
+  app.component('V{{name}}', V{{name}});
+  app.component('V{{name}}Prop', V{{name}}Prop);
+};
+
+export default V{{name}} as SFCWithInstall<typeof V{{name}}>;

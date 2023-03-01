@@ -1,3 +1,4 @@
+import { getAssetsFile } from '/@/utils';
 export interface ComDataDto {
   name: string;
   alias: string;
@@ -20,9 +21,10 @@ export const bar: ComDataType = {
   name: '柱状图',
   data: [
     {
-      name: 'VBisicBar',
+      name: 'VBar',
       alias: '柱状图',
-      used: false,
+      used: true,
+      thum: getAssetsFile('datav/bar.png'),
     },
   ],
 };
@@ -33,7 +35,7 @@ export const line: ComDataType = {
   name: '折线图',
   data: [
     {
-      name: 'VBisicLine',
+      name: 'VLine',
       alias: '折线图',
       used: false,
     },

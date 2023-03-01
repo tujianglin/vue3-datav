@@ -4,6 +4,8 @@ import 'ant-design-vue/dist/antd.variable.min.css';
 import 'ant-design-vue/dist/antd.dark.less';
 import '/@/design/index.less';
 import 'virtual:windi.css';
+import 'echarts';
+import 'default-passive-events';
 import { setupStore } from '/@/store';
 import { router, setupRouter } from '/@/router';
 import { setupRouterGuard } from '/@/router/guard';

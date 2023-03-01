@@ -1,0 +1,18 @@
+<script lang="tsx">
+  import { defineComponent, PropType, toRef } from 'vue';
+  import { V{{name}} } from '.';
+  export default defineComponent({
+    name: 'V{{name}}Prop',
+    props: {
+      com: {
+        type: Object as PropType<V{{name}}>,
+        required: true,
+      },
+    },
+    setup(props) {
+      const config = toRef(props.com, 'config');
+      return () => <div></div>;
+    },
+  });
+</script>
+<style lang="less" scoped></style>

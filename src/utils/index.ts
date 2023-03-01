@@ -22,7 +22,7 @@ export const generateId = (prefix?: string) => {
 };
 /* 获取静态资源 */
 export const getAssetsFile = (url: string) => {
-  return new URL(`../assets/images/${url}`, import.meta.url).href;
+  return new URL(`../assets/${url}`, import.meta.url).href;
 };
 
 /* 判断苹果或window的 ctrl */

@@ -93,7 +93,10 @@
                                       onClick={() => toAddCom(k.name, k.used)}
                                     >
                                       <div class="components-item-text">{k.alias}</div>
-                                      <div class="components-item-img">
+                                      <div
+                                        class="components-item-img"
+                                        style={{ 'background-image': `url(${k.thum})` }}
+                                      >
                                         {!k.used && (
                                           <span
                                             class="mask"
@@ -127,7 +130,10 @@
                                 onClick={() => toAddCom(j.name, j.used)}
                               >
                                 <div class="components-item-text">{j.alias}</div>
-                                <div class="components-item-img">
+                                <div
+                                  class="components-item-img"
+                                  style={{ 'background-image': `url(${j.thum})` }}
+                                >
                                   {!j.used && (
                                     <span class="mask" onClick={withModifiers(() => {}, ['stop'])}>
                                       <Tooltip title="正在开发中。。。🚀">

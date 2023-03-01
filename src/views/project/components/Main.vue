@@ -13,7 +13,7 @@
     setup() {
       // 移动图片
       const image = new Image();
-      image.src = getAssetsFile('drag-thumbnail.png');
+      image.src = getAssetsFile('images/drag-thumbnail.png');
       const projectStore = useProjectStore();
       const sort = ref('name');
       const searchValue = ref<string>();
