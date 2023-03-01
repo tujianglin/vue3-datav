@@ -1,5 +1,5 @@
-import { withInstall } from '/@/utils';
+import type { SFCWithInstall } from '/@/utils/types';
 
-import collapse from './src/Collapse.vue';
+import Collapse from './src/Collapse.vue';
 
-export const Collapse = withInstall(collapse);
+export default Collapse as SFCWithInstall<typeof Collapse>;

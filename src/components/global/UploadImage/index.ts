@@ -1,5 +1,5 @@
-import { withInstall } from '/@/utils';
+import type { SFCWithInstall } from '/@/utils/types';
 
-import uploadImage from './src/UploadImage.vue';
+import UploadImage from './src/UploadImage.vue';
 
-export const UploadImage = withInstall(uploadImage);
+export default UploadImage as SFCWithInstall<typeof UploadImage>;

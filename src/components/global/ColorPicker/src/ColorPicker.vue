@@ -6,15 +6,15 @@
 
   export default defineComponent({
     props: {
-      value: {
+      modelValue: {
         type: String,
         default: '',
       },
     },
-    emits: ['update:value'],
+    emits: ['update:modelValue'],
     setup(props, { emit }) {
-      const color = ref(props.value);
-      const colorValue = ref(props.value);
+      const color = ref(props.modelValue);
+      const colorValue = ref(props.modelValue);
       watch(color, (val: any) => {
         try {
           colorValue.value = `rgba(${val.rgba.r},${val.rgba.g},${val.rgba.b},${val.rgba.a})`;
@@ -22,10 +22,10 @@
       });
       watch(colorValue, (val) => {
         color.value = val;
-        emit('update:value', val);
+        emit('update:modelValue', val);
       });
       return () => (
-        <div class="flex items-center w-47">
+        <div class="flex items-center justify-between">
           <Input class="mr-1 flex-1" size={'small'} v-model:value={colorValue.value}></Input>
           <Popover
             trigger={'click'}

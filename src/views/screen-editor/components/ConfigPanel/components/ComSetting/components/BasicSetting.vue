@@ -1,8 +1,8 @@
 <script lang="tsx">
   import { defineComponent, inject, ref, watch } from 'vue';
   import { comInjectionKey } from '../../../config';
-  import { Form, InputNumber } from 'ant-design-vue';
-  import Slider from '/@/components/global/Slider/index.vue';
+  import { Form, Tooltip, Button } from 'ant-design-vue';
+  import { Slider, InputNumber } from '/@/components/global';
   import Icon from '/@/components/global/Icon';
   type filpType = 'v' | 'h';
 
@@ -42,59 +42,46 @@
             labelAlign={'left'}
           >
             <Form.Item label="图表尺寸">
-              <InputNumber
-                v-model:value={com.value.scaling.w}
-                class="mr-2"
-                size={'small'}
-                min={10}
-                max={888888}
-              ></InputNumber>
-              <InputNumber
-                v-model:value={com.value.scaling.h}
-                size={'small'}
-                min={10}
-                max={888888}
-              ></InputNumber>
+              <InputNumber v-model={com.value.scaling.w}></InputNumber>
+              <InputNumber v-model={com.value.scaling.h}></InputNumber>
             </Form.Item>
             <Form.Item label="图表位置">
-              <InputNumber
-                v-model:value={com.value.attr.x}
-                class="mr-2"
-                size={'small'}
-              ></InputNumber>
-              <InputNumber v-model:value={com.value.attr.y} size={'small'}></InputNumber>
+              <InputNumber v-model={com.value.attr.x}></InputNumber>
+              <InputNumber v-model={com.value.attr.y}></InputNumber>
             </Form.Item>
             <Form.Item label="旋转角度">
-              <div class="flex items-center">
-                <InputNumber
-                  v-model:value={com.value.attr.deg}
-                  class="mr-2"
-                  size={'small'}
-                ></InputNumber>
+              <div class="flex items-center justify-between w-full">
+                <InputNumber v-model={com.value.attr.deg}></InputNumber>
                 <div class="rotate-wp">
-                  <div class="rotate-icon-wp" onClick={onRotateChange}>
+                  <div class="rotate-icon-wp mr-0.5" onClick={onRotateChange}>
                     <span
                       class="rotate-icon"
                       style={{ transform: `rotate(${com.value.attr.deg}deg)` }}
                     ></span>
                   </div>
-                  <Icon
-                    class="datav-icon !mr-0"
-                    title="水平翻转"
-                    icon="fluent:flip-horizontal-16-regular"
-                    onClick={() => onFilpChange('h')}
-                  ></Icon>
-                  <Icon
-                    class="datav-icon !mr-0"
-                    title="垂直翻转"
-                    icon="fluent:flip-vertical-16-regular"
-                    onClick={() => onFilpChange('v')}
-                  ></Icon>
+                  <div class="rotate-flip-wp">
+                    <Tooltip mouseEnterDelay={0.5} title="水平翻转">
+                      <Button
+                        class={['hor', { '--checked': filps.value.includes('h') }]}
+                        onClick={() => onFilpChange('h')}
+                      >
+                        <Icon icon="fluent:flip-horizontal-16-regular"></Icon>
+                      </Button>
+                    </Tooltip>
+                    <Tooltip mouseEnterDelay={0.5} title="垂直翻转">
+                      <Button
+                        class={['hor', { '--checked': filps.value.includes('v') }]}
+                        onClick={() => onFilpChange('v')}
+                      >
+                        <Icon icon="fluent:flip-vertical-16-regular"></Icon>
+                      </Button>
+                    </Tooltip>
+                  </div>
                 </div>
               </div>
             </Form.Item>
             <Form.Item label="透明度">
-              <Slider v-model:value={com.value.attr.opacity} min={0} max={1} step={0.05}></Slider>
+              <Slider v-model={com.value.attr.opacity} step={0.05}></Slider>
             </Form.Item>
           </Form>
         </div>
@@ -142,6 +129,34 @@
         top: 1px;
         left: 8px;
       }
+    }
+  }
+  .rotate-flip-wp {
+    display: inline-block;
+
+    .hor,
+    .ver {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: var(--datav-outline);
+      cursor: pointer;
+      color: var(--datav-font-color);
+      background-color: var(--datav-gui-component-bgcolor);
+      padding: 0;
+
+      &.--checked,
+      &:hover {
+        border-color: var(--datav-main-color);
+      }
+
+      &:active {
+        background: rgb(0 0 0 / 50%);
+      }
+    }
+
+    .hor {
+      margin-left: 8px;
     }
   }
 </style>

@@ -1,10 +1,9 @@
 <script lang="tsx">
   import { defineComponent } from 'vue';
-  import { Form, InputNumber } from 'ant-design-vue';
+  import { Form } from 'ant-design-vue';
   import { useEditorStore } from '/@/store/modules/editor';
   import { storeToRefs } from 'pinia';
-  import { ColorPicker } from '/@/components/global/ColorPicker';
-  import { UploadImage } from '/@/components/global/UploadImage';
+  import { ColorPicker, UploadImage, InputNumber } from '/@/components/global';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -23,18 +22,11 @@
                   labelAlign={'left'}
                 >
                   <Form.Item label="屏幕大小">
-                    <InputNumber
-                      v-model:value={pageConfig.value.width}
-                      class="mr-2"
-                      size={'small'}
-                    ></InputNumber>
-                    <InputNumber
-                      v-model:value={pageConfig.value.height}
-                      size={'small'}
-                    ></InputNumber>
+                    <InputNumber v-model={pageConfig.value.width} class="mr-2"></InputNumber>
+                    <InputNumber v-model={pageConfig.value.height}></InputNumber>
                   </Form.Item>
                   <Form.Item label="背景颜色">
-                    <ColorPicker v-model:value={pageConfig.value.bgcolor}></ColorPicker>
+                    <ColorPicker v-model={pageConfig.value.bgcolor}></ColorPicker>
                   </Form.Item>
                   <Form.Item label="背景图">
                     <UploadImage v-model={pageConfig.value.bgimage}></UploadImage>

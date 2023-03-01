@@ -1,9 +1,9 @@
 <script lang="tsx">
   import { ComputedRef, defineComponent, inject, watch } from 'vue';
-  import { Form, InputNumber } from 'ant-design-vue';
+  import { Form } from 'ant-design-vue';
   import { comInjectionKey } from '../config';
   import DatavGroup from '/@/components/_group';
-  import Slider from '/@/components/global/Slider/index.vue';
+  import { InputNumber, Slider } from '/@/components/global';
   export default defineComponent({
     setup() {
       const com = inject(comInjectionKey) as ComputedRef<DatavGroup>;
@@ -24,35 +24,15 @@
                 labelAlign={'left'}
               >
                 <Form.Item label="图表尺寸">
-                  <InputNumber
-                    class="mr-2"
-                    size={'small'}
-                    v-model:value={com.value.scaling.w}
-                    min={10}
-                    max={888888}
-                  ></InputNumber>
-                  <InputNumber
-                    size={'small'}
-                    v-model:value={com.value.scaling.h}
-                    min={10}
-                    max={888888}
-                  ></InputNumber>
+                  <InputNumber v-model={com.value.scaling.w}></InputNumber>
+                  <InputNumber v-model={com.value.scaling.h}></InputNumber>
                 </Form.Item>
                 <Form.Item label="图表位置">
-                  <InputNumber
-                    class="mr-2"
-                    size={'small'}
-                    v-model:value={com.value.attr.x}
-                  ></InputNumber>
-                  <InputNumber size={'small'} v-model:value={com.value.attr.y}></InputNumber>
+                  <InputNumber v-model={com.value.attr.x}></InputNumber>
+                  <InputNumber v-model={com.value.attr.y}></InputNumber>
                 </Form.Item>
                 <Form.Item label="透明度">
-                  <Slider
-                    v-model:value={com.value.attr.opacity}
-                    min={0}
-                    max={1}
-                    step={0.05}
-                  ></Slider>
+                  <Slider v-model={com.value.attr.opacity} step={0.05}></Slider>
                 </Form.Item>
               </Form>
             </div>

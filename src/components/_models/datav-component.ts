@@ -3,7 +3,6 @@ import { ApiConfigMap, ApiDataConfigMap } from './data-source';
 import { DataEventConfig } from './data-event';
 import { findComByName } from '/@/data/system-components';
 import { AnimationEasing } from '/@/utils/types';
-import type { EChartsOption } from 'echarts';
 
 export enum ComType {
   com = 'com',
@@ -149,16 +148,28 @@ export const checkComponentAttr = (com: DatavComponent) => {
   }
 };
 
-export type EchartConfig = EChartsOption & {
-  global?: Record<string, any>;
-  animation?: {
-    enabled: boolean;
-    duration?: number;
-    easing?: AnimationEasing;
-    delay?: number;
-    threshold?: number;
-    durationUpdate?: number;
-    easingUpdate?: string;
-    delayUpdate?: number;
+export abstract class DatavEChartsComponent extends DatavComponent {
+  abstract config: Record<string, any> & {
+    echart?: {
+      margin?: {
+        top?: number;
+        bottom?: number;
+        left?: number;
+        right?: number;
+      };
+    };
+    legend?: Record<string, any>;
+    tooltip?: Record<string, any>;
+    series?: DatavChartSeries | DatavChartSeries[];
+    animation?: {
+      enabled: boolean;
+      duration?: number;
+      easing?: AnimationEasing;
+      delay?: number;
+      threshold?: number;
+      durationUpdate?: number;
+      easingUpdate?: string;
+      delayUpdate?: number;
+    };
   };
-};
+}

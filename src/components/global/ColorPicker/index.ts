@@ -1,5 +1,5 @@
-import { withInstall } from '/@/utils';
+import type { SFCWithInstall } from '/@/utils/types';
 
-import colorPicker from './src/ColorPicker.vue';
+import ColorPicker from './src/ColorPicker.vue';
 
-export const ColorPicker = withInstall(colorPicker);
+export default ColorPicker as SFCWithInstall<typeof ColorPicker>;
