@@ -30,8 +30,8 @@ export const transform: AxiosTransform = {
       return result;
     }
     if (msg) {
+      throw new Error(msg || '请求出错,请稍后重试');
     }
-    throw new Error(msg || '请求出错,请稍后重试');
   },
   /** 请求拦截器处理 */
   requestInterceptors: (config, _) => {

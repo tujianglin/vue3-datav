@@ -3,6 +3,7 @@ import { clone, merge } from 'lodash-es';
 import { CreateAxiosOptions } from '/#/axios';
 import { Axios } from './axios';
 import { transform } from './axiosTransform';
+import { Base64 } from 'js-base64';
 
 const { VITE_GLOB_API_URL } = import.meta.env;
 
@@ -13,6 +14,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         authenticationScheme: '',
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
+          Authorization: `Basic ${Base64.encode(`saber:saber_secret`)}`,
         },
         /** 数据处理方法 */
         transform: clone(transform),

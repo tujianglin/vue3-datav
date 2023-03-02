@@ -4,7 +4,6 @@
   import type { Rule } from 'ant-design-vue/es/form';
   import Icon from '/@/components/global/Icon';
   import { useUserStore } from '/@/store/modules/user';
-  import { useRouter } from 'vue-router';
 
   interface FormState {
     username: string;
@@ -13,7 +12,6 @@
   export default defineComponent({
     setup() {
       const { login } = useUserStore();
-      const router = useRouter();
       const formRef = ref();
       const loading = ref(false);
       const formState = reactive<FormState>({
@@ -25,15 +23,13 @@
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
       };
       const handleSubmit = () => {
-        formRef.value?.validate().then((res) => {
-          loading.value = true;
-          login(res)
-            .then(() => {
-              router.push('/project');
-            })
-            .finally(() => {
-              loading.value = false;
-            });
+        formRef.value?.validate().then(async (res) => {
+          try {
+            loading.value = true;
+            await login(res);
+          } finally {
+            loading.value = false;
+          }
         });
       };
       return () => (
