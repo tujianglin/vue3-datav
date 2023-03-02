@@ -1,6 +1,14 @@
 <script lang="tsx">
   import { storeToRefs } from 'pinia';
-  import { computed, CSSProperties, defineAsyncComponent, defineComponent, ref } from 'vue';
+  import {
+    computed,
+    CSSProperties,
+    defineAsyncComponent,
+    defineComponent,
+    onMounted,
+    onUnmounted,
+    ref,
+  } from 'vue';
   import { useContextMenu } from '../ContextMenu';
   import { useComStore } from '/@/store/modules/com';
   import { useEditorStore } from '/@/store/modules/editor';
@@ -23,6 +31,8 @@
       const { coms } = storeToRefs(comStore);
       const { hideMenu } = useContextMenu();
       const { pageConfig, canvas } = storeToRefs(editorStore);
+      const screenWp = ref();
+      const canvasComs = ref();
       const cancelable = ref(false);
       const selectionW = ref(0);
       const selectionH = ref(0);
@@ -138,10 +148,8 @@
         const up = () => {
           off(document, 'mousemove', move);
           off(document, 'mouseup', up);
-
           hideArea();
           getSelectComs();
-
           if (cancelable.value) {
             confirmCancel(ev);
           }
@@ -176,16 +184,58 @@
         ev.stopPropagation();
         ev.dataTransfer.dropEffect = 'copy';
       };
+
+      // 处理鼠标拖动
+      const handleWheel = (e: any) => {
+        const scale = canvas.value.scale * 100;
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          let resScale = scale;
+          // 放大(200%)
+          if (e.wheelDelta >= 0 && scale < 200) {
+            resScale = scale + 5;
+            editorStore.setCanvasScale(
+              resScale,
+              toolbarStore.getPanelOffset.x,
+              toolbarStore.getPanelOffset.y,
+            );
+            return;
+          }
+          // 缩小(10%)
+          if (e.wheelDelta < 0 && scale > 10) {
+            resScale = scale - 5;
+            editorStore.setCanvasScale(
+              resScale,
+              toolbarStore.getPanelOffset.x,
+              toolbarStore.getPanelOffset.y,
+            );
+          }
+        }
+      };
+      onMounted(() => {
+        if (screenWp.value) {
+          screenWp.value.addEventListener('wheel', handleWheel, { passive: false });
+        }
+      });
+
+      onUnmounted(() => {
+        if (screenWp.value) {
+          screenWp.value.removeEventListener('wheel', handleWheel);
+        }
+      });
+
       return () => (
         <div class="canvas-main">
           <div id="canvas-wp" class="canvas-panel-wrap" onClick={cancelSelected}>
             <div
+              ref={screenWp}
               id="screen-wp"
               class="screen-shot"
               style={screenShotStyle.value}
               onMousedown={handleMouseDown}
             >
               <div
+                ref={canvasComs}
                 id="canvas-coms"
                 class="canvas-panel"
                 style={canvasPanelStyle.value}

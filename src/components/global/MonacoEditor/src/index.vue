@@ -230,6 +230,7 @@
             title={`${props.fullScreenTitle}${props.readOnly ? ' ( 只读 )' : ''}`}
             footer={null}
             width="90%"
+            maskClosable={false}
           >
             <div class="datav-fullscreen-editor-wp">
               <div
@@ -239,7 +240,7 @@
                   { '--read-only': props.readOnly },
                 ]}
               >
-                <section class="flex relative w-full h-full"></section>
+                <section style="display: flex; position: relative; text-align: initial; width: 100%; height: 100%;"></section>
               </div>
             </div>
           </Modal>

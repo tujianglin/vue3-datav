@@ -5,7 +5,7 @@
   import DataConfig from './components/DataConfig/index.vue';
   export default defineComponent({
     setup() {
-      const activeKey = ref('2');
+      const activeKey = ref('1');
       return () => (
         <Tabs
           class="h-full"
