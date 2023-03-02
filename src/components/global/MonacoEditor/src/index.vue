@@ -14,8 +14,8 @@
   } from '.';
   import { debounce } from 'lodash-es';
   import { Loading } from '/@/components/global';
-  import Icon from '../../Icon';
   import { message, Modal } from 'ant-design-vue';
+  import { CopyOutlined, FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons-vue';
   export default defineComponent({
     props: {
       language: {
@@ -208,22 +208,20 @@
           >
             {!loading.value && (
               <div class="datav-editor-actions">
-                <Icon
-                  class="action-btn"
-                  title="点击复制"
-                  onClick={copyData}
-                  icon="ant-design:copy-outlined"
-                ></Icon>
-                <Icon
-                  class="action-btn"
-                  title={isFullScreen.value ? '退出全屏' : '全屏模式下编辑或查看'}
-                  onClick={switchFullScreen}
-                  icon={
-                    isFullScreen.value
-                      ? 'ant-design:fullscreen-exit-outlined'
-                      : 'ant-design:fullscreen-outlined'
-                  }
-                ></Icon>
+                <CopyOutlined class="action-btn" title="点击复制" onClick={copyData}></CopyOutlined>
+                {isFullScreen.value ? (
+                  <FullscreenExitOutlined
+                    class="action-btn"
+                    title="退出全屏"
+                    onClick={switchFullScreen}
+                  ></FullscreenExitOutlined>
+                ) : (
+                  <FullscreenOutlined
+                    class="action-btn"
+                    title="全屏模式下编辑或查看"
+                    onClick={switchFullScreen}
+                  ></FullscreenOutlined>
+                )}
               </div>
             )}
           </div>

@@ -1,7 +1,6 @@
 <script lang="tsx">
   import { defineComponent, ref } from 'vue';
   import { Tabs } from 'ant-design-vue';
-  import Icon from '/@/components/global/Icon';
   import ComConfig from './components/ComConfig/index.vue';
   import DataConfig from './components/DataConfig/index.vue';
   export default defineComponent({
@@ -14,30 +13,13 @@
           v-model:activeKey={activeKey.value}
           type={'card'}
         >
-          <Tabs.TabPane
-            class="h-full relative"
-            key="1"
-            v-slots={{
-              tab: () => <Icon icon="icon-park-outline:setting-config"></Icon>,
-            }}
-          >
+          <Tabs.TabPane class="h-full relative" key="1" tab="配置">
             <ComConfig></ComConfig>
           </Tabs.TabPane>
-          <Tabs.TabPane
-            class="h-full relative"
-            key="2"
-            v-slots={{
-              tab: () => <Icon icon="material-symbols:cloud-outline"></Icon>,
-            }}
-          >
+          <Tabs.TabPane class="h-full relative" key="2" tab="数据">
             <DataConfig></DataConfig>
           </Tabs.TabPane>
-          <Tabs.TabPane
-            key="3"
-            v-slots={{
-              tab: () => <Icon icon="mdi:interaction-double-tap"></Icon>,
-            }}
-          ></Tabs.TabPane>
+          <Tabs.TabPane key="3" tab="事件"></Tabs.TabPane>
         </Tabs>
       );
     },

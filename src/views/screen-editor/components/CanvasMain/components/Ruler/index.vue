@@ -2,7 +2,7 @@
   import { defineComponent, onMounted, onUnmounted, ref, watchEffect } from 'vue';
   import { useEditorStore } from '/@/store/modules/editor';
   import { RulerBuilder } from './index';
-  import Icon from '/@/components/global/Icon';
+  import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons-vue';
   export default defineComponent({
     setup() {
       const editorStore = useEditorStore();
@@ -99,9 +99,9 @@
           ></div>
           <div class="ruler-corner" onClick={toggleGuides}>
             {visible.value ? (
-              <Icon icon="ant-design:eye-outlined"></Icon>
+              <EyeOutlined></EyeOutlined>
             ) : (
-              <Icon icon="ant-design:eye-invisible-outlined"></Icon>
+              <EyeInvisibleOutlined></EyeInvisibleOutlined>
             )}
           </div>
         </div>

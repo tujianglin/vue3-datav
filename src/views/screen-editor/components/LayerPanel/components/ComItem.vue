@@ -3,8 +3,13 @@
   import { Input } from 'ant-design-vue';
   import { ComType, DatavComponent } from '/@/components/_models/datav-component';
   import { getChildState } from '/@/store/modules/com';
-  import Icon from '/@/components/global/Icon';
   import { useContextMenu } from '../../ContextMenu';
+  import {
+    RightOutlined,
+    FolderFilled,
+    EyeInvisibleOutlined,
+    LockOutlined,
+  } from '@ant-design/icons-vue';
   export default defineComponent({
     props: {
       com: Object as PropType<DatavComponent>,
@@ -95,10 +100,10 @@
           {com.value?.type === ComType.layer && (
             <>
               <span class={['fold-toggle-btn', { 'icon-fold': com.value.fold }]}>
-                <Icon icon="ant-design:right-outlined"></Icon>
+                <RightOutlined></RightOutlined>
               </span>
               <span class={['layer-item-icon']}>
-                <Icon icon="ant-design:folder-filled"></Icon>
+                <FolderFilled></FolderFilled>
               </span>
             </>
           )}
@@ -124,7 +129,7 @@
                   class="show-toggle-btn inline-flex items-center"
                   onClick={() => toggleHide(false)}
                 >
-                  <Icon icon="ant-design:eye-invisible-outlined"></Icon>
+                  <EyeInvisibleOutlined></EyeInvisibleOutlined>
                 </span>
               )}
               {com.value?.locked && (
@@ -132,7 +137,7 @@
                   class="show-toggle-btn inline-flex items-center"
                   onClick={() => toggleLock(false)}
                 >
-                  <Icon icon="ant-design:lock-outlined"></Icon>
+                  <LockOutlined></LockOutlined>
                 </span>
               )}
             </>
@@ -173,7 +178,7 @@
                       class="show-toggle-btn inline-flex items-center"
                       onClick={() => toggleHide(false)}
                     >
-                      <Icon icon="ant-design:eye-invisible-outlined"></Icon>
+                      <EyeInvisibleOutlined></EyeInvisibleOutlined>
                     </span>
                   )}
                   {com.value?.locked && (
@@ -181,7 +186,7 @@
                       class="show-toggle-btn inline-flex items-center"
                       onClick={() => toggleLock(false)}
                     >
-                      <Icon icon="ant-design:lock-outlined"></Icon>
+                      <LockOutlined></LockOutlined>
                     </span>
                   )}
                 </div>

@@ -1,8 +1,7 @@
 <script lang="tsx">
   import { defineComponent, ref, watch, withModifiers } from 'vue';
   import { Input, UploadDragger, message } from 'ant-design-vue';
-  import { LinkOutlined } from '@ant-design/icons-vue';
-  import Icon from '../../Icon';
+  import { LinkOutlined, FileImageOutlined, DeleteOutlined } from '@ant-design/icons-vue';
   export default defineComponent({
     props: {
       modelValue: String,
@@ -51,7 +50,7 @@
             <div class="upload-content">
               {image.value && (
                 <div class="image-hover" onClick={withModifiers(() => removeImage(), ['stop'])}>
-                  <Icon title="删除" icon="ant-design:delete-outlined"></Icon>
+                  <DeleteOutlined></DeleteOutlined>
                 </div>
               )}
               {image.value && !iserr.value ? (
@@ -59,7 +58,7 @@
               ) : (
                 <>
                   <div class="mt-2">
-                    <Icon icon="ph:image" size={60}></Icon>
+                    <FileImageOutlined></FileImageOutlined>
                   </div>
                   <div class="text-xs">点击或拖拽文件到这里更换</div>
                 </>

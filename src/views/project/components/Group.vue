@@ -1,11 +1,16 @@
 <script lang="tsx">
   import { computed, defineComponent, onMounted, ref } from 'vue';
   import { Input, Modal } from 'ant-design-vue';
-  import Icon from '/@/components/global/Icon';
   import { ScrollContainer } from '/@/components/global/Container';
   import { useProjectStore } from '/@/store/modules/project';
   import { ProjectGroup } from '/@/components/_editor/project';
   import { addClass, removeClass } from '/@/utils/dom';
+  import {
+    WarningOutlined,
+    PlusOutlined,
+    EditOutlined,
+    DeleteOutlined,
+  } from '@ant-design/icons-vue';
   export default defineComponent({
     setup() {
       const projectStore = useProjectStore();
@@ -66,7 +71,7 @@
           maskClosable: true,
           icon: () => (
             <div class="flex justify-center">
-              <Icon icon="ant-design:warning-outlined" size={64} color="#ff4f43"></Icon>
+              <WarningOutlined></WarningOutlined>
             </div>
           ),
           content: `${val.name} 删除后无法恢复，该分组中的可视化应用将全部移动到未分组，确认删除？`,
@@ -102,11 +107,7 @@
         <>
           <div class="group">
             <span>我的分组</span>
-            <Icon
-              icon="ant-design:plus-outlined"
-              class="add-icon"
-              onClick={() => (adding.value = true)}
-            ></Icon>
+            <PlusOutlined class="add-icon" onClick={() => (adding.value = true)}></PlusOutlined>
           </div>
           <ScrollContainer class="!h-full">
             <div class="all-group">
@@ -145,15 +146,12 @@
                       <span class="w-25 truncate pointer-events-none">{i?.name}</span>
                       <span class="num">{i?.children.length}</span>
                       <span class="edit flex items-center">
-                        <Icon
-                          icon="ant-design:edit-outlined"
-                          onClick={() => (i.edit = true)}
-                        ></Icon>
-                        <Icon
+                        <EditOutlined onClick={() => (i.edit = true)}></EditOutlined>
+                        <DeleteOutlined
                           class="ml-1"
                           icon="ant-design:delete-outlined"
                           onClick={() => onDelGroup(i)}
-                        ></Icon>
+                        ></DeleteOutlined>
                       </span>
                     </div>
                   )}

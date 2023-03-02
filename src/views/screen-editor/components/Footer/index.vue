@@ -1,7 +1,7 @@
 <script lang="tsx">
   import { defineComponent, ref, watch } from 'vue';
   import { Popover, Slider } from 'ant-design-vue';
-  import Icon from '/@/components/global/Icon';
+  import { DownOutlined } from '@ant-design/icons-vue';
   import { useEditorStore } from '/@/store/modules/editor';
   import { useToolbarStore } from '/@/store/modules/toolbar';
   export default defineComponent({
@@ -65,7 +65,7 @@
               ),
             }}
           >
-            <Icon class="shortcut-btn" icon="material-symbols:keyboard-hide-outline-rounded"></Icon>
+            {/* <Icon class="shortcut-btn" icon="material-symbols:keyboard-hide-outline-rounded"></Icon> */}
           </Popover>
           <div class="scale-input-wp">
             <input
@@ -95,7 +95,7 @@
                 ),
               }}
             >
-              <Icon class="open-icon" icon="ant-design:down-outlined"></Icon>
+              <DownOutlined class="open-icon"></DownOutlined>
             </Popover>
           </div>
           <div class="scale-slider-wp">

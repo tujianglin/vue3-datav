@@ -2,9 +2,8 @@
   import { defineComponent, reactive, ref } from 'vue';
   import { Form, Input, Button } from 'ant-design-vue';
   import type { Rule } from 'ant-design-vue/es/form';
-  import Icon from '/@/components/global/Icon';
   import { useUserStore } from '/@/store/modules/user';
-
+  import { UserOutlined, KeyOutlined } from '@ant-design/icons-vue';
   interface FormState {
     username: string;
     password: string;
@@ -40,7 +39,7 @@
                 v-model:value={formState.username}
                 placeholder="请输入账号"
                 v-slots={{
-                  prefix: () => <Icon icon="ant-design:user-outlined"></Icon>,
+                  prefix: () => <UserOutlined></UserOutlined>,
                 }}
               ></Input>
             </Form.Item>
@@ -49,7 +48,7 @@
                 v-model:value={formState.password}
                 placeholder="请输入密码"
                 v-slots={{
-                  prefix: () => <Icon icon="ant-design:key-outlined"></Icon>,
+                  prefix: () => <KeyOutlined></KeyOutlined>,
                 }}
               ></Input.Password>
             </Form.Item>

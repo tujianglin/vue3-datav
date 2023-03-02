@@ -5,6 +5,8 @@ import 'ant-design-vue/dist/antd.dark.less';
 import '/@/design/index.less';
 import 'virtual:windi.css';
 import 'echarts';
+// 阿里icon
+import '/@/assets/iconfont/iconfont.css';
 import { setupStore } from '/@/store';
 import { router, setupRouter } from '/@/router';
 import { setupRouterGuard } from '/@/router/guard';

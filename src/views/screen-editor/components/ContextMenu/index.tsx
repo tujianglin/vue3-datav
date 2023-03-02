@@ -4,9 +4,8 @@ import { Modal } from 'ant-design-vue';
 import { useComStore } from '/@/store/modules/com';
 import { on, off } from '/@/utils/dom';
 import { DatavComponent, ComType } from '/@/components/_models/datav-component';
-import Icon from '/@/components/global/Icon';
 import { MoveType } from '/@/components/_editor';
-
+import { WarningOutlined } from '@ant-design/icons-vue';
 const pos = reactive({ x: 0, y: 0 });
 
 export const useContextMenu = () => {
@@ -41,7 +40,7 @@ export const useContextMenu = () => {
       maskClosable: true,
       icon: () => (
         <div class="flex justify-center">
-          <Icon icon="ant-design:warning-outlined" size={64} color="#ff4f43"></Icon>
+          <WarningOutlined style="fontSize: 64px; color: #ff4f43"></WarningOutlined>
         </div>
       ),
       content: `删除后可能无法恢复，是否删除${names.join(',')}，共${names.length}个组件`,

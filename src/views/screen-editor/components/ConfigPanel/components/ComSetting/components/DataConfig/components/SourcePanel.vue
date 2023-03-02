@@ -16,7 +16,7 @@
   import ComApiStatus from './ApiStatus.vue';
   import { useDebugStore } from '/@/store/modules/debug';
   import { Input, Checkbox, InputNumber, Button, Tooltip } from 'ant-design-vue';
-  import Icon from '/@/components/global/Icon';
+  import { ReloadOutlined } from '@ant-design/icons-vue';
   import { forIn } from 'lodash-es';
   import { MonacoEditor } from '/@/components/global';
   import { useApiStore } from '/@/store/modules/api';
@@ -176,7 +176,7 @@
                 <div class="ds-line mt5">
                   <span>数据响应结果 ( 只读 ) </span>
                   <Tooltip title="刷新数据" placement={'left'}>
-                    <Icon class="refresh-btn" icon="tabler:refresh" onClick={refreshData}></Icon>
+                    <ReloadOutlined class="refresh-btn" onClick={refreshData}></ReloadOutlined>
                   </Tooltip>
                 </div>
                 <div class="ds-dots">

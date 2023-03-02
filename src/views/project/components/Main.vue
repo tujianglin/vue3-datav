@@ -3,9 +3,16 @@
   import { RouterLink } from 'vue-router';
   import { Input, Dropdown, Menu, MenuProps, Button, Tooltip, Modal } from 'ant-design-vue';
   import { sortBy } from 'lodash-es';
-  import { DownOutlined } from '@ant-design/icons-vue';
+  import {
+    DownOutlined,
+    WarningOutlined,
+    SearchOutlined,
+    DragOutlined,
+    CopyOutlined,
+    DeleteOutlined,
+    EditOutlined,
+  } from '@ant-design/icons-vue';
   import { useProjectStore } from '/@/store/modules/project';
-  import Icon from '/@/components/global/Icon';
   import { ScrollContainer } from '/@/components/global/Container';
   import { Project } from '/@/components/_editor/project';
   import { getAssetsFile } from '/@/utils';
@@ -68,7 +75,7 @@
           maskClosable: true,
           icon: () => (
             <div class="flex justify-center">
-              <Icon icon="ant-design:warning-outlined" size={64} color="#ff4f43"></Icon>
+              <WarningOutlined></WarningOutlined>
             </div>
           ),
           content: `${val.name} 删除后无法恢复，确认删除？`,
@@ -95,7 +102,7 @@
                 v-model:value={searchValue.value}
                 placeholder="搜索"
                 v-slots={{
-                  suffix: () => <Icon icon="ant-design:search-outlined"></Icon>,
+                  suffix: () => <SearchOutlined></SearchOutlined>,
                 }}
               ></Input>
               <Dropdown
@@ -141,7 +148,7 @@
                               onDragstart={(e) => onDragstart(e, i)}
                               onDragend={onDragend}
                             >
-                              <Icon size={20} icon="ant-design:drag-outlined"></Icon>
+                              <DragOutlined></DragOutlined>
                             </Button>
                           </Tooltip>
                           <Tooltip
@@ -150,7 +157,7 @@
                             title="复制"
                           >
                             <Button class="text-button" onClick={() => onProjectCopy(i)}>
-                              <Icon size={20} icon="ant-design:copy-outlined"></Icon>
+                              <CopyOutlined></CopyOutlined>
                             </Button>
                           </Tooltip>
                           <Tooltip
@@ -159,7 +166,7 @@
                             title="删除"
                           >
                             <Button class="text-button" onClick={() => onProjectDelete(i)}>
-                              <Icon size={20} icon="ant-design:delete-outlined"></Icon>
+                              <DeleteOutlined></DeleteOutlined>
                             </Button>
                           </Tooltip>
                         </div>
@@ -171,7 +178,7 @@
                           title="预览"
                         >
                           <Button class="text-button">
-                            <Icon size={20} icon="heroicons:tv"></Icon>
+                            {/* <Icon size={20} icon="heroicons:tv"></Icon> */}
                           </Button>
                         </Tooltip>
                       </div>
@@ -182,7 +189,7 @@
                           title="分享"
                         >
                           <Button class="text-button">
-                            <Icon size={20} icon="system-uicons:paper-plane"></Icon>
+                            {/* <Icon size={20} icon="system-uicons:paper-plane"></Icon> */}
                           </Button>
                         </Tooltip>
                       </div>
@@ -190,7 +197,7 @@
                   </div>
                   <div class="flex items-center justify-between name  px-2" title={i.name}>
                     <div class="flex items-center ">
-                      <Icon icon="ant-design:edit-outlined"></Icon>
+                      <EditOutlined></EditOutlined>
                       <Input
                         class="edit-input border-none w-30 truncate"
                         v-model:value={i.name}

@@ -1,7 +1,6 @@
 <script lang="tsx">
   import { computed, defineComponent, ref, withModifiers } from 'vue';
   import { storeToRefs } from 'pinia';
-  import Icon from '/@/components/global/Icon';
   import ComList from './components/ComList.vue';
   import ComItem from './components/ComItem.vue';
   import { DatavComponent } from '/@/components/_models/datav-component';
@@ -11,6 +10,12 @@
   import { useEditorStore } from '/@/store/modules/editor';
   import { MoveType } from '/@/components/_editor';
   import { useContextMenu } from '../ContextMenu/index';
+  import {
+    LeftOutlined,
+    DeleteOutlined,
+    LockOutlined,
+    EyeInvisibleFilled,
+  } from '@ant-design/icons-vue';
   export default defineComponent({
     setup() {
       const toolbarStore = useToolbarStore();
@@ -139,21 +144,21 @@
                   class={['btn-icon', { selected: !showText.value }]}
                   onClick={() => (showText.value = false)}
                 >
-                  <Icon icon="ic:baseline-grid-view"></Icon>
+                  {/* <Icon icon="ic:baseline-grid-view"></Icon> */}
                 </span>
                 <span
                   title="文字版"
                   class={['btn-icon', { selected: showText.value }]}
                   onClick={() => (showText.value = true)}
                 >
-                  <Icon icon="ph:list-bold"></Icon>
+                  {/* <Icon icon="ph:list-bold"></Icon> */}
                 </span>
                 <span
                   title="收起"
                   class={['btn-icon']}
                   onClick={() => toolbarStore.setPanelState(PanelType.layer, false)}
                 >
-                  <Icon icon="ant-design:left-outlined"></Icon>
+                  <LeftOutlined></LeftOutlined>
                 </span>
               </div>
             </div>
@@ -163,28 +168,28 @@
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.down)}
               >
-                <Icon icon="material-symbols:text-select-move-up"></Icon>
+                {/* <Icon icon="material-symbols:text-select-move-up"></Icon> */}
               </span>
               <span
                 title="下移一层"
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.up)}
               >
-                <Icon icon="material-symbols:text-select-move-down"></Icon>
+                {/* <Icon icon="material-symbols:text-select-move-down"></Icon> */}
               </span>
               <span
                 title="置顶"
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.bottom)}
               >
-                <Icon icon="mdi:arrow-collapse-up"></Icon>
+                {/* <Icon icon="mdi:arrow-collapse-up"></Icon> */}
               </span>
               <span
                 title="置底"
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.top)}
               >
-                <Icon icon="mdi:arrow-collapse-down"></Icon>
+                {/* <Icon icon="mdi:arrow-collapse-down"></Icon> */}
               </span>
             </div>
             <div class="layer-manager-wrap">
@@ -224,28 +229,28 @@
                 class={['toolbar-icon', 'standard', enableGroupBtnClass.value]}
                 onClick={composeComs}
               >
-                <Icon icon="mdi:folder"></Icon>
+                {/* <Icon icon="mdi:folder"></Icon> */}
               </span>
               <span
                 title="删除"
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={confirmDeleteCom}
               >
-                <Icon icon="ant-design:delete-outlined"></Icon>
+                <DeleteOutlined></DeleteOutlined>
               </span>
               <span
                 title="锁定"
                 class={['toolbar-icon', 'standard', enableLockBtnClass.value]}
                 onClick={lockCom}
               >
-                <Icon icon="ant-design:lock-outlined"></Icon>
+                <LockOutlined></LockOutlined>
               </span>
               <span
                 title="隐藏"
                 class={['toolbar-icon', 'standard', enableHideBtnClass.value]}
                 onClick={hideCom}
               >
-                <Icon icon="ant-design:eye-invisible-outlined"></Icon>
+                <EyeInvisibleFilled></EyeInvisibleFilled>
               </span>
             </div>
           </div>

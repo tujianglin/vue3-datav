@@ -2,7 +2,7 @@
   import { computed, defineComponent, ref, withModifiers } from 'vue';
   import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
   import { Tooltip, Tabs } from 'ant-design-vue';
-  import Icon from '/@/components/global/Icon';
+  import { LeftOutlined, LockOutlined } from '@ant-design/icons-vue';
   import { classifications, ComDataType, ComDataDto } from '/@/data/system-components';
   import { cloneDeep } from 'lodash-es';
   import { createComponent } from '/@/datavComponents/datav';
@@ -66,11 +66,7 @@
             <div class="panel-title">
               <span class="panel-text">{visiblePanel.value ? '全部组件' : '组件'}</span>
               <Tooltip placement={'bottom'} title="收起">
-                <Icon
-                  class="btn-icon"
-                  icon="ant-design:left-outlined"
-                  onClick={changeVisible}
-                ></Icon>
+                <LeftOutlined class="btn-icon" onClick={changeVisible}></LeftOutlined>
               </Tooltip>
             </div>
             <div class="components-panel-wrapper" onDragover={dragOver}>
@@ -103,7 +99,7 @@
                                             onClick={withModifiers(() => {}, ['stop'])}
                                           >
                                             <Tooltip title="正在开发中。。。🚀">
-                                              <Icon icon="ant-design:lock-outlined"></Icon>
+                                              <LockOutlined></LockOutlined>
                                             </Tooltip>
                                           </span>
                                         )}
@@ -137,7 +133,7 @@
                                   {!j.used && (
                                     <span class="mask" onClick={withModifiers(() => {}, ['stop'])}>
                                       <Tooltip title="正在开发中。。。🚀">
-                                        <Icon icon="ant-design:lock-outlined"></Icon>
+                                        <LockOutlined></LockOutlined>
                                       </Tooltip>
                                     </span>
                                   )}

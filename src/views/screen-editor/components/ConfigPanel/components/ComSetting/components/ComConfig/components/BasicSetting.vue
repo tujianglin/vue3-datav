@@ -3,7 +3,6 @@
   import { comInjectionKey } from '../../../../../config';
   import { Form, Tooltip, Button } from 'ant-design-vue';
   import { Slider, InputNumber } from '/@/components/global';
-  import Icon from '/@/components/global/Icon';
   type filpType = 'v' | 'h';
 
   export default defineComponent({
@@ -65,7 +64,7 @@
                         class={['hor', { '--checked': filps.value.includes('h') }]}
                         onClick={() => onFilpChange('h')}
                       >
-                        <Icon icon="fluent:flip-horizontal-16-regular"></Icon>
+                        {/* <Icon icon="fluent:flip-horizontal-16-regular"></Icon> */}
                       </Button>
                     </Tooltip>
                     <Tooltip mouseEnterDelay={0.5} title="垂直翻转">
@@ -73,7 +72,7 @@
                         class={['hor', { '--checked': filps.value.includes('v') }]}
                         onClick={() => onFilpChange('v')}
                       >
-                        <Icon icon="fluent:flip-vertical-16-regular"></Icon>
+                        {/* <Icon icon="fluent:flip-vertical-16-regular"></Icon> */}
                       </Button>
                     </Tooltip>
                   </div>

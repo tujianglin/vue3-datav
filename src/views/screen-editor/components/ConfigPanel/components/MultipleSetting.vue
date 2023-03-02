@@ -1,7 +1,14 @@
 <script lang="tsx">
   import { defineComponent } from 'vue';
   import { Form } from 'ant-design-vue';
-  import Icon from '/@/components/global/Icon';
+  import {
+    AlignLeftOutlined,
+    AlignRightOutlined,
+    AlignCenterOutlined,
+    VerticalAlignBottomOutlined,
+    VerticalAlignMiddleOutlined,
+    VerticalAlignTopOutlined,
+  } from '@ant-design/icons-vue';
   import { useComStore } from '/@/store/modules/com';
   import { maxBy, minBy } from 'lodash-es';
   export default defineComponent({
@@ -79,42 +86,36 @@
                 labelAlign={'left'}
               >
                 <Form.Item label="对齐">
-                  <Icon
+                  <AlignLeftOutlined
                     class="datav-icon"
                     title="左对齐"
-                    icon="ant-design:align-left-outlined"
                     onClick={alignLeft}
-                  ></Icon>
-                  <Icon
+                  ></AlignLeftOutlined>
+                  <AlignCenterOutlined
                     class="datav-icon"
                     title="水平居中对齐"
-                    icon="ant-design:align-center-outlined"
                     onClick={alignCenter}
-                  ></Icon>
-                  <Icon
+                  ></AlignCenterOutlined>
+                  <AlignRightOutlined
                     class="datav-icon"
                     title="右对齐"
-                    icon="ant-design:align-right-outlined"
                     onClick={alignRight}
-                  ></Icon>
-                  <Icon
+                  ></AlignRightOutlined>
+                  <VerticalAlignTopOutlined
                     class="datav-icon"
                     title="顶对齐"
-                    icon="ant-design:vertical-align-top-outlined"
                     onClick={alignTop}
-                  ></Icon>
-                  <Icon
+                  ></VerticalAlignTopOutlined>
+                  <VerticalAlignMiddleOutlined
                     class="datav-icon"
                     title="垂直居中对齐"
-                    icon="ant-design:vertical-align-middle-outlined"
                     onClick={alignMiddle}
-                  ></Icon>
-                  <Icon
+                  ></VerticalAlignMiddleOutlined>
+                  <VerticalAlignBottomOutlined
                     class="datav-icon"
                     title="底对齐"
-                    icon="ant-design:vertical-align-bottom-outlined"
                     onClick={alignBottom}
-                  ></Icon>
+                  ></VerticalAlignBottomOutlined>
                 </Form.Item>
               </Form>
             </div>
