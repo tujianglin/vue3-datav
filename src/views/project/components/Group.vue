@@ -71,7 +71,7 @@
           maskClosable: true,
           icon: () => (
             <div class="flex justify-center">
-              <WarningOutlined></WarningOutlined>
+              <WarningOutlined class="text-6xl text-[#ff4f43]"></WarningOutlined>
             </div>
           ),
           content: `${val.name} 删除后无法恢复，该分组中的可视化应用将全部移动到未分组，确认删除？`,

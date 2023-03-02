@@ -15,6 +15,12 @@
     DeleteOutlined,
     LockOutlined,
     EyeInvisibleFilled,
+    AppstoreOutlined,
+    BarsOutlined,
+    VerticalAlignBottomOutlined,
+    VerticalAlignTopOutlined,
+    ArrowUpOutlined,
+    ArrowDownOutlined,
   } from '@ant-design/icons-vue';
   export default defineComponent({
     setup() {
@@ -144,14 +150,14 @@
                   class={['btn-icon', { selected: !showText.value }]}
                   onClick={() => (showText.value = false)}
                 >
-                  {/* <Icon icon="ic:baseline-grid-view"></Icon> */}
+                  <AppstoreOutlined></AppstoreOutlined>
                 </span>
                 <span
                   title="文字版"
                   class={['btn-icon', { selected: showText.value }]}
                   onClick={() => (showText.value = true)}
                 >
-                  {/* <Icon icon="ph:list-bold"></Icon> */}
+                  <BarsOutlined></BarsOutlined>
                 </span>
                 <span
                   title="收起"
@@ -168,28 +174,28 @@
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.down)}
               >
-                {/* <Icon icon="material-symbols:text-select-move-up"></Icon> */}
+                <ArrowUpOutlined></ArrowUpOutlined>
               </span>
               <span
                 title="下移一层"
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.up)}
               >
-                {/* <Icon icon="material-symbols:text-select-move-down"></Icon> */}
+                <ArrowDownOutlined></ArrowDownOutlined>
               </span>
               <span
                 title="置顶"
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.bottom)}
               >
-                {/* <Icon icon="mdi:arrow-collapse-up"></Icon> */}
+                <VerticalAlignTopOutlined class="mr-1"></VerticalAlignTopOutlined>
               </span>
               <span
                 title="置底"
                 class={['toolbar-icon', 'standard', enableBtnClass.value]}
                 onClick={() => moveCom(MoveType.top)}
               >
-                {/* <Icon icon="mdi:arrow-collapse-down"></Icon> */}
+                <VerticalAlignBottomOutlined></VerticalAlignBottomOutlined>
               </span>
             </div>
             <div class="layer-manager-wrap">
@@ -229,7 +235,7 @@
                 class={['toolbar-icon', 'standard', enableGroupBtnClass.value]}
                 onClick={composeComs}
               >
-                {/* <Icon icon="mdi:folder"></Icon> */}
+                <i class="iconfont icon-folder text-xs"></i>
               </span>
               <span
                 title="删除"

@@ -4,6 +4,7 @@
   import { PanelType, useToolbarStore } from '/@/store/modules/toolbar';
   import { useRouter } from 'vue-router';
   import Loading from './components/Loading.vue';
+  import { DesktopOutlined, SendOutlined } from '@ant-design/icons-vue';
   export default defineComponent({
     setup() {
       const router = useRouter();
@@ -33,7 +34,7 @@
                         toolbarStore.setPanelState(PanelType.layer, !toolbarStore.layer.show)
                       }
                     >
-                      {/* <Icon icon="uil:layer-group"></Icon> */}
+                      <i class="iconfont icon-layer-group"></i>
                     </Button>
                   </Tooltip>
                   <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="组件列表">
@@ -47,7 +48,7 @@
                         )
                       }
                     >
-                      {/* <Icon icon="tabler:box"></Icon> */}
+                      <i class="iconfont icon-box"></i>
                     </Button>
                   </Tooltip>
                   <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="右侧面板">
@@ -58,7 +59,7 @@
                         toolbarStore.setPanelState(PanelType.config, !toolbarStore.config.show)
                       }
                     >
-                      {/* <Icon icon="carbon:open-panel-filled-right"></Icon> */}
+                      <i class="iconfont icon-layout-left-panel-1"></i>
                     </Button>
                   </Tooltip>
                   <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="工具箱">
@@ -69,7 +70,7 @@
                         toolbarStore.setPanelState(PanelType.toolbox, !toolbarStore.toolbox.show)
                       }
                     >
-                      {/* <Icon icon="memory:toolbox"></Icon> */}
+                      <i class="iconfont icon-toolbox-solid"></i>
                     </Button>
                   </Tooltip>
                 </div>
@@ -77,17 +78,17 @@
                 <div class="global-actions">
                   <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="生成快照">
                     <Button class={['head-btn', 'mr-1']} type={'primary'} onClick={onSaveScreen}>
-                      {/* <Icon icon="ic:outline-photo-camera"></Icon> */}
+                      <i class="iconfont icon-camera"></i>
                     </Button>
                   </Tooltip>
                   <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="发布">
                     <Button class={['head-btn', 'mr-1']} type={'primary'}>
-                      {/* <Icon icon="system-uicons:paper-plane"></Icon> */}
+                      <SendOutlined></SendOutlined>
                     </Button>
                   </Tooltip>
                   <Tooltip overlayClassName="tooltip-main" mouseEnterDelay={0.5} title="预览">
                     <Button class={['head-btn', 'mr-1']} type={'primary'} onClick={onPreview}>
-                      {/* <Icon icon="heroicons:tv"></Icon> */}
+                      <DesktopOutlined></DesktopOutlined>
                     </Button>
                   </Tooltip>
                 </div>

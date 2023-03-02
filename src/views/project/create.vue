@@ -2,8 +2,7 @@
   import { defineComponent, onMounted, ref } from 'vue';
   import { Button, Spin } from 'ant-design-vue';
   import { RouterLink } from 'vue-router';
-  import { PlusOutlined } from '@ant-design/icons-vue';
-  import Icon from '/@/components/global/Icon';
+  import { PlusOutlined, LeftOutlined } from '@ant-design/icons-vue';
   import { getSysTemplates } from '/@/api/templates';
   import { ProjectTemplate } from '/@/components/_editor/project';
   import { ScrollContainer } from '/@/components/global/Container';
@@ -28,7 +27,7 @@
               <div class="left"></div>
               <RouterLink to="/" class="return-btn">
                 <Button class="text-button">
-                  <Icon class="mr-2" icon="ant-design:left-outlined"></Icon>
+                  <LeftOutlined class="mr-2"></LeftOutlined>
                   取消创建
                 </Button>
               </RouterLink>
@@ -39,6 +38,7 @@
                   <div class="template-item --bank">
                     <div class="image">
                       <Button
+                        class="flex items-center"
                         type={'primary'}
                         onClick={onCreateProject}
                         v-slots={{

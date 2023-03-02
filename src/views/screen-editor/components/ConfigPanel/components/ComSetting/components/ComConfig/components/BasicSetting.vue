@@ -64,7 +64,7 @@
                         class={['hor', { '--checked': filps.value.includes('h') }]}
                         onClick={() => onFilpChange('h')}
                       >
-                        {/* <Icon icon="fluent:flip-horizontal-16-regular"></Icon> */}
+                        <i class="iconfont icon-flip-horizontally"></i>
                       </Button>
                     </Tooltip>
                     <Tooltip mouseEnterDelay={0.5} title="垂直翻转">
@@ -72,7 +72,7 @@
                         class={['hor', { '--checked': filps.value.includes('v') }]}
                         onClick={() => onFilpChange('v')}
                       >
-                        {/* <Icon icon="fluent:flip-vertical-16-regular"></Icon> */}
+                        <i class="iconfont icon-flip-vertically"></i>
                       </Button>
                     </Tooltip>
                   </div>

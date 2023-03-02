@@ -11,6 +11,10 @@
     EditOutlined,
     CopyOutlined,
     DeleteOutlined,
+    VerticalAlignTopOutlined,
+    VerticalAlignBottomOutlined,
+    ArrowUpOutlined,
+    ArrowDownOutlined,
   } from '@ant-design/icons-vue';
   export default defineComponent({
     setup() {
@@ -40,19 +44,19 @@
       return () => (
         <div class="context-menu-wrap" style={contextMenuStyle.value}>
           <div class="context-menu-item" onClick={() => moveCom(MoveType.bottom)}>
-            {/* <Icon class="mr-1" size={12} icon="mdi:arrow-collapse-up"></Icon> */}
+            <VerticalAlignTopOutlined class="mr-1"></VerticalAlignTopOutlined>
             置顶
           </div>
           <div class="context-menu-item" onClick={() => moveCom(MoveType.top)}>
-            {/* <Icon class="mr-1" size={12} icon="mdi:arrow-collapse-down"></Icon> */}
+            <VerticalAlignBottomOutlined class="mr-1"></VerticalAlignBottomOutlined>
             置底
           </div>
           <div class="context-menu-item" onClick={() => moveCom(MoveType.down)}>
-            {/* <Icon class="mr-1" size={12} icon="material-symbols:text-select-move-up"></Icon> */}
+            <ArrowUpOutlined class="mr-1"></ArrowUpOutlined>
             上移一层
           </div>
           <div class="context-menu-item" onClick={() => moveCom(MoveType.up)}>
-            {/* <Icon class="mr-1" size={12} icon="material-symbols:text-select-move-down"></Icon> */}
+            <ArrowDownOutlined class="mr-1"></ArrowDownOutlined>
             下移一层
           </div>
           <div class="context-menu-divider"></div>
@@ -60,14 +64,14 @@
             class={['context-menu-item', { disable: disableGroup.value }]}
             onClick={() => composeComs()}
           >
-            {/* <Icon class="mr-1" size={12} icon="mdi:folder"></Icon> */}
+            <i class="iconfont icon-folder text-xs mr-1"></i>
             成组
           </div>
           <div
             class={['context-menu-item', { disable: !isGroup.value }]}
             onClick={() => decomposeComs()}
           >
-            {/* <Icon class="mr-1" size={12} icon="mdi:folder-remove-outline"></Icon> */}
+            <i class="iconfont icon-folder_delete text-xs mr-1"></i>
             取消成组
           </div>
           <div class="context-menu-divider"></div>

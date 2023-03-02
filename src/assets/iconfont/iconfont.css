@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3926091 */
-  src: url('iconfont.woff2?t=1677724840096') format('woff2'),
-       url('iconfont.woff?t=1677724840096') format('woff'),
-       url('iconfont.ttf?t=1677724840096') format('truetype');
+  src: url('iconfont.woff2?t=1677728673047') format('woff2'),
+       url('iconfont.woff?t=1677728673047') format('woff'),
+       url('iconfont.ttf?t=1677728673047') format('truetype');
 }
 
 .iconfont {
@@ -13,56 +13,28 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-layout-left-panel-1:before {
+  content: "\e6c0";
+}
+
+.icon-folder:before {
+  content: "\e65a";
+}
+
 .icon-camera:before {
   content: "\e600";
-}
-
-.icon-1mulu:before {
-  content: "\e643";
-}
-
-.icon-movedown:before {
-  content: "\e66b";
-}
-
-.icon-moveup:before {
-  content: "\e66c";
-}
-
-.icon-tv:before {
-  content: "\eb34";
 }
 
 .icon-folder_delete:before {
   content: "\e658";
 }
 
-.icon-folder_ok:before {
-  content: "\e659";
-}
-
 .icon-grid-view:before {
   content: "\e601";
 }
 
-.icon-image:before {
-  content: "\e7de";
-}
-
-.icon-paper-plane:before {
-  content: "\e7eb";
-}
-
 .icon-layer-group:before {
   content: "\e7f7";
-}
-
-.icon-arrow-to-bottom:before {
-  content: "\e83c";
-}
-
-.icon-arrow-to-top:before {
-  content: "\e83d";
 }
 
 .icon-flip-vertically:before {

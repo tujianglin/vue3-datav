@@ -65,7 +65,7 @@
               ),
             }}
           >
-            {/* <Icon class="shortcut-btn" icon="material-symbols:keyboard-hide-outline-rounded"></Icon> */}
+            <i class="iconfont icon-keyboard_hide shortcut-btn"></i>
           </Popover>
           <div class="scale-input-wp">
             <input

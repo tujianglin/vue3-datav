@@ -1,6 +1,6 @@
 <script lang="tsx">
   import { computed, defineComponent, ref } from 'vue';
-  import { RouterLink } from 'vue-router';
+  import { RouterLink, useRouter } from 'vue-router';
   import { Input, Dropdown, Menu, MenuProps, Button, Tooltip, Modal } from 'ant-design-vue';
   import { sortBy } from 'lodash-es';
   import {
@@ -11,6 +11,8 @@
     CopyOutlined,
     DeleteOutlined,
     EditOutlined,
+    DesktopOutlined,
+    SendOutlined,
   } from '@ant-design/icons-vue';
   import { useProjectStore } from '/@/store/modules/project';
   import { ScrollContainer } from '/@/components/global/Container';
@@ -18,12 +20,14 @@
   import { getAssetsFile } from '/@/utils';
   export default defineComponent({
     setup() {
-      // 移动图片
-      const image = new Image();
-      image.src = getAssetsFile('images/drag-thumbnail.png');
+      const router = useRouter();
       const projectStore = useProjectStore();
       const sort = ref('name');
       const searchValue = ref<string>();
+      // 移动图片
+      const image = new Image();
+      image.src = getAssetsFile('images/drag-thumbnail.png');
+
       const sorts = {
         name: '按名称排序',
         createAt: '按创建时间排序',
@@ -75,7 +79,7 @@
           maskClosable: true,
           icon: () => (
             <div class="flex justify-center">
-              <WarningOutlined></WarningOutlined>
+              <WarningOutlined class="text-6xl text-[#ff4f43]"></WarningOutlined>
             </div>
           ),
           content: `${val.name} 删除后无法恢复，确认删除？`,
@@ -83,6 +87,14 @@
           cancelText: '取消',
           onOk: () => {
             projectStore.delete(val);
+          },
+        });
+      };
+      const handleEdit = (item) => {
+        router.push({
+          name: 'ScreenEditor',
+          params: {
+            projectId: item.id,
           },
         });
       };
@@ -133,7 +145,7 @@
                     <div class="img" style={[{ background: `url(${i.thumbnail})` }]}></div>
                     <div class="edit">
                       <div>
-                        <Button class="w-26" type={'primary'}>
+                        <Button class="w-26" type={'primary'} onClick={() => handleEdit(i)}>
                           编辑
                         </Button>
                         <div class="flex justify-between px-2 mt-4">
@@ -148,7 +160,7 @@
                               onDragstart={(e) => onDragstart(e, i)}
                               onDragend={onDragend}
                             >
-                              <DragOutlined></DragOutlined>
+                              <DragOutlined class="text-xl"></DragOutlined>
                             </Button>
                           </Tooltip>
                           <Tooltip
@@ -157,7 +169,7 @@
                             title="复制"
                           >
                             <Button class="text-button" onClick={() => onProjectCopy(i)}>
-                              <CopyOutlined></CopyOutlined>
+                              <CopyOutlined class="text-xl"></CopyOutlined>
                             </Button>
                           </Tooltip>
                           <Tooltip
@@ -166,7 +178,7 @@
                             title="删除"
                           >
                             <Button class="text-button" onClick={() => onProjectDelete(i)}>
-                              <DeleteOutlined></DeleteOutlined>
+                              <DeleteOutlined class="text-xl"></DeleteOutlined>
                             </Button>
                           </Tooltip>
                         </div>
@@ -178,7 +190,7 @@
                           title="预览"
                         >
                           <Button class="text-button">
-                            {/* <Icon size={20} icon="heroicons:tv"></Icon> */}
+                            <DesktopOutlined class="text-xl"></DesktopOutlined>
                           </Button>
                         </Tooltip>
                       </div>
@@ -189,7 +201,7 @@
                           title="分享"
                         >
                           <Button class="text-button">
-                            {/* <Icon size={20} icon="system-uicons:paper-plane"></Icon> */}
+                            <SendOutlined class="text-xl"></SendOutlined>
                           </Button>
                         </Tooltip>
                       </div>
@@ -289,13 +301,13 @@
 
           .preview {
             position: absolute;
-            top: 12px;
+            top: 8px;
             right: 40px;
           }
 
           .share {
             position: absolute;
-            top: 12px;
+            top: 8px;
             right: 12px;
           }
 
