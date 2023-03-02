@@ -37,7 +37,7 @@ export class NavCanvas {
   }
 
   initCanvas(canvas: HTMLCanvasElement, width: number, height: number) {
-    const ctx: any = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     const { devicePixelRatio } = window;
     canvas.width = width * devicePixelRatio;
     canvas.height = height * devicePixelRatio;
@@ -75,7 +75,7 @@ export class NavCanvas {
     imgCanvas.style.width = `${w / r}px`;
     imgCanvas.style.height = `${h / r}px`;
 
-    const ctx: any = imgCanvas.getContext('2d');
+    const ctx = imgCanvas.getContext('2d');
     //缩放 宽高 100%
     ctx.scale(r, r);
     ctx.lineWidth = 0.4;
@@ -98,7 +98,7 @@ export class NavCanvas {
       }
     }
 
-    this.pattern = (canvas as any).getContext('2d').createPattern(imgCanvas, 'repeat-x');
+    this.pattern = canvas.getContext('2d').createPattern(imgCanvas, 'repeat-x');
   }
 
   calcAvgSpeed(a: number) {
@@ -118,7 +118,7 @@ export class NavCanvas {
 
   drawHightlight(index: number) {
     const { opt } = this;
-    const ctx: any = this.canvas.getContext('2d');
+    const ctx = this.canvas.getContext('2d');
     const d = 0.3;
 
     //clearRect 在给定的矩形内清除指定的像素,这里清完了

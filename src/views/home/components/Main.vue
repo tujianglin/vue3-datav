@@ -1,6 +1,7 @@
 <script lang="tsx">
   import { debounce } from 'lodash-es';
   import { defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue';
+  import { useRoute } from 'vue-router';
   import { NavCanvas } from './canvas';
 
   interface NavDataType {
@@ -17,6 +18,7 @@
     },
     emits: ['change'],
     setup(props, { emit }) {
+      const route = useRoute();
       const activeNav = ref(0);
       let nc: NavCanvas | null = null;
       const toggleNav = (nav: NavDataType) => {
@@ -34,9 +36,10 @@
       }, 500);
 
       onMounted(() => {
-        // const nav = props.navs.find((m) => m.key === route.name);
-        // activeNav.value = nav ? nav.id : 0;
+        const nav = props.navs.find((i) => i.key === route.name);
+        activeNav.value = nav ? nav.id : 0;
         nc = new NavCanvas('nav-canvas', '.nav-main .nav-span', activeNav.value);
+        console.log(nc);
         window.addEventListener('resize', debNavResize);
       });
 
@@ -48,7 +51,7 @@
         <div class="nav-main">
           <canvas id="nav-canvas" style="position: absolute; z-index: -1; left: 0"></canvas>
           {props.navs.map((i) => (
-            <span class="nav-span">
+            <span class="nav-span" key={i.id}>
               <a
                 class={[{ 'nav-active': activeNav.value === i.id }, 'nav-link']}
                 onClick={() => toggleNav(i)}
