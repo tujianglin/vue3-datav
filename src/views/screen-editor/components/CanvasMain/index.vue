@@ -17,6 +17,7 @@
   import { useToolbarStore } from '/@/store/modules/toolbar';
   import { createComponent } from '/@/datavComponents/datav';
   import { loadCom } from '/@/components/_utils/component-util';
+  import { debounce } from 'lodash-es';
   const Ruler = defineAsyncComponent(() => import('./components/Ruler/index.vue'));
   const Area = defineAsyncComponent(() => import('./components/Area/index.vue'));
   const AlignLine = defineAsyncComponent(() => import('./components/AlignLine/index.vue'));
@@ -214,7 +215,7 @@
       };
       onMounted(() => {
         if (screenWp.value) {
-          screenWp.value.addEventListener('wheel', handleWheel, { passive: false });
+          screenWp.value.addEventListener('wheel', debounce(handleWheel), { passive: false });
         }
       });
 
