@@ -40,7 +40,7 @@ export const useContextMenu = () => {
       maskClosable: true,
       icon: () => (
         <div class="flex justify-center">
-          <WarningOutlined style="fontSize: 64px; color: #ff4f43"></WarningOutlined>
+          <WarningOutlined class="text-6xl text-[#ff4f43]"></WarningOutlined>
         </div>
       ),
       content: `删除后可能无法恢复，是否删除${names.join(',')}，共${names.length}个组件`,
