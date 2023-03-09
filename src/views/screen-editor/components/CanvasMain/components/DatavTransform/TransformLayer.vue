@@ -346,7 +346,6 @@
       };
 
       const onZoom = (ev: MouseEvent, dir: Direction) => {
-        console.log(11);
         hideMenu();
         if (!props.com.selected) {
           return false;
@@ -393,7 +392,6 @@
       };
 
       const onRotate = (ev: MouseEvent) => {
-        console.log(11);
         hideMenu();
         comStore.selectedComs.forEach((m) => {
           handleRotate(ev, instance.vnode.el as HTMLElement, m, (deg) => {

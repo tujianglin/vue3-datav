@@ -1,5 +1,5 @@
 <script lang="tsx">
-  import { ComputedRef, defineComponent, inject, watch } from 'vue';
+  import { ComputedRef, defineComponent, inject } from 'vue';
   import { Form } from 'ant-design-vue';
   import { comInjectionKey } from '../config';
   import DatavGroup from '/@/components/_group';
@@ -7,10 +7,12 @@
   export default defineComponent({
     setup() {
       const com = inject(comInjectionKey) as ComputedRef<DatavGroup>;
-      watch(com.value.scaling, (val) => {
-        com.value.attr.w = val.w;
-        com.value.attr.h = val.h;
-      });
+      const updateWidth = (val: number) => {
+        com.value.attr.w = val;
+      };
+      const updateHeight = (val: number) => {
+        com.value.attr.h = val;
+      };
       return () => (
         <div class="config-manager-page">
           <div class="config-manager-head">组内配置</div>
@@ -24,8 +26,14 @@
                 labelAlign={'left'}
               >
                 <Form.Item label="图表尺寸">
-                  <InputNumber v-model={com.value.scaling.w}></InputNumber>
-                  <InputNumber v-model={com.value.scaling.h}></InputNumber>
+                  <InputNumber
+                    v-model={com.value.scaling.w}
+                    onUpdate:modelValue={updateWidth}
+                  ></InputNumber>
+                  <InputNumber
+                    v-model={com.value.scaling.h}
+                    onUpdate:modelValue={updateHeight}
+                  ></InputNumber>
                 </Form.Item>
                 <Form.Item label="图表位置">
                   <InputNumber v-model={com.value.attr.x}></InputNumber>
