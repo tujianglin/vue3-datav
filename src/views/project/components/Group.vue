@@ -125,7 +125,7 @@
               ''}
             <div class={{ draging: draging.value }}>
               {groups.value.map((i) => (
-                <>
+                <div key={i.id}>
                   {i.edit ? (
                     <Input
                       v-focus
@@ -155,7 +155,7 @@
                       </span>
                     </div>
                   )}
-                </>
+                </div>
               ))}
             </div>
           </ScrollContainer>

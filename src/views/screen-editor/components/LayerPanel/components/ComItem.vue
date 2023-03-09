@@ -102,7 +102,7 @@
               <span class={['fold-toggle-btn', { 'icon-fold': com.value.fold }]}>
                 <RightOutlined></RightOutlined>
               </span>
-              <span class={['layer-item-icon']}>
+              <span class="layer-item-icon flex items-center">
                 <FolderFilled></FolderFilled>
               </span>
             </>

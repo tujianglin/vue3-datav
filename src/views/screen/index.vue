@@ -126,7 +126,7 @@
         <div class="datav-layout" style={{ visibility: 'visible' }}>
           <div class="sceen">
             {coms.value.map((i) => (
-              <Datav com={i}></Datav>
+              <Datav key={i.id} com={i}></Datav>
             ))}
           </div>
         </div>

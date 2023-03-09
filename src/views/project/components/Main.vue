@@ -140,7 +140,7 @@
           <ScrollContainer class="!h-[calc(100%-190px)]">
             <div class="screen-main">
               {screens.value.map((i) => (
-                <div class="screen">
+                <div key={i.id} class="screen">
                   <div class="info">
                     <div class="img" style={[{ background: `url(${i.thumbnail})` }]}></div>
                     <div class="edit">

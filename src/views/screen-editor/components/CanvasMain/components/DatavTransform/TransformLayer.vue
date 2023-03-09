@@ -253,7 +253,7 @@
         const { attr: ga, config: gc } = props.com as DatavGroup;
         if (ga.apply3d) {
           const config = gc.find((m) => m.transform3d.id === item.id);
-          const { rotate3d: r, scale3d: s, translate3d: t } = config!.transform3d;
+          const { rotate3d: r, scale3d: s, translate3d: t } = config.transform3d;
           style.transform = `translate3d(${t.x}px, ${t.y}px, ${t.z}px) scale3d(${s.x}, ${
             s.y
           }, 1) ${getRotate3d(r.axis, r.deg)}`;
@@ -346,13 +346,14 @@
       };
 
       const onZoom = (ev: MouseEvent, dir: Direction) => {
+        console.log(11);
         hideMenu();
         if (!props.com.selected) {
           return false;
         }
         const doZoom = (m: DatavComponent, isNormal: boolean) => {
-          m.scaling!.w = m.attr.w;
-          m.scaling!.h = m.attr.h;
+          m.scaling.w = m.attr.w;
+          m.scaling.h = m.attr.h;
           handleZoom(
             ev,
             dir,
@@ -360,20 +361,20 @@
             scale.value,
             isNormal,
             () => {
-              m.scaling!.zoom = true;
-              m.scaling!.sx = m.scaling!.w / m.attr.w;
-              m.scaling!.sy = m.scaling!.h / m.attr.h;
+              m.scaling.zoom = true;
+              m.scaling.sx = m.scaling.w / m.attr.w;
+              m.scaling.sy = m.scaling.h / m.attr.h;
             },
             () => {
               if (isLayer.value) {
                 comStore.resizeChildren(m as any);
               }
 
-              m.scaling!.zoom = false;
-              m.scaling!.sx = 1;
-              m.scaling!.sy = 1;
-              m.attr.w = m.scaling!.w;
-              m.attr.h = m.scaling!.h;
+              m.scaling.zoom = false;
+              m.scaling.sx = 1;
+              m.scaling.sy = 1;
+              m.attr.w = m.scaling.w;
+              m.attr.h = m.scaling.h;
               const ps = getParentProps();
               if (ps.coms.length > 0) {
                 comStore.resizeParents(ps.coms);
@@ -392,9 +393,10 @@
       };
 
       const onRotate = (ev: MouseEvent) => {
+        console.log(11);
         hideMenu();
         comStore.selectedComs.forEach((m) => {
-          handleRotate(ev, instance!.vnode.el as HTMLElement, m, (deg) => {
+          handleRotate(ev, instance.vnode.el as HTMLElement, m, (deg) => {
             if (isLayer.value) {
               handleChildrenRotate(m, deg);
             }
@@ -442,7 +444,7 @@
 
       const createSliderItem = (item: DatavComponent | DatavGroup) => {
         return (
-          <div class="slider-item" style={getSliderItemStyle(item)}>
+          <div key={item.id} class="slider-item" style={getSliderItemStyle(item)}>
             {slots?.default?.({ data: item, editable: relativeState.value.selected })}
           </div>
         );

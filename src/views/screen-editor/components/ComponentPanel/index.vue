@@ -82,6 +82,7 @@
                                 <ul class="components-single-menu-list">
                                   {(j.data as ComDataDto[]).map((k) => (
                                     <li
+                                      key={k.alias}
                                       title={k.alias}
                                       class="components-item double"
                                       draggable={k.used}

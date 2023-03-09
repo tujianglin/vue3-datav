@@ -51,7 +51,7 @@
                     <div class="info">空白画板</div>
                   </div>
                   {templates.value.map((i) => (
-                    <div class="template-item">
+                    <div key={i.id} class="template-item">
                       <div class="image">
                         <img src={i.thumbnail} class="w-full h-full object-cover" />
                         <div class="mask">

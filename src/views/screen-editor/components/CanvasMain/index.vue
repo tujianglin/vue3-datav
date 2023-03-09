@@ -8,6 +8,7 @@
     onMounted,
     onUnmounted,
     ref,
+    watch,
   } from 'vue';
   import { useContextMenu } from '../ContextMenu';
   import { useComStore } from '/@/store/modules/com';
@@ -62,7 +63,6 @@
             backgroundColor: pageConfig.value.bgcolor,
           } as CSSProperties),
       );
-
       /* 清除框选中的组件 */
       const cancelSelected = () => {
         if (cancelable.value) {
@@ -225,6 +225,14 @@
         }
       });
 
+      watch(
+        () => editorStore.canvas.scale,
+        () => {
+          hideArea();
+          hideMenu();
+        },
+      );
+
       return () => (
         <div class="canvas-main">
           <div id="canvas-wp" class="canvas-panel-wrap" onClick={cancelSelected}>
@@ -245,7 +253,7 @@
               >
                 {/* 组件回显 */}
                 {coms.value.map((i) => (
-                  <DatavTransform com={i}></DatavTransform>
+                  <DatavTransform key={i.id} com={i}></DatavTransform>
                 ))}
               </div>
               {/* 对齐线 */}
