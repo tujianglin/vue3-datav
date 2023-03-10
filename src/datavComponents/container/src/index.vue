@@ -140,15 +140,13 @@
           const { title, main } = config;
           if (config.titleName) {
             const com: DatavComponent = config.children.get(config.titleName);
-            com.attr.w = title.wDisabled ? title.w : attr.w;
-            com.attr.h = title.h;
+            com.attr.w = title.wDisabled ? title.w - mpT.value.w : attr.w - mpT.value.w;
+            com.attr.h = title.h - mpT.value.h;
           }
           if (config.mainName) {
             const com: DatavComponent = config.children.get(config.mainName);
-            const mp =
-              main.margin.left + main.margin.right + main.padding.left + main.padding.right;
-            com.attr.w = main.wDisabled ? main.w - mp : attr.w - mp;
-            com.attr.h = main.hDisabled ? main.h - mp : attr.h - title.h - mp;
+            com.attr.w = main.wDisabled ? main.w - mpM.value.w : attr.w - mpM.value.w;
+            com.attr.h = main.hDisabled ? main.h - mpM.value.h : attr.h - title.h - mpM.value.h;
           }
         },
         {
