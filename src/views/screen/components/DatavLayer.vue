@@ -75,7 +75,7 @@
           <div class="slider-wrap" style={sliderWrapStyle.value}>
             {props.com.children?.map((i) => (
               <div class="slider-item" style={getSliderItemStyle(i)} key={i.id}>
-                {slots?.default?.(i)}
+                {slots?.default?.({ data: i })}
               </div>
             ))}
           </div>
