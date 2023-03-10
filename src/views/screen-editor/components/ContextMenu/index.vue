@@ -24,7 +24,9 @@
         isLocked,
         isHided,
         isGroup,
+        isDraged,
         disableGroup,
+        dragCom,
         moveCom,
         lockCom,
         hideCom,
@@ -100,6 +102,11 @@
                 隐藏
               </>
             )}
+          </div>
+          <div class="context-menu-divider"></div>
+          <div class="context-menu-item" onClick={() => dragCom()}>
+            <EditOutlined class="mr-1"></EditOutlined>
+            {!isDraged.value ? '开启编辑' : '取消编辑'}
           </div>
           <div class="context-menu-divider"></div>
           <div class="context-menu-item" onClick={() => renameCom()}>

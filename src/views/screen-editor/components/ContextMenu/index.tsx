@@ -13,6 +13,7 @@ export const useContextMenu = () => {
   const editorStore = useEditorStore();
   const isLocked = computed(() => comStore.selectedComs.every((i) => i.locked));
   const isHided = computed(() => comStore.selectedComs.every((i) => i.hided));
+  const isDraged = computed(() => comStore.selectedComs.every((i) => i.draged));
   const isGroup = computed(() => comStore.selectedComs.every((i) => i.type === ComType.layer));
   /* 是否成组 */
   const disableGroup = computed(() => {
@@ -76,6 +77,14 @@ export const useContextMenu = () => {
       comStore.move(moveType, id, pid as string);
     });
   };
+  const dragCom = () => {
+    const coms = comStore.selectedComs;
+    if (coms.length === 0) return;
+    const draged = !isDraged.value;
+    coms.forEach((com) => {
+      com.draged = draged;
+    });
+  };
   /* 锁定组件 */
   const lockCom = () => {
     const coms = comStore.selectedComs;
@@ -124,9 +133,11 @@ export const useContextMenu = () => {
     isLocked,
     isHided,
     isGroup,
+    isDraged,
     disableGroup,
     showMenu,
     hideMenu,
+    dragCom,
     moveCom,
     lockCom,
     hideCom,

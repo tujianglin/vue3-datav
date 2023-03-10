@@ -25,7 +25,7 @@ export function useTimeoutFn(handle: Fn<any>, wait: number, native = false) {
 export function useTimeoutRef(wait: number) {
   const readyRef = ref(false);
 
-  let timer: TimeoutHandle;
+  let timer;
   function stop(): void {
     readyRef.value = false;
     timer && window.clearTimeout(timer);

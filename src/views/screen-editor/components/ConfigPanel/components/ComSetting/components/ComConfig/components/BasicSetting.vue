@@ -33,56 +33,58 @@
       };
       return () => (
         <div class="basic-setting">
-          <Form
-            class="config-form"
-            colon={false}
-            labelCol={{ span: 8 }}
-            size={'small'}
-            labelAlign={'left'}
-          >
-            <Form.Item label="图表尺寸">
-              <InputNumber v-model={com.value.scaling.w}></InputNumber>
-              <InputNumber v-model={com.value.scaling.h}></InputNumber>
-            </Form.Item>
-            <Form.Item label="图表位置">
-              <InputNumber v-model={com.value.attr.x}></InputNumber>
-              <InputNumber v-model={com.value.attr.y}></InputNumber>
-            </Form.Item>
-            <Form.Item label="旋转角度">
-              <div class="flex items-center justify-between w-full">
-                <InputNumber v-model={com.value.attr.deg}></InputNumber>
-                <div class="rotate-wp">
-                  <div class="rotate-icon-wp mr-0.5" onClick={onRotateChange}>
-                    <span
-                      class="rotate-icon"
-                      style={{ transform: `rotate(${com.value.attr.deg}deg)` }}
-                    ></span>
-                  </div>
-                  <div class="rotate-flip-wp">
-                    <Tooltip mouseEnterDelay={0.5} title="水平翻转">
-                      <Button
-                        class={['hor', { '--checked': filps.value.includes('h') }]}
-                        onClick={() => onFilpChange('h')}
-                      >
-                        <i class="iconfont icon-flip-horizontally"></i>
-                      </Button>
-                    </Tooltip>
-                    <Tooltip mouseEnterDelay={0.5} title="垂直翻转">
-                      <Button
-                        class={['hor', { '--checked': filps.value.includes('v') }]}
-                        onClick={() => onFilpChange('v')}
-                      >
-                        <i class="iconfont icon-flip-vertically"></i>
-                      </Button>
-                    </Tooltip>
+          {!com.value.containerCom && (
+            <Form
+              class="config-form"
+              colon={false}
+              labelCol={{ span: 8 }}
+              size={'small'}
+              labelAlign={'left'}
+            >
+              <Form.Item label="图表尺寸">
+                <InputNumber v-model={com.value.scaling.w}></InputNumber>
+                <InputNumber v-model={com.value.scaling.h}></InputNumber>
+              </Form.Item>
+              <Form.Item label="图表位置">
+                <InputNumber v-model={com.value.attr.x}></InputNumber>
+                <InputNumber v-model={com.value.attr.y}></InputNumber>
+              </Form.Item>
+              <Form.Item label="旋转角度">
+                <div class="flex items-center justify-between w-full">
+                  <InputNumber v-model={com.value.attr.deg}></InputNumber>
+                  <div class="rotate-wp">
+                    <div class="rotate-icon-wp mr-0.5" onClick={onRotateChange}>
+                      <span
+                        class="rotate-icon"
+                        style={{ transform: `rotate(${com.value.attr.deg}deg)` }}
+                      ></span>
+                    </div>
+                    <div class="rotate-flip-wp">
+                      <Tooltip mouseEnterDelay={0.5} title="水平翻转">
+                        <Button
+                          class={['hor', { '--checked': filps.value.includes('h') }]}
+                          onClick={() => onFilpChange('h')}
+                        >
+                          <i class="iconfont icon-flip-horizontally"></i>
+                        </Button>
+                      </Tooltip>
+                      <Tooltip mouseEnterDelay={0.5} title="垂直翻转">
+                        <Button
+                          class={['hor', { '--checked': filps.value.includes('v') }]}
+                          onClick={() => onFilpChange('v')}
+                        >
+                          <i class="iconfont icon-flip-vertically"></i>
+                        </Button>
+                      </Tooltip>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Form.Item>
-            <Form.Item label="透明度">
-              <Slider v-model={com.value.attr.opacity} step={0.05}></Slider>
-            </Form.Item>
-          </Form>
+              </Form.Item>
+              <Form.Item label="透明度">
+                <Slider v-model={com.value.attr.opacity} step={0.05}></Slider>
+              </Form.Item>
+            </Form>
+          )}
         </div>
       );
     },

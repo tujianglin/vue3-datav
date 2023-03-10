@@ -52,6 +52,11 @@ export const title: ComDataType = {
       alias: '通用标题',
       used: true,
     },
+    {
+      name: 'VContainer',
+      alias: '容器组件',
+      used: true,
+    },
   ],
 };
 

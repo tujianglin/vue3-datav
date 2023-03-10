@@ -44,6 +44,7 @@
       const areaHeight = ref(0);
       const offsetX = 60;
       const offsetY = 60;
+      const isDraged = computed(() => coms.value.some((i) => i.draged));
 
       const screenShotStyle = computed(
         () =>
@@ -61,6 +62,12 @@
             transform: `scale(${canvas.value.scale}) translate(0px, 0px)`,
             backgroundImage: `url(${pageConfig.value.bgimage})`,
             backgroundColor: pageConfig.value.bgcolor,
+          } as CSSProperties),
+      );
+      const customMainStyle = computed(
+        () =>
+          ({
+            'pointer-events': isDraged.value ? 'none' : 'all',
           } as CSSProperties),
       );
       /* 清除框选中的组件 */
@@ -160,24 +167,26 @@
       };
       const dropToAddCom = async (ev: DragEvent) => {
         ev.preventDefault();
-        try {
-          const name = ev.dataTransfer.getData('text');
-          if (name) {
-            toolbarStore.addLoading();
-            let com = await createComponent(name);
-            const { scale } = canvas.value;
-            const { left, top } = toolbarStore.getPanelOffset;
-            const canvasWp = document.getElementById('canvas-wp');
-            const scrollLeft = canvasWp?.scrollLeft || 0;
-            const scrollTop = canvasWp?.scrollTop || 0;
-            const offsetLeft = (scrollLeft + ev.clientX - left) / scale;
-            const offsetTop = (scrollTop + ev.clientY - top) / scale;
-            com.attr.x = Math.round(offsetLeft - com.attr.w / 2);
-            com.attr.y = Math.round(offsetTop - com.attr.h / 2);
-            await loadCom(com);
-            toolbarStore.removeLoading();
-          }
-        } catch (error) {}
+        if (!isDraged.value) {
+          try {
+            const name = ev.dataTransfer.getData('text');
+            if (name) {
+              toolbarStore.addLoading();
+              let com = await createComponent(name);
+              const { scale } = canvas.value;
+              const { left, top } = toolbarStore.getPanelOffset;
+              const canvasWp = document.getElementById('canvas-wp');
+              const scrollLeft = canvasWp?.scrollLeft || 0;
+              const scrollTop = canvasWp?.scrollTop || 0;
+              const offsetLeft = (scrollLeft + ev.clientX - left) / scale;
+              const offsetTop = (scrollTop + ev.clientY - top) / scale;
+              com.attr.x = Math.round(offsetLeft - com.attr.w / 2);
+              com.attr.y = Math.round(offsetTop - com.attr.h / 2);
+              await loadCom(com);
+              toolbarStore.removeLoading();
+            }
+          } catch (error) {}
+        }
       };
 
       const dragOver = (ev: DragEvent) => {
@@ -234,7 +243,7 @@
       );
 
       return () => (
-        <div class="canvas-main">
+        <div class="canvas-main" style={customMainStyle.value}>
           <div id="canvas-wp" class="canvas-panel-wrap" onClick={cancelSelected}>
             <div
               ref={screenWp}
@@ -242,6 +251,7 @@
               class="screen-shot"
               style={screenShotStyle.value}
               onMousedown={handleMouseDown}
+              onDrop={dropToAddCom}
             >
               <div
                 ref={canvasComs}
@@ -249,7 +259,6 @@
                 class="canvas-panel"
                 style={canvasPanelStyle.value}
                 onDragover={dragOver}
-                onDrop={dropToAddCom}
               >
                 {/* 组件回显 */}
                 {coms.value.map((i) => (
@@ -290,6 +299,7 @@
 <style lang="less" scoped>
   .canvas-main {
     height: 100%;
+    // pointer-events: none;
 
     .canvas-panel-wrap {
       position: relative;

@@ -52,6 +52,10 @@ export abstract class DatavComponent {
   selected? = false;
   /* 是否移入 */
   hovered? = false;
+  /* 是否拖拽 */
+  draged? = false;
+  /* 容器内的组件 */
+  containerCom? = false;
   /* 是否重命名 */
   renameing? = false;
   tag? = 0;
