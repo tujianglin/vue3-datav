@@ -9,6 +9,7 @@
     watch,
     computed,
     CSSProperties,
+    onMounted,
   } from 'vue';
   import VContainer from '.';
   import { createComponent } from '../../datav';
@@ -26,14 +27,13 @@
       const config = toRef(props.com, 'config');
       const attr = toRef(props.com, 'attr');
       /* 获取到容器内部的组件 */
-      const comMap = ref<Map<any, any>>(
-        config.value.children ? new Map(config.value.children) : new Map(),
-      );
+      const comMap = ref<any[]>(config.value.children);
       const editTitle = computed(
-        () => config.value.titleName && config.value.children.get(config.value.titleName),
+        () => config.value.children.find((i) => i.key === config.value?.titleName)?.value,
       );
+
       const editEchart = computed(
-        () => config.value.mainName && config.value.children.get(config.value.mainName),
+        () => config.value.children.find((i) => i.key === config.value?.mainName)?.value,
       );
       /* 标题边距 */
       const mpT = computed(() => {
@@ -110,7 +110,10 @@
           com.attr.h = config.value.title.h;
           com.attr.w = config.value.title.w;
           config.value.titleName = name;
-          comMap.value.set(name, com);
+          comMap.value.push({
+            key: name,
+            value: com,
+          });
           config.value.children = comMap.value;
           await loadCom(com);
         } catch (error) {}
@@ -127,24 +130,32 @@
           com.attr.h = config.value.main.h;
           com.attr.w = config.value.main.w;
           config.value.mainName = name;
-          comMap.value.set(name, com);
+          comMap.value.push({
+            key: name,
+            value: com,
+          });
           config.value.children = comMap.value;
           await loadCom(com);
         } catch (error) {}
       };
 
+      onMounted(() => {
+        // 容器初始化展示组件
+        loadCom(editTitle.value);
+        loadCom(editEchart.value);
+      });
       watch(
         props.com,
         (val) => {
           const { config, attr } = val;
           const { title, main } = config;
           if (config.titleName) {
-            const com: DatavComponent = config.children.get(config.titleName);
+            const com = editTitle.value;
             com.attr.w = title.wDisabled ? title.w - mpT.value.w : attr.w - mpT.value.w;
             com.attr.h = title.h - mpT.value.h;
           }
           if (config.mainName) {
-            const com: DatavComponent = config.children.get(config.mainName);
+            const com = editEchart.value;
             com.attr.w = main.wDisabled ? main.w - mpM.value.w : attr.w - mpM.value.w;
             com.attr.h = main.hDisabled ? main.h - mpM.value.h : attr.h - title.h - mpM.value.h;
           }

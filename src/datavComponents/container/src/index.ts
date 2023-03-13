@@ -9,7 +9,7 @@ import {
 import { DataEventConfig } from '../../../components/_models/data-event';
 export class VContainer extends DatavComponent {
   config = {
-    children: null as Map<any, any>,
+    children: [],
     titleName: '',
     mainName: '',
     title: {
